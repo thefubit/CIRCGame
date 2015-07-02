@@ -2,7 +2,6 @@
 
 //to check whether the layer already exists - prevents duplicates
 var SETTINGSINITIALIZED = false;
-
 var musicVolume = 0.5;
 var sfxVolume = 1;
 
@@ -115,6 +114,14 @@ var SettingsLayer = cc.Layer.extend({
         MusicCheckBox.y = (size.height/10*7);
         MusicCheckBox.setScale(0.25);
         MusicCheckBox.addEventListener(this.selectedEventMusic,this);
+        
+        // Checks to see if the music is on, if it is, the checkbox is automatically selected.
+        if (musicVolume > 0)
+        {
+        console.log("Music is on");
+        MusicCheckBox.setSelected(true);
+        }
+                                    
         this.addChild(MusicCheckBox);
 
 
@@ -125,6 +132,14 @@ var SettingsLayer = cc.Layer.extend({
         SFXCheckBox.y = size.height/10*5;
         SFXCheckBox.setScale(0.25);
         SFXCheckBox.addEventListener(this.selectedEventSFX,this);
+        
+        // Checks to see if the sound effects are on, if they are, the checkbox is automatically selected.
+        if (sfxVolume > 0)
+        {
+        console.log("Sound effects are on");
+        SFXCheckBox.setSelected(true);
+        }
+                                    
         this.addChild(SFXCheckBox);
 
 
@@ -146,14 +161,17 @@ var SettingsLayer = cc.Layer.extend({
 
 
     selectedEventMusic: function(sender,type){
+    
         switch(type){
             case ccui.CheckBox.EVENT_UNSELECTED:
                 cc.log("music check box not selected");
-                musicVolume = 1;
+                musicVolume = 0;
+                cc.audioEngine.setMusicVolume(musicVolume);
                 break;
             case ccui.CheckBox.EVENT_SELECTED:
                 cc.log("music box checked");
-                musicVolume = 0;
+                musicVolume = 0.5;
+                 cc.audioEngine.setMusicVolume(musicVolume);
                 break;
 
         }//switch
@@ -165,11 +183,13 @@ var SettingsLayer = cc.Layer.extend({
         switch(type){
             case ccui.CheckBox.EVENT_UNSELECTED:
                 cc.log("sfx box unchecked");
-                sfxVolume = 1;
+                sfxVolume = 0;
+                cc.audioEngine.setEffectsVolume(sfxVolume);
                 break;
             case ccui.CheckBox.EVENT_SELECTED:
                 cc.log("sfx box unchecked");
-                sfxVolume = 0;
+                sfxVolume = 1;
+                cc.audioEngine.setEffectsVolume(sfxVolume);
                 break;
 
         }//switch
@@ -189,7 +209,7 @@ var SettingsLayer = cc.Layer.extend({
 
 //insert public functions here
 var ReturnToMenu = function(){
-    SETTINGSINITIALIZED = false;
+   SETTINGSINITIALIZED = false;
     cc.director.popScene();
     
 };
