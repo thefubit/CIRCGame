@@ -463,8 +463,17 @@ var GameOver = function(){
 
     //var myLayer = event.getCurrentTarget();
     //myLayer.resetGame();
+    var myLayer = cc.director.getRunningScene();
+    //var myLayer2 = myLayer.getCurrentTarget();
+    //var layername = myLayer.getName();
+    cc.log("the current layer is:"+myLayer.GameStarted);
 
 
+    //myLayer.resetGame();
+    //var resetRotation = cc.RotateTo.create(3,0);
+
+    //myLayer.rotationPointIn.runAction(resetRotation);
+    //myLayer.rotationPointOut.runAction(resetRotation);
 
 
     //set high score
@@ -555,6 +564,11 @@ var levelDown = function (message){
     levelOuter--;
     cc.log("you leveled down");
 
+    //var myLayer = cc.director.getRunningScene();
+    //myLayer.resetGame();
+
+
+
     if (levelOuter<0){
         levelOuter = 0;
     }
@@ -625,6 +639,18 @@ var setHighScore = function(currentScore){
         highScore = currentScore;
     }
 }//check and set highscore
+
+
+
+
+//
+
+
+
+
+
+
+
 
 
 
