@@ -230,7 +230,8 @@ var GoToSettings = function(){
 var StartGame = function(){
     cc.log("this removes the menu layer");
     MENUINITIALIZED = false;
-    cc.director.popScene();
+    var scene = new GameScene();
+    cc.director.runScene(scene);
 };
 
 

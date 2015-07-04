@@ -12,6 +12,7 @@
 
     "jsList" : [
         "src/resource.js",
+        "src/under.js",
         "src/app.js",
         "src/mainmenu.js",
         "src/gameover.js",

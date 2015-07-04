@@ -58,8 +58,8 @@ var GameLayer = cc.Layer.extend({
         this.addChild(this.sprite, 0);
 
         //start playing music
-        cc.audioEngine.playMusic(res.Background_music, true);
-        this.schedule(cc.audioEngine.setMusicVolume(musicVolume),1);
+        //cc.audioEngine.playMusic(res.Background_music, true);
+        //this.schedule(cc.audioEngine.setMusicVolume(musicVolume),1);
 
 
 
@@ -298,15 +298,6 @@ var GameLayer = cc.Layer.extend({
 
         
 
-
-
-
-        
-        cc.log("go to main");
-        if(ISITGAMEOVER == false){
-        this.scheduleOnce(LaunchMainMenu(),0);}
-        else{this.scheduleOnce(GoToGameOver(),0);}
-        //enter code above
         return true;
     },//ctor function - main code
 
@@ -432,14 +423,7 @@ var GameLayer = cc.Layer.extend({
 
 });//GameLayer
 
-//insert public functions here
-var LaunchMainMenu = function(){
-    cc.log("test");
-    var scene = new MenuScene();
-    cc.director.pushScene(scene);
 
-
-};//gotomainmenu
 
 
 var testing = function(){
@@ -461,23 +445,26 @@ var GameOver = function(){
 
     
 
-    //var myLayer = event.getCurrentTarget();
+    
     //myLayer.resetGame();
-    var myLayer = cc.director.getRunningScene();
+    var currentScene = cc.director.getRunningScene();
+    var gamelayer = currentScene.AccessLayer;
     //var myLayer2 = myLayer.getCurrentTarget();
     //var layername = myLayer.getName();
-    cc.log("the current layer is:"+myLayer.GameStarted);
+    cc.log("the current layer is:"+gamelayer.GameStarted);
 
 
-    //myLayer.resetGame();
-    //var resetRotation = cc.RotateTo.create(3,0);
+    //gamelayer.resetGame();
+    //var resetRotation = cc.RotateTo.create(3,1);
 
-    //myLayer.rotationPointIn.runAction(resetRotation);
-    //myLayer.rotationPointOut.runAction(resetRotation);
+    //gamelayer.rotationPointIn.runAction(resetRotation);
+    //gamelayer.rotationPointOut.runAction(resetRotation);
 
 
     //set high score
     setHighScore(currentScore);
+    cc.log("CurrentScore = " + currentScore);
+    cc.log("HighScore = " + highScore);
 
 
 
@@ -501,21 +488,17 @@ var GameOver = function(){
     //cc.director.pushScene(scene);
 
 
-    //resetting entire game scene - test
-    var resetscene = new GameScene();
-    cc.director.replaceScene(resetscene);
 
+    ///////ADD REPLACE TO GAMEOVER
+    var scene = new GameOverScene();
+    cc.director.runScene(new cc.TransitionFade(2,scene));
+    
 
 
 
 };//gameover
 
 
-//go to gameover page
-var GoToGameOver = function (){
-    var scene = new GameOverScene();
-    cc.director.pushScene(scene);
-}
 
 
 
@@ -595,43 +578,7 @@ var levelDown = function (message){
 };//leveldown
 
 
-//check distance between the two
-//placing into scene to allow custom message pops
-/*
-var checkDistance = function(d,x1,y1,x2,y2){
-    perfectDistance = d;
-    greatDistance = d *2;
 
-    distance = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
-    cc.log("perfect"+perfectDistance);
-    cc.log("great:"+greatDistance);
-    cc.log("between two dots: "+distance);
-    
-    //note will take two global variables - perfectDistance and greatDistance
-    if (distance <= perfectDistance){
-        levelUp(2, "Perfect");
-        cc.audioEngine.playEffect(res.PerfectSound,false);
-        consecutiveTouches = 0;
-    }
-    else if (distance <=greatDistance){
-        levelUp(1, "Great");
-        cc.audioEngine.playEffect(res.GreatSound,false);
-        consecutiveTouches = 0;
-    }
-    else{
-        levelDown("Miss");
-        consecutiveTouches ++;
-        cc.audioEngine.playEffect(res.MissSound,false);
-        if(consecutiveTouches == 3){
-            MISSLOSS=true;
-            GameOver();
-        }
-    }
-
-
-
-};
-*/
 
 //check and set highScore
 var setHighScore = function(currentScore){
@@ -656,13 +603,22 @@ var setHighScore = function(currentScore){
 
 ///////////////////////////////////////////
 var GameScene = cc.Scene.extend({
+    //to try to access the scene/layer from global function
+    AccessLayer:null,
+
     onEnter:function () {
         this._super();
+
+        cc.log("testing if gamescene actually starts")
+
 
         if (GAMEINITIALIZED == false){
             GAMEINITIALIZED = true;
             var layer = new GameLayer();
             this.addChild(layer);
+
+        //setting myLayer to something
+        this.AccessLayer = layer;
         }//check whether initialized
     }//initiate the scene on enter
 });//main function to initiate the scene
