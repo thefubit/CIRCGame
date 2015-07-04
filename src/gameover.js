@@ -126,7 +126,7 @@ var RestartMainMenu = function(){
     MISSLOSS = false;
     UNTOUCHEDLOSS = false;
     scene = new MenuScene();
-    cc.director.runScene(new cc.TransitionFade(1,scene));
+    cc.director.runScene(new cc.TransitionFade(0.5,scene));
 };
 
 

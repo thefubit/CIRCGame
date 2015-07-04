@@ -231,7 +231,7 @@ var StartGame = function(){
     cc.log("this removes the menu layer");
     MENUINITIALIZED = false;
     var scene = new GameScene();
-    cc.director.runScene(scene);
+    cc.director.runScene(new cc.TransitionFade(0.5,scene));
 };
 
 

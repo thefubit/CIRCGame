@@ -491,7 +491,7 @@ var GameOver = function(){
 
     ///////ADD REPLACE TO GAMEOVER
     var scene = new GameOverScene();
-    cc.director.runScene(new cc.TransitionFade(2,scene));
+    cc.director.runScene(new cc.TransitionFade(0.5,scene));
     
 
 
