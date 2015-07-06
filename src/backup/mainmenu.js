@@ -163,16 +163,6 @@ var MenuLayer = cc.Layer.extend({
         
         //this.schedule(this.updatescore,0);
 
-
-
-
-        
-
-
-
-
-
-
         //////////////////////////////////////
         ////////////TITLE/////////////////////
 
@@ -237,7 +227,7 @@ var MenuLayer = cc.Layer.extend({
 
 
 
-        /*
+
 
         //load sprite sheet
         cc.spriteFrameCache.addSpriteFrames(res.animCIRCGreen_plist);
@@ -265,7 +255,7 @@ var MenuLayer = cc.Layer.extend({
         this.spriteSheet.addChild(this.sprite);
         
 
-        */
+
 
 
 
