@@ -9,6 +9,31 @@ if (!cc.sys.isNative)//if not native, meaning it is on the computer/web. then us
 testvar = "this is a global variable";
 
 
+//setting what color to display for animated title
+var colorselect=0;
+while(colorselect == 0){
+colorselect = Math.floor(Math.random()*4);
+}
+
+if(colorselect == 1){
+    titlefolder = "animatedgreen/";
+    circcolor = "circgreen";
+}
+else if (colorselect == 2){
+    titlefolder = "animatedred/";
+    circcolor = "circred";
+}
+else if (colorselect == 3){
+    titlefolder = "animatedteal/";
+    circcolor = "circteal";
+}
+else if (colorselect == 4){
+    titlefolder = "animatedyellow/";
+    circcolor = "circyellow";
+}
+
+
+
 //list out all the resources that the game needs
 //REMEMBER THE COMMAS!!!!!!!!!!!
 var res = {
@@ -64,18 +89,10 @@ var res = {
 
     //Title
     GameTitle_png : "res/placeholdertitle.png",//non animated
-    //animated titles
-    animCIRCRed_png : "res/animated/circredsheet.png",
-    animCIRCRed_plist : "res/animated/circredsheet.plist",
-
-    animCIRCGreen_png : "res/animated/circgreensheet.png",
-    animCIRCGreen_plist : "res/animated/circgreensheet.plist",
     
-    animCIRCTeal_png : "res/animated/circtealsheet.png",
-    animCIRCTeal_plist : "res/animated/circtealsheet.plist",
-    
-    animCIRCYellow_png : "res/animated/circyellowsheet.png",
-    animCIRCYellow_plist : "res/animated/circyellowsheet.plist",
+    //animated title
+    animatedTitle_plist: "res/animated/"+titlefolder+"sprites.plist",
+    animatedTitle_png : "res/animated/" + titlefolder+"sprites.png",
 
 
 

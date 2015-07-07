@@ -278,6 +278,9 @@ var GameLayer = cc.Layer.extend({
                     
                     testing;
 
+                    //tracking untouched loss
+                    UNTOUCHEDLOSS = false;
+
 
 
                     //get layer as target
@@ -337,7 +340,7 @@ var GameLayer = cc.Layer.extend({
     startCheckingForTouch : function(){
         cc.log("started checking for touch")
         this.schedule(this.didPlayerTouch,baseSpeed/1.1);
-        var fadeAction = cc.FadeTo.create(2,0);
+        var fadeAction = cc.FadeTo.create(1,0);
         this.instructionsLabel.runAction(fadeAction);
     },//start checking for touch
 
@@ -350,6 +353,10 @@ var GameLayer = cc.Layer.extend({
         this.turboLabel.setOpacity(255);
 
         //do something here
+        //changing up music
+        //flash messages
+        //rainbows/stars going across at small opacity
+        //
 
 
 
@@ -390,6 +397,10 @@ var GameLayer = cc.Layer.extend({
         cc.log("checked for touch"); 
         if (this.touched == false){
             UNTOUCHEDLOSS = true;
+
+            //ending turbo
+            this.turboEnd();
+
             levelDown("Miss");
             levelDown("Miss");
             levelDown("Miss");
@@ -476,6 +487,8 @@ var GameLayer = cc.Layer.extend({
             
             this.turboStart();
         }
+        
+
 
        
 
@@ -486,7 +499,9 @@ var GameLayer = cc.Layer.extend({
         consecutiveTouches = 0;
         this.greatLabel.runAction(FlashMessage);
 
+        if(turboMode == false){
         turboCount = 0;
+        }//if false
     }//else if 
     else{
         levelDown("Miss");
@@ -497,16 +512,23 @@ var GameLayer = cc.Layer.extend({
             MISSLOSS=true;
             GameOver();
 
-            
+        
 
         }//if within else
+
+        turboCount = 0;
+
         if(turboMode==true){
             
             this.turboEnd();
         }
     }//else
 
-
+    //new speed for turbo mode - overrides speed
+    if(turboMode == true){
+    speedInner = (baseSpeed/levelInner)*3;
+    speedOuter = (baseSpeed/levelOuter)*3;
+    }//changing speed for turbo mode - make faster as needed
 
     },//checking distance
 
@@ -633,6 +655,7 @@ var levelUp = function(amount,message){
     //changing the speed accordingly
     speedInner = baseSpeed/levelInner;
     speedOuter = baseSpeed/levelOuter;
+
     
 }//levelup
 

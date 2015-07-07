@@ -129,7 +129,13 @@ var MenuLayer = cc.Layer.extend({
             res.MailButtonPressed_png,
             function(){
                 cc.log("Go to mail");
-                StartGame();
+                //StartGame();
+                this.increasespeed();
+                cc.log("increase speed");
+
+
+
+
             },this);
         MailButton.attr({
             x : size.width-100,
@@ -166,7 +172,7 @@ var MenuLayer = cc.Layer.extend({
 
 
 
-        
+
 
 
 
@@ -184,65 +190,15 @@ var MenuLayer = cc.Layer.extend({
         this.addChild(TitleSprite);
         */
 
-        /*
-        //load sprite sheet
-        cc.spriteFrameCache.addSpriteFrames(res.animCIRCGreen_plist);
-        //var circimage = cc.textureCache.addImage(res.animCIRCRed_png);
-        this.spriteSheet = new cc.SpriteBatchNode.create(res.animCIRCGreen_png);
-        this.addChild(this.spriteSheet);
-
-        //create frame array
-        var animFrames = [];
-
-        //select color
-        var titlewithcolor = "circgreen"
-
-        //add the frames
-        for(var i=1;i<16;i++){
-            var str = titlewithcolor + i + ".png";
-            var frame = cc.spriteFrameCache.getSpriteFrame(str);
-
-            //var animFrame = new cc.AnimationFrame();
-            //animFrame.initWithSpriteFrame(frame,1,null);
-            animFrames.push(frame);
-        }
-        cc.log(titlewithcolor + "1");
-
-        //make the animation action
-        var animateTitle = new cc.Animation(animFrames,0.1);//spriteframes and period
-
-        //repeating and actually animating the animation
-        this.animatedAction = new cc.RepeatForever(new cc.Animate(animateTitle));
-        this.TitleSprite = new cc.Sprite("#circgreen1.png");
-
-        this.sprite.attr({x:400,y:300,scale:0.25});
-        //this.TitleSprite.setPosition(size.width/2,size.height/4*3);
-        //this.TitleSprite.setScale(0.3);
-
         
 
-        this.TitleSprite.runAction(this.animatedAction);
-        this.spriteSheet.addChild(this.TitleSprite);
-
-        */
-
-
-
-
-
-
-
-
-
-
-
 
         /*
 
         //load sprite sheet
-        cc.spriteFrameCache.addSpriteFrames(res.animCIRCGreen_plist);
+        cc.spriteFrameCache.addSpriteFrames(res.animatedTitle_plist);
 
-        this.spriteSheet = new cc.SpriteBatchNode(res.animCIRCGreen_png);
+        this.spriteSheet = new cc.SpriteBatchNode(res.animatedTitle_png);
         this.addChild(this.spriteSheet);
         
         //create sprite frame array
@@ -258,26 +214,38 @@ var MenuLayer = cc.Layer.extend({
         
         //repeating forever
         this.runningAction = new cc.RepeatForever(new cc.Animate(animation));
-        this.sprite = new cc.Sprite("#circgreen1.png");
+        this.TitleSprite = new cc.Sprite("#circgreen1.png");
 
-        this.sprite.attr({x:400,y:300,scale:0.25});
-        this.sprite.runAction(this.runningAction);
-        this.spriteSheet.addChild(this.sprite);
+        this.TitleSprite.attr({x:400,y:300,scale:0.25});
+        this.TitleSprite.runAction(this.runningAction);
+        this.TitleSpriteSheet.addChild(this.TitleSprite);
         
-
         */
 
+        cc.spriteFrameCache.addSpriteFrames(res.animatedTitle_plist);
 
+        this.spriteSheet = new cc.SpriteBatchNode(res.animatedTitle_png);
+        this.addChild(this.spriteSheet);
 
+        //create sprite frame array
+        var animFrames = [];
+        for (var i = 1; i < 16; i++){
+            var str = circcolor+i + ".png";
+            var frame = cc.spriteFrameCache.getSpriteFrame(str);
+            animFrames.push(frame);
 
+        }
 
+        var animation = new cc.Animation(animFrames,0.1);//spriteframe array and period time
 
+        //repeating forever
+        this.runningAction = new cc.RepeatForever(new cc.Animate(animation));
+        var filename = "#" + circcolor + "1.png";
+        this.TitleSprite = new cc.Sprite(filename);
 
-
-
-
-
-
+        this.TitleSprite.attr({x:size.width/2,y:size.height/4*3,scale:1/2.5});
+        this.TitleSprite.runAction(this.runningAction);
+        this.spriteSheet.addChild(this.TitleSprite);
 
 
 
@@ -293,12 +261,13 @@ var MenuLayer = cc.Layer.extend({
 
                 onTouchBegan:function(touch,event){
                     cc.log("touch detected");
-                    //StartGame();
+                    StartGame();
                     //
+                    /*
                     var UpLayer = event.getCurrentTarget();
                     UpLayer.increasespeed();
                     cc.log("increase speed");
-
+                    */
 
 
                     return true;
@@ -371,6 +340,8 @@ var increasespeed = function(){
 var MenuScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
+
+        
 
         if (MENUINITIALIZED == false){
             MENUINITIALIZED = true;
