@@ -153,34 +153,6 @@ var SettingsLayer = cc.Layer.extend({
 
 
 
-        //////////////////////////
-         cc.spriteFrameCache.addSpriteFrames(res.animatedTitle_plist);
-
-            this.spriteSheet = new cc.SpriteBatchNode(res.animatedTitle_png);
-            this.addChild(this.spriteSheet);
-
-            //create sprite frame array
-            var animFrames = [];
-            for (var i = 1; i < 16; i++){
-                var str = "circyellow"+i + ".png";
-                var frame = cc.spriteFrameCache.getSpriteFrame(str);
-                animFrames.push(frame);
-
-            }
-
-            var animation = new cc.Animation(animFrames,0.1);//spriteframe array and period time
-
-            //repeating forever
-            this.runningAction = new cc.RepeatForever(new cc.Animate(animation));
-            this.sprite1 = new cc.Sprite("#circyellow1.png");
-
-            this.sprite1.attr({x:400,y:300,scale:0.25});
-            this.sprite1.runAction(this.runningAction);
-            this.spriteSheet.addChild(this.sprite1);
-
-
-
-
 
 
 

@@ -109,10 +109,10 @@ var GoToMainMenu = function (){
 
     Unpause();
     cc.log("test whether it'll run")
-    GameOver();
+    //GameOver();
 
-    //var scene = new MenuScene;
-    //cc.director.runScene(scene);
+    var scene = new MenuScene;
+    cc.director.runScene(scene);
 };
 
 var PauseScene = cc.Scene.extend({
