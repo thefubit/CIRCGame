@@ -361,10 +361,14 @@ var GameLayer = cc.Layer.extend({
                                 
         /////////////////////////// PARTICLES //////////////////////////////
                                 
-
+        // creates the particle emitter. The plist file can be generated  manually I think, or you can use a website to design the particle emitter for you. This is what I did. Saves lots of trial and error. I can send you the link for the particle emitter generator website.
+                                
         var trailingParticles = new cc.ParticleSystem.create(res.particle_texture_plist);
                                 
+        // Giving the particle system a tag so I can remove it later
         trailingParticles.setTag(9001);
+                                
+        // Setting the attributes so that it follows the inner square. We can tweak this a bit if we want.
                                 
         trailingParticles.attr
         ({
@@ -372,10 +376,12 @@ var GameLayer = cc.Layer.extend({
          y: this.InnerSat.y
          
                                 });
-        // testing changing the particle color
+        // ParticleSystem has a bunch of methods you can use to change the particle emitter. Uncomment the two lines below if you want to have a very merry emitter. Hohoho.
         
        // trailingParticles.setStartColor(cc.color(255,0,0));
        // trailingParticles.setEndColor(cc.color(0,255,0));
+                                
+        // Adds the particle emitter to the rotating node.
         
         this.rotationPointIn.addChild(trailingParticles);
                                 
@@ -397,7 +403,7 @@ var GameLayer = cc.Layer.extend({
 
         ///////////////// PARTICLES //////////////////////
         
-        // Removing the trailing particles
+        // Removes the trailing particle. The tag is over 9000! 
                                 
                                 
         this.rotationPointIn.removeChildByTag(9001,true);
