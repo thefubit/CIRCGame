@@ -110,6 +110,8 @@ var GoToMainMenu = function (){
     Unpause();
     cc.log("test whether it'll run")
     //GameOver();
+    
+    
 
     var scene = new MenuScene;
     cc.director.runScene(scene);

@@ -93,6 +93,11 @@ var res = {
     //animated title
     animatedTitle_plist: "res/animated/"+titlefolder+"sprites.plist",
     animatedTitle_png : "res/animated/" + titlefolder+"sprites.png",
+    
+    // Particles
+    
+    particle_texture_plist: "res/particle_texture.plist",
+    particle_texture_png: "res/particle_texture.png"
 
 
 

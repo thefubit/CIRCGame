@@ -159,6 +159,7 @@ var GameLayer = cc.Layer.extend({
             res.PauseButtonPressed_png,
             function(){
                 cc.log("Pause");
+                
                 PauseGame();
             },this);
         PauseButton.attr({
@@ -357,9 +358,29 @@ var GameLayer = cc.Layer.extend({
         //flash messages
         //rainbows/stars going across at small opacity
         //
+                                
+        /////////////////////////// PARTICLES //////////////////////////////
+                                
 
-
-
+        var trailingParticles = new cc.ParticleSystem.create(res.particle_texture_plist);
+                                
+        trailingParticles.setTag(9001);
+                                
+        trailingParticles.attr
+        ({
+         x: this.InnerSat.x,
+         y: this.InnerSat.y
+         
+                                });
+        // testing
+        
+        trailingParticles.setStartColor(cc.color(255,0,0));
+        trailingParticles.setEndColor(cc.color(0,255,0));
+        
+        this.rotationPointIn.addChild(trailingParticles);
+                                
+        // PARTICLES
+                                
 
 
 
@@ -374,9 +395,16 @@ var GameLayer = cc.Layer.extend({
 
         //ending stuff here
 
-
-
-
+        ///////////////// PARTICLES //////////////////////
+        
+        // Removing the trailing particles
+                                
+                                
+        this.rotationPointIn.removeChildByTag(9001,true);
+                                
+                                
+        // PARTICLES
+                                
 
 
     },
@@ -483,7 +511,7 @@ var GameLayer = cc.Layer.extend({
             cc.log("turbo countdown: " + turboCount);
         }
 
-        if(turboCount == 3){
+        if(turboCount == 3 && turboMode == false){
             
             this.turboStart();
         }
