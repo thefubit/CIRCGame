@@ -95,11 +95,12 @@ var res = {
     animatedTitle_png : "res/animated/" + titlefolder+"sprites.png",
     
     // Particles
-    
-    particle_texture_plist: "res/particle_texture.plist",
-    particle_texture_png: "res/particle_texture.png"
+    TurboInner_plist: "res/particles/TurboInner.plist",
+    //TurboInner_png: "res/particles/TurboInner.png",
 
+    TurboOuter_plist : "res/particles/TurboOuter.plist",
 
+    TestParticle_plist : "res/particles/TestParticle.plist",
 
 
 

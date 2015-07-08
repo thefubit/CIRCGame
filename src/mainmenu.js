@@ -57,8 +57,8 @@ var MenuLayer = cc.Layer.extend({
 
 
 
-
-        
+        //////////////////////////////////////////////////////
+        ////////////////MAIN MENU ROTATOR/////////////////////
         
         //rotation point
         this.rotationPoint = new cc.Node();
@@ -97,6 +97,47 @@ var MenuLayer = cc.Layer.extend({
         
         //var repeataction = cc.Repeat.create(this.increasespeed,2);
         //this.runAction(repeataction);
+
+
+        /////////////////////MAIN MENU ROTATOR//////////////////////
+        ///////////////////////////////////////////////////////////
+        ///////////////////TRAILING EFFECTS/////////////////////////
+
+
+        var MenuTrail = new cc.ParticleSystem.create(res.TestParticle_plist);
+
+        MenuTrail.setTag(1);
+
+        MenuTrail.attr({
+            x: this.dot.x,
+            y: this.dot.y,
+        });
+
+
+        //fabulous mode
+        //MenuTrail.setStartColor(cc.color(255,0,0));
+        //MenuTrail.setEndColor(cc.color(0,255,0));
+
+        this.rotationPoint.addChild(MenuTrail);
+
+
+
+
+
+        ////////////////////TRAILING EFFECTS////////////////////////
+        ////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
