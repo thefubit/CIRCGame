@@ -372,10 +372,10 @@ var GameLayer = cc.Layer.extend({
          y: this.InnerSat.y
          
                                 });
-        // testing
+        // testing changing the particle color
         
-        trailingParticles.setStartColor(cc.color(255,0,0));
-        trailingParticles.setEndColor(cc.color(0,255,0));
+       // trailingParticles.setStartColor(cc.color(255,0,0));
+       // trailingParticles.setEndColor(cc.color(0,255,0));
         
         this.rotationPointIn.addChild(trailingParticles);
                                 
