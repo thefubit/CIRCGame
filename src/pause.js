@@ -106,6 +106,7 @@ var Unpause = function(){
 
 var GoToMainMenu = function (){
     PAUSEINITIALIZED = false;
+    GAMEINITIALIZED = false;
 
     Unpause();
     cc.log("test whether it'll run")
