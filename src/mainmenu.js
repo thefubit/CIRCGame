@@ -126,7 +126,7 @@ var MenuLayer = cc.Layer.extend({
 
         //for testing
         //abyss/background spinning
-        var BackgroundSpin = new cc.ParticleSystem.create(res.Abyss_plist);
+        var BackgroundSpin = new cc.ParticleSystem.create(res.Stars_plist);
         BackgroundSpin.setTag(2);
 
         BackgroundSpin.attr({

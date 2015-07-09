@@ -398,10 +398,24 @@ var GameLayer = cc.Layer.extend({
         this.rotationPointOut.addChild(TurboOuterParticles);
 
 
+        ////////Background Particles
+        var BackgroundParticles = new cc.ParticleSystem.create(res.Stars_plist);
+        BackgroundParticles.setTag(9003);
+
+        BackgroundParticles.attr({
+            x: this.rotationPointOut.x,
+            y: this.rotationPointOut.y,
+        });
+
+        this.addChild(BackgroundParticles);
+
+
+
 
         ////////////////// PARTICLES//////////////////////
                                 
-
+        var darken = cc.FadeTo(1,50);
+        this.sprite.runAction(darken);
 
 
     },
@@ -414,6 +428,7 @@ var GameLayer = cc.Layer.extend({
 
 
         //ending stuff here
+        //play a poop sound to show that turbo mode ended
 
         ///////////////// PARTICLES //////////////////////
         
@@ -421,9 +436,14 @@ var GameLayer = cc.Layer.extend({
                                 
                                 
         this.rotationPointIn.removeChildByTag(9001,true);
+        this.rotationPointOut.removeChildByTag(9002,true);
+        this.removeChildByTag(9003,true);
                                 
                                 
-        // PARTICLES
+        ////////////////////PARTICLES///////////////////
+
+        var brighten = cc.FadeTo(0.5,255);
+        this.sprite.runAction(brighten);
                                 
 
 

@@ -103,6 +103,7 @@ var res = {
     TestParticle_plist : "res/particles/TestParticle.plist",
 
     Abyss_plist : "res/particles/Abyss.plist",
+    Stars_plist: "res/particles/Stars.plist",
 
 
 
