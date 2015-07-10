@@ -975,6 +975,9 @@ var GameOver = function(){
     ISITGAMEOVER = true;
     GAMEINITIALIZED = false;
 
+    innerTrail = false;
+    outerTrail = false;
+
 
     //var scene = new GameOverScene();
     //use rotateto to rotate to 0
