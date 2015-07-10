@@ -178,7 +178,7 @@ var res = {
     innertrailingParticle_plist: "res/particles/innerTrail.plist",
     outertrailingParticle_plist: "res/particles/outerTrail.plist",
     explosionParticle_plist: "res/particles/explosion.plist",
-    Stars_plist:"res/particles/Stars.plist"
+    Stars_plist:"res/particles/Stars.plist",
 
 
 
