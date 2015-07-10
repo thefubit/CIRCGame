@@ -124,7 +124,7 @@ var res = {
     TurboBackground_music :"res/sound/turbobg.mp3",
     //Sound
     SoundSymbol_png : "res/symbols/sfxsymbol.png",
-    NormalPerfectSound : "res/sound/normalperfect.mp3",//note sonic ring sound ideal, but needs to be cut shorter
+    NormalPerfectSound : "res/sound/turboperfect.mp3",//note sonic ring sound ideal, but needs to be cut shorter
     NormalGreatSound : "res/sound/normalgreat.mp3",
     NormalMissSound : "res/sound/normalmiss.mp3",
     GameOverSound : "res/sound/Megaman-death.mp3",
