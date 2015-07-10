@@ -39,6 +39,7 @@ var GameLayer = cc.Layer.extend({
     turboLabel:null,
     spriteSheet:null,
     animatedAction:null,
+    turboMusic: null,
 
     ctor:function () {
         //////////////////////////////
@@ -427,11 +428,14 @@ var GameLayer = cc.Layer.extend({
         cc.log("Is turbo started?" + turboMode);
         this.turboLabel.setOpacity(255);
 
-        //do something here
-        //changing up music
-        //flash messages
-        //rainbows/stars going across at small opacity
-        //
+        
+        //////////////////////MUSIC////////////////////////
+        cc.audioEngine.pauseMusic();
+        this.turboMusic = cc.audioEngine.playEffect(res.TurboBackground_music,true);
+
+
+
+        //////////////////////MUSIC/////////////////////////
                                 
         /////////////////////////// PARTICLES //////////////////////////////
                                 
@@ -503,6 +507,17 @@ var GameLayer = cc.Layer.extend({
 
         //ending stuff here
         //play a poop sound to show that turbo mode ended
+
+        ////////////////////STOP TURBO MUSIC//////////////
+
+        cc.audioEngine.stopEffect(this.turboMusic);
+
+        cc.audioEngine.resumeMusic();
+
+        ////////////////////STOP TURBO MUSIC////////////////
+
+
+
 
         ///////////////// PARTICLES //////////////////////
         
@@ -613,7 +628,14 @@ var GameLayer = cc.Layer.extend({
     //note will take two global variables - perfectDistance and greatDistance
     if (distance <= perfectDistance){
         levelUp(2, "Perfect");
-        cc.audioEngine.playEffect(res.PerfectSound,false);
+
+        if(turboMode == false){
+            cc.audioEngine.playEffect(res.NormalPerfectSound,false);
+        }
+        else if(turboMode == true){
+            cc.audioEngine.playEffect(res.TurboPerfectSound,false);
+        }
+
         consecutiveTouches = 0;
         //show "perfect"
         this.perfectLabel.runAction(FlashMessage);
@@ -637,7 +659,14 @@ var GameLayer = cc.Layer.extend({
     }//if
     else if (distance <=greatDistance){
         levelUp(1, "Great");
-        cc.audioEngine.playEffect(res.GreatSound,false);
+
+        if(turboMode == false){
+            cc.audioEngine.playEffect(res.NormalGreatSound,false);
+        }
+        else if(turboMode == true){
+            cc.audioEngine.playEffect(res.TurboGreatSound,false);
+        }
+
         consecutiveTouches = 0;
         this.greatLabel.runAction(FlashMessage);
 
@@ -648,7 +677,16 @@ var GameLayer = cc.Layer.extend({
     else{
         levelDown("Miss");
         consecutiveTouches ++;
-        cc.audioEngine.playEffect(res.MissSound,false);
+
+        if(turboMode == false){
+            cc.audioEngine.playEffect(res.NormalMissSound,false);
+        }
+        else if(turboMode == true){
+            cc.audioEngine.playEffect(res.TurboMissSound,false);
+        }
+        
+
+
         this.missLabel.runAction(FlashMessage);
         if(consecutiveTouches == 3){
             MISSLOSS=true;

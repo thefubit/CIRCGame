@@ -108,6 +108,10 @@ var GoToMainMenu = function (){
     PAUSEINITIALIZED = false;
     GAMEINITIALIZED = false;
 
+
+    cc.audioEngine.stopAllEffects();
+    cc.audioEngine.resumeMusic();
+
     Unpause();
     cc.log("test whether it'll run")
     //GameOver();
