@@ -107,6 +107,33 @@ var Unpause = function(){
 var GoToMainMenu = function (){
     PAUSEINITIALIZED = false;
     GAMEINITIALIZED = false;
+    
+    // resetting global variables
+    
+    GAMEINITIALIZED = false;
+    ISITGAMEOVER = false;
+    NEWGAME = true;
+    levelInner = 0;//controlling level of inner satellite
+    speedInner = 0;//controlling the speed of inner satellite
+    levelOuter = 0;//controlling level of outer satellite
+    speedOuter = 0;//controlling speed of inner satellite
+    currentScore = 0;
+    highScore = 0;//must grab from local storage
+    
+    //checking for consecutive touches
+    consecutiveTouches = 0;
+    
+    //default speed
+    baseSpeed = 9;
+    
+    //turbo tracker
+    turboCount = 0;
+    turboMode = false;
+
+    innerTrail = false;
+    outerTrail = false;
+    
+    
 
 
     cc.audioEngine.stopAllEffects();

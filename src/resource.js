@@ -174,15 +174,11 @@ var res = {
     animatedTitle_png : "res/animated/" + titlefolder+"sprites.png",
     
     // Particles
-    TurboInner_plist: "res/particles/TurboInner.plist",
-    //TurboInner_png: "res/particles/TurboInner.png",
-
-    TurboOuter_plist : "res/particles/TurboOuter.plist",
-
-    TestParticle_plist : "res/particles/TestParticle.plist",
-
-    Abyss_plist : "res/particles/Abyss.plist",
-    Stars_plist: "res/particles/Stars.plist",
+    
+    innertrailingParticle_plist: "res/particles/innerTrail.plist",
+    outertrailingParticle_plist: "res/particles/outerTrail.plist",
+    explosionParticle_plist: "res/particles/explosion.plist",
+    Stars_plist:"res/particles/Stars.plist"
 
 
 

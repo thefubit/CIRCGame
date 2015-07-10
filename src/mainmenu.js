@@ -104,21 +104,13 @@ var MenuLayer = cc.Layer.extend({
         ///////////////////TRAILING EFFECTS/////////////////////////
 
 
-        var MenuTrail = new cc.ParticleSystem.create(res.TestParticle_plist);
-
-        MenuTrail.setTag(1);
-
-        MenuTrail.attr({
-            x: this.dot.x,
-            y: this.dot.y,
-        });
-
+       
 
         //fabulous mode
         //MenuTrail.setStartColor(cc.color(255,0,0));
         //MenuTrail.setEndColor(cc.color(0,255,0));
 
-        this.rotationPoint.addChild(MenuTrail);
+       
 
 
 
@@ -126,15 +118,7 @@ var MenuLayer = cc.Layer.extend({
 
         //for testing
         //abyss/background spinning
-        var BackgroundSpin = new cc.ParticleSystem.create(res.Stars_plist);
-        BackgroundSpin.setTag(2);
-
-        BackgroundSpin.attr({
-            x:size.width/2,
-            y: size.height/2,
-        });
-
-        this.addChild(BackgroundSpin);
+      
 
 
 
