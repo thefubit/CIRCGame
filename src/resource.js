@@ -33,6 +33,65 @@ else if (colorselect == 4){
 }
 
 
+//Color of the turbo text
+var perfectselect = 0;
+var greatselect = 0;
+var missselect = 0;
+var perfectcolor = "green";
+var greatcolor = "yellow";
+var misscolor = "red";
+
+
+//////////////randomization//////////////////////
+//
+
+perfectselect = Math.floor(Math.random()*4);
+greatselect = Math.floor(Math.random()*4);
+missselect = Math.floor(Math.random()*2);
+
+
+    //select perfect text
+if(perfectselect == 0 || perfectselect ==1){
+    perfectcolor = "green";
+}
+else if (perfectselect == 2){
+    perfectcolor = "teal";
+}
+else if (perfectselect == 3 ){
+    perfectcolor = "pink";
+}
+else if (perfectselect == 4 ){
+    perfectcolor = "yellow";
+}
+
+//select great text
+if (greatselect == 0 || greatselect == 1){
+    greatcolor = "blue";
+}
+else if (greatselect == 2){
+    greatcolor = "orange";
+}
+else if (greatselect == 3){
+    greatcolor = "pink";
+}
+else if (greatselect == 4){
+    greatcolor = "yellow";
+}
+
+    //select miss text
+if (missselect == 0 || missselect == 1){
+    misscolor = "red";
+}
+else if (missselect == 2){
+    misscolor = "purple";
+}
+//randomize text color
+
+
+
+
+
+
 
 //list out all the resources that the game needs
 //REMEMBER THE COMMAS!!!!!!!!!!!
@@ -48,12 +107,18 @@ var res = {
     //Music
     MusicSymbol_png : "res/symbols/musicsymbol.png",
     Background_music : "res/sound/Prototyperaptor-timeless.mp3",
+    TurboBackground_music :"",
     //Sound
     SoundSymbol_png : "res/symbols/sfxsymbol.png",
     PerfectSound : "res/sound/KH-select.mp3",//note sonic ring sound ideal, but needs to be cut shorter
     GreatSound : "res/sound/Sonic-ring.mp3",
     MissSound : "res/sound/Quack-sound.mp3",
     GameOverSound : "res/sound/Megaman-death.mp3",
+
+    TurboPerfectSound : "",
+    TurboGreatSound : "",
+    TurboMissSound : "",
+
 
     //Button images -settings/mainmenu/mail/resume/ -for pressing
     HomeButton_png : "res/buttons/home.png",
@@ -107,6 +172,15 @@ var res = {
 
 
 
+    //Word labels
+    PerfectText : "res/words/perfect" + perfectcolor+".png",
+    
+    GreatText : "res/words/great"+greatcolor + ".png",
+    
+    MissText : "res/words/miss"+misscolor +".png",
+    
+    animatedTurboModeText_plist : "res/words/animatedTurboText/sprites.plist",
+    animatedTurboModeText_png : "res/words/animatedTurboText/sprites.png",
 
 
 
@@ -122,4 +196,9 @@ var res = {
 var g_resources = [];
 for (var i in res) {
     g_resources.push(res[i]);
-}
+};
+
+
+
+
+

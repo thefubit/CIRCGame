@@ -37,6 +37,8 @@ var GameLayer = cc.Layer.extend({
     greatLabel:null,
     missLabel:null,
     turboLabel:null,
+    spriteSheet:null,
+    animatedAction:null,
 
     ctor:function () {
         //////////////////////////////
@@ -196,6 +198,38 @@ var GameLayer = cc.Layer.extend({
         /////////////////////////////////////////////
         ////////////////////DISPLAY LABELS/////////////////////////
 
+        //randomizeTextColor();
+
+        this.perfectLabel = new cc.Sprite(res.PerfectText);
+        this.perfectLabel.attr({
+            x: size.width/2,
+            y: size.height/2,
+            scale : 1/2.5,
+        });
+        this.perfectLabel.setOpacity(0);
+        this.addChild(this.perfectLabel);
+
+        this.greatLabel = new cc.Sprite(res.GreatText);
+        this.greatLabel.attr({
+            x: size.width/2,
+            y: size.height/2,
+            scale : 1/2.5,
+        });
+        this.greatLabel.setOpacity(0);
+        this.addChild(this.greatLabel);
+
+        this.missLabel = new cc.Sprite(res.MissText);
+        this.missLabel.attr ({
+            x: size.width/2,
+            y: size.height/2,
+            scale : 1/2.5,
+        });
+        this.missLabel.setOpacity(0);
+        this.addChild(this.missLabel);
+
+
+
+        /*
         this.perfectLabel = new cc.LabelTTF("PERFECT!!","Verdana",55);
         this.perfectLabel.x = size.width/2;
         this.perfectLabel.y = size.height/2;
@@ -214,6 +248,10 @@ var GameLayer = cc.Layer.extend({
         this.missLabel.y = size.height/2;
         this.missLabel.setOpacity(0);
         this.addChild(this.missLabel,5);
+        */
+
+
+
 
 
 
@@ -224,21 +262,56 @@ var GameLayer = cc.Layer.extend({
         /////////////////////////////////////////
         ////////////////TURBO/////////////////////
 
+        cc.spriteFrameCache.addSpriteFrames(res.animatedTurboModeText_plist);
+        
+        this.spriteSheet = new cc.SpriteBatchNode(res.animatedTurboModeText_png);
+        this.addChild(this.spriteSheet);
+
+        var animFrames = [];
+        for (var i = 1; i<5; i++){
+            var str = "turbomode" + i+".png";
+            var frame = cc.spriteFrameCache.getSpriteFrame(str);
+            animFrames.push(frame);
+        }
+
+        var animation = new cc.Animation(animFrames,0.1);
+
+        this.runningAction = new cc.RepeatForever(new cc.Animate(animation));
+        this.turboLabel = new cc.Sprite("#turbomode1.png");
+
+        this.turboLabel.attr({
+            x: size.width/2,
+            y: size.height/3,
+            scale: 1/2.5,
+
+        });
+        this.turboLabel.setOpacity(0);
+        this.turboLabel.runAction(this.runningAction);
+        this.spriteSheet.addChild(this.turboLabel);
+
+
+
 
         
 
 
 
-
+        /*
         this.turboLabel = new cc.LabelTTF("TURBO MODE","Verdana",35);
         this.turboLabel.x = size.width/2;
         this.turboLabel.y = size.height/3;
         this.addChild(this.turboLabel,5);
         this.turboLabel.setOpacity(0);//disappear it
-
+        */
 
         /////////////////////TURBO////////////////////
         //////////////////////////////////////////
+
+        ///////////////////////////////////////////////
+        ///////////////////////////////////////////
+
+
+
 
 
 
@@ -246,7 +319,7 @@ var GameLayer = cc.Layer.extend({
         /////////////////////////////////////////////
         //////////////SCORING///////////////////////
 
-
+        //change to bitmap
         var scoretext = "" + currentScore;
         this.scoreLabel = new cc.LabelTTF(scoretext,"Verdana",35);
         this.scoreLabel.x = size.width/10*9;
@@ -261,9 +334,9 @@ var GameLayer = cc.Layer.extend({
         this.levelLabel = new cc.LabelTTF(leveltext,"Verdana",35);
         this.levelLabel.x = size.width/10*9;
         this.levelLabel.y = size.height-120;
-
         this.addChild(this.levelLabel,0);
 
+        //////////////SCORING/////////////////////
         //////////////////////////////////////////
         ////////////TOUCHING//////////////////////
         //////////////////////////////////////////
@@ -278,6 +351,7 @@ var GameLayer = cc.Layer.extend({
                     cc.log('touch worked');
                     
                     testing;
+                    // randomizeTextColor();
 
                     //tracking untouched loss
                     UNTOUCHEDLOSS = false;
@@ -777,7 +851,6 @@ var setHighScore = function(currentScore){
 
 
 
-//
 
 
 
