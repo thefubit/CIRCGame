@@ -9,6 +9,20 @@ if (!cc.sys.isNative)//if not native, meaning it is on the computer/web. then us
 testvar = "this is a global variable";
 
 
+/////////////////////LOCAL STORAGE/////////////////
+var ls = cc.sys.localStorage;
+
+
+
+/////////////////////LOCAL STORAGE/////////////////////
+
+
+
+
+
+
+
+
 //setting what color to display for animated title
 var colorselect=0;
 while(colorselect == 0){

@@ -102,7 +102,26 @@ var GameOverLayer = cc.Layer.extend({
 
         ///////////////////////////////////
 
+        ///////////////SCORES///////////////
+        highscore = ls.getItem("highscore");
 
+        var highScoreNum = new cc.LabelTTF("Highscore:"+highscore,"Verdana",30);
+        highScoreNum.x = size.width*0.8;
+        highScoreNum.y = size.height/2;
+        this.addChild(highScoreNum,5);
+
+        var yourScoreNum = new cc.LabelTTF("Your Score:"+currentScore,"Verdana",30);
+        yourScoreNum.x = size.width*0.8;
+        yourScoreNum.y = size.height/3;
+        this.addChild(yourScoreNum,5);
+
+
+
+
+
+
+        /////////////////SCORES////////////////////
+        //////////////////////////////////////////
 
 
 
@@ -125,6 +144,7 @@ var RestartMainMenu = function(){
     GAMEOVERINITIALIZED = false;
     MISSLOSS = false;
     UNTOUCHEDLOSS = false;
+    currentScore = 0;
     scene = new MenuScene();
     cc.director.runScene(new cc.TransitionFade(0.5,scene));
 };

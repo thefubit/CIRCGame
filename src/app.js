@@ -774,7 +774,7 @@ var GameOver = function(){
     levelOuter = 0;
     speedInner = 0;
     speedOuter = 0;
-    currentScore = 0;
+    //currentScore = 0;
     NEWGAME = true;
 
     ISITGAMEOVER = true;
@@ -883,7 +883,11 @@ var levelDown = function (message){
 var setHighScore = function(currentScore){
     if (currentScore > highScore){
         highScore = currentScore;
+
+
+
     }
+    ls.setItem("highscore",highScore);
 }//check and set highscore
 
 
