@@ -21,8 +21,13 @@ var baseSpeed = 9;
 var turboCount = 0;
 var turboMode = false;
 
+// trailingParticletracker
+var innerTrail = false;
+var outerTrail = false;
+
 //The main layer of this scene
 var GameLayer = cc.Layer.extend({
+                                
     sprite:null,
     //RotationSpeedOuter:null,//changing outer speed
     //RotationSpeedInner:null,//changing inner speed
@@ -37,11 +42,19 @@ var GameLayer = cc.Layer.extend({
     greatLabel:null,
     missLabel:null,
     turboLabel:null,
+    // variables for manipulating trailing particles
+    innerParticle : null,
+    outerParticle: null,
+    innerParticleEmissionRate : null,
+    innerParticleParticleCount: null,
+    outerParticleEmissionRate: null,
+    outerParticleParticleCount:null,
 
     ctor:function () {
         //////////////////////////////
         // 1. super init first
         this._super();
+        
 
         /////////////////////////////
         // 2. add a menu item with "X" image, which is clicked to quit the program
@@ -295,7 +308,14 @@ var GameLayer = cc.Layer.extend({
 
                     //checking distance between the two
                     myLayer.checkDistance (myLayer.normalizedWinDistance,InnerPos.x, InnerPos.y,OuterPos.x,OuterPos.y);
-
+                     
+                    // If turbo mode is activated, show an explosion when a "great" or "perfect" is acheived.
+                    if (turboMode)
+                    {
+                    myLayer.particleExplosion();
+                    }
+                                        
+                                        
                     //update the speed
                     myLayer.changeSpeed();
 
@@ -314,7 +334,7 @@ var GameLayer = cc.Layer.extend({
                     //understand that the game has started
                     myLayer.GameStarted = true;
 
-
+                    
 
                     return true;
                 }//onTouchBegan
@@ -352,6 +372,23 @@ var GameLayer = cc.Layer.extend({
         cc.log("STARTING TURBO");
         cc.log("Is turbo started?" + turboMode);
         this.turboLabel.setOpacity(255);
+        
+                
+   innerParticleEmissionRate = innerParticle.getEmissionRate();
+    innerParticleParticleCount = innerParticle.getTotalParticles();
+                                
+    outerParticleEmissionRate = outerParticle.getEmissionRate();
+    outerParticleParticleCount = outerParticle.getTotalParticles();
+                                
+    innerParticle.setTotalParticles(innerParticleParticleCount + 40);
+    innerParticle.setEmissionRate(innerParticleEmissionRate*2);
+      
+    outerParticle.setTotalParticles(outerParticleParticleCount + 40);
+    outerParticle.setEmissionRate(outerParticleEmissionRate*2);
+                                
+    
+    
+                                
 
         //do something here
         //changing up music
@@ -361,63 +398,26 @@ var GameLayer = cc.Layer.extend({
                                 
         /////////////////////////// PARTICLES //////////////////////////////
                                 
-        // creates the particle emitter. The plist file can be generated  manually I think, or you can use a website to design the particle emitter for you. This is what I did. Saves lots of trial and error. I can send you the link for the particle emitter generator website.
+    
                                 
-        var TurboInnerParticles = new cc.ParticleSystem.create(res.TurboInner_plist);
+        var BackgroundSpin = new cc.ParticleSystem.create(res.Stars_plist);
+        BackgroundSpin.setTag(4);
                                 
-        // Giving the particle system a tag so I can remove it later
-        TurboInnerParticles.setTag(9001);
-                                
-        // Setting the attributes so that it follows the inner square. We can tweak this a bit if we want.
-                                
-        TurboInnerParticles.attr
+        BackgroundSpin.attr
         ({
-         x: this.InnerSat.x,
-         y: this.InnerSat.y
-         
-                                });
-        // ParticleSystem has a bunch of methods you can use to change the particle emitter. Uncomment the two lines below if you want to have a very merry emitter. Hohoho.
-        
-       // TurboInnerParticles.setStartColor(cc.color(255,0,0));
-       // TurboInnerParticles.setEndColor(cc.color(0,255,0));
-                                
-        // Adds the particle emitter to the rotating node.
-        
-        this.rotationPointIn.addChild(TurboInnerParticles);
-                                
-
-        ////////turbo outer
-        var TurboOuterParticles = new cc.ParticleSystem.create(res.TurboOuter_plist);
-        TurboOuterParticles.setTag(9002);
-
-        TurboOuterParticles.attr({
-            x: this.OuterSat.x,
-            y: this.OuterSat.y,
+        x:this.rotationPointOut.x,
+        y:this.rotationPointOut.y
         });
-
-        this.rotationPointOut.addChild(TurboOuterParticles);
-
-
-        ////////Background Particles
-        var BackgroundParticles = new cc.ParticleSystem.create(res.Stars_plist);
-        BackgroundParticles.setTag(9003);
-
-        BackgroundParticles.attr({
-            x: this.rotationPointOut.x,
-            y: this.rotationPointOut.y,
-        });
-
-        this.addChild(BackgroundParticles);
-
-
-
-
-        ////////////////// PARTICLES//////////////////////
+                                
+        this.addChild(BackgroundSpin);
                                 
         var darken = cc.FadeTo(1,50);
         this.sprite.runAction(darken);
-
-
+        
+        
+                               
+                                
+        
     },
 
     turboEnd:function(){
@@ -432,22 +432,23 @@ var GameLayer = cc.Layer.extend({
 
         ///////////////// PARTICLES //////////////////////
         
-        // Removes the trailing particle. The tag is over 9000! 
+        
+       innerParticle.setEmissionRate(innerParticleEmissionRate);
+        innerParticle.setTotalParticles(innerParticleParticleCount);
+                                
+        outerParticle.setEmissionRate(outerParticleEmissionRate);
+        outerParticle.setTotalParticles(outerParticleParticleCount);
                                 
                                 
-        this.rotationPointIn.removeChildByTag(9001,true);
-        this.rotationPointOut.removeChildByTag(9002,true);
-        this.removeChildByTag(9003,true);
                                 
+        this.removeChildByTag(4,true);
                                 
-        ////////////////////PARTICLES///////////////////
-
-        var brighten = cc.FadeTo(0.5,255);
+        var brighten = cc.FadeTo(0.5,225);
         this.sprite.runAction(brighten);
-                                
+        
+       
 
-
-    },
+        },
 
 
 
@@ -555,8 +556,88 @@ var GameLayer = cc.Layer.extend({
             
             this.turboStart();
         }
+                                
         
+        if (levelInner > 0 && !innerTrail)
+        {
+        innerTrail = true;
+        innerParticle = new cc.ParticleSystem.create(res.innertrailingParticle_plist);
+                                
+        var innerParticleColor = Math.floor(Math.random()*4);
+                            
+        innerParticle.setTag(1);
+                                
+        innerParticle.attr
+        ({
+        x: this.InnerSat.x,
+        y: this.InnerSat.y
+        });
+                                
+        switch (innerParticleColor)
+        {
+        case 1:
+        innerParticle.setStartColor(cc.color(255,0,0));
+        break;
+                                
+        case 2:
+        innerParticle.setStartColor(cc.color(0,255,0));
+        break;
+                                
+        case 3:
+        innerParticle.setStartColor(cc.color(0,0,255));
+        break;
+                                
+        default:
+        // don't change the particle color
+        break;
+        }
 
+        this.rotationPointIn.addChild(innerParticle);
+                                
+                                
+                                
+        }
+                                
+            
+        
+        if (levelOuter > 0 && !outerTrail)
+        {
+        outerTrail = true;
+        outerParticle = new cc.ParticleSystem.create(res.outertrailingParticle_plist);
+        var outerParticleColor = Math.floor(Math.random()*4);
+        outerParticle.setTag(2);
+                                
+                                
+        outerParticle.attr
+        ({
+        x:this.OuterSat.x,
+        y: this.OuterSat.y
+        });
+                                
+        switch (outerParticleColor)
+        {
+        case 1:
+        outerParticle.setStartColor(cc.color(255,0,0));
+        break;
+                                
+        case 2:
+        outerParticle.setStartColor(cc.color(0,255,0));
+        break;
+                                
+        case 3:
+        outerParticle.setStartColor(cc.color(0,0,255));
+        break;
+                                
+        default:
+        // don't change the particle color
+        break;
+        }
+                                
+        this.rotationPointOut.addChild(outerParticle);
+                                
+        }
+                                
+        
 
        
 
@@ -570,9 +651,60 @@ var GameLayer = cc.Layer.extend({
         if(turboMode == false){
         turboCount = 0;
         }//if false
+                                
+                                
+        if (levelOuter > 0 && !outerTrail)
+        {
+        outerTrail = true;
+        outerParticle = new cc.ParticleSystem.create(res.outertrailingParticle_plist);
+        var outerParticleColor = Math.floor(Math.random()*4);
+        outerParticle.setTag(2);
+                                
+                                
+        outerParticle.attr
+        ({
+        x:this.OuterSat.x,
+        y: this.OuterSat.y
+        });
+                                
+        switch (outerParticleColor)
+        {
+        case 1:
+        outerParticle.setStartColor(cc.color(255,0,0));
+        break;
+                                
+        case 2:
+        outerParticle.setStartColor(cc.color(0,255,0));
+        break;
+                                
+        case 3:
+        outerParticle.setStartColor(cc.color(0,0,255));
+        break;
+                                
+        default:
+                                // don't change the particle color
+        break;
+        }
+                                
+        this.rotationPointOut.addChild(outerParticle);
+                                
+        }
+                                
+                                
+                                
     }//else if 
     else{
         levelDown("Miss");
+                                
+    if (levelOuter == 0 && outerTrail)
+    {
+    outerTrail = false;
+    this.rotationPointOut.removeChildByTag(2);
+    }
+                                
+                                
+                                
+                                
         consecutiveTouches ++;
         cc.audioEngine.playEffect(res.MissSound,false);
         this.missLabel.runAction(FlashMessage);
@@ -588,22 +720,63 @@ var GameLayer = cc.Layer.extend({
 
         if(turboMode==true){
             
+        levelInner = 10;
+        levelOuter = 5;
+                                
+        speedInner = baseSpeed/levelInner;
+        speedOuter = baseSpeed / levelOuter;
+                                
             this.turboEnd();
         }
     }//else
 
     //new speed for turbo mode - overrides speed
-    if(turboMode == true){
-    speedInner = (baseSpeed/levelInner)*3;
-    speedOuter = (baseSpeed/levelOuter)*3;
+   if(turboMode == true)
+    {
+    levelInner = 14;
+    levelOuter = 7;
+                                
+    speedInner = baseSpeed/levelInner;
+    speedOuter = baseSpeed/levelOuter;
+                    
+    
+                                
+    
     }//changing speed for turbo mode - make faster as needed
 
     },//checking distance
 
 
+    // PARTICLE EXPLOSION EFFECT
+                                
+                                
+    particleExplosion: function ()
+    {
+     
+    var explosionParticle = new cc.ParticleSystem.create(res.explosionParticle_plist);
+                                
+    explosionParticle.setTag(3);
+                                
+    explosionParticle.attr
+    ({
+                       
+     x: this.InnerSat.x,
+     y: this.InnerSat.y
+                                
+    });
+                                
+    
+    this.rotationPointIn.addChild(explosionParticle);
+                                
+    }, // particleExplosion
+    
+                                
+    
+    
+                                
+    
 
-
-
+   
 
 
 
@@ -695,6 +868,7 @@ var levelUp = function(amount,message){
     //change speed by amount
     levelInner = levelInner + amount;
     
+
     if (levelInner >10){//limiting speed
         levelInner = 10;
     }
@@ -717,8 +891,15 @@ var levelUp = function(amount,message){
         //change to pop the image
         cc.log("Great");
     }
-
+    if (!turboMode)
+    {
     currentScore += levelInner + levelOuter;
+    }
+    
+    else
+    {
+        currentScore += (levelInner + levelOuter)*2 ;
+    }
 
     //changing the speed accordingly
     speedInner = baseSpeed/levelInner;
