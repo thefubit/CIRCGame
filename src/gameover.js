@@ -145,6 +145,7 @@ var RestartMainMenu = function(){
     MISSLOSS = false;
     UNTOUCHEDLOSS = false;
     currentScore = 0;
+    turboMode = false;
     scene = new MenuScene();
     cc.director.runScene(new cc.TransitionFade(0.5,scene));
 };

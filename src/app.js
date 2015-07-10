@@ -452,17 +452,17 @@ var GameLayer = cc.Layer.extend({
         this.turboLabel.setOpacity(255);
         
                 
-   innerParticleEmissionRate = innerParticle.getEmissionRate();
-    innerParticleParticleCount = innerParticle.getTotalParticles();
+        innerParticleEmissionRate = innerParticle.getEmissionRate();
+        innerParticleParticleCount = innerParticle.getTotalParticles();
                                 
-    outerParticleEmissionRate = outerParticle.getEmissionRate();
-    outerParticleParticleCount = outerParticle.getTotalParticles();
+        outerParticleEmissionRate = outerParticle.getEmissionRate();
+        outerParticleParticleCount = outerParticle.getTotalParticles();
                                 
-    innerParticle.setTotalParticles(innerParticleParticleCount + 40);
-    innerParticle.setEmissionRate(innerParticleEmissionRate*2);
+        innerParticle.setTotalParticles(innerParticleParticleCount + 40);
+        innerParticle.setEmissionRate(innerParticleEmissionRate*2);
       
-    outerParticle.setTotalParticles(outerParticleParticleCount + 40);
-    outerParticle.setEmissionRate(outerParticleEmissionRate*2);
+        outerParticle.setTotalParticles(outerParticleParticleCount + 40);
+        outerParticle.setEmissionRate(outerParticleEmissionRate*2);
                                 
     
     
@@ -509,6 +509,13 @@ var GameLayer = cc.Layer.extend({
 
 
         //ending stuff here
+
+        
+
+
+
+
+
         //play a poop sound to show that turbo mode ended
 
         ////////////////////STOP TURBO MUSIC//////////////
@@ -613,6 +620,8 @@ var GameLayer = cc.Layer.extend({
 
     //checking distance
     checkDistance : function(d,x1,y1,x2,y2){
+
+
     var perfectDistance = d;//preset perfect
     var greatDistance = d *2;//preset great
 
@@ -631,6 +640,8 @@ var GameLayer = cc.Layer.extend({
     
     //note will take two global variables - perfectDistance and greatDistance
     if (distance <= perfectDistance){
+
+        //leveling up and increasing speed
         levelUp(2, "Perfect");
 
         if(turboMode == false){
@@ -649,12 +660,12 @@ var GameLayer = cc.Layer.extend({
             cc.log(levelInner);
             turboCount ++;
             cc.log("turbo countdown: " + turboCount);
-        }
+        }//counting turbo
 
         if(turboCount == 3 && turboMode == false){
             
             this.turboStart();
-        }
+        }//turbostart
                                 
         
         if (levelInner > 0 && !innerTrail)
@@ -689,13 +700,11 @@ var GameLayer = cc.Layer.extend({
         default:
         // don't change the particle color
         break;
-        }
+        }//switch
 
         this.rotationPointIn.addChild(innerParticle);
-                                
-                                
-                                
-        }
+                                                       
+        }//setting particles
                                 
             
         
@@ -759,54 +768,61 @@ var GameLayer = cc.Layer.extend({
         }//if false
                                 
                                 
+
+        //trails 
         if (levelOuter > 0 && !outerTrail)
         {
-        outerTrail = true;
-        outerParticle = new cc.ParticleSystem.create(res.outertrailingParticle_plist);
-        var outerParticleColor = Math.floor(Math.random()*4);
-        outerParticle.setTag(2);
+            outerTrail = true;
+            outerParticle = new cc.ParticleSystem.create(res.outertrailingParticle_plist);
+            var outerParticleColor = Math.floor(Math.random()*4);
+            outerParticle.setTag(2);
+                                    
+                                    
+            outerParticle.attr
+            ({
+                x:this.OuterSat.x,
+                y: this.OuterSat.y
+            });
+                                    
+            switch (outerParticleColor)
+            {
+                case 1:
+                outerParticle.setStartColor(cc.color(255,0,0));
+                break;
+                                        
+                case 2:
+                outerParticle.setStartColor(cc.color(0,255,0));
+                break;
+                                        
+                case 3:
+                outerParticle.setStartColor(cc.color(0,0,255));
+                break;
+                                        
+                default:
+                                        // don't change the particle color
+                break;
+            }
+                                    
+            this.rotationPointOut.addChild(outerParticle);
                                 
-                                
-        outerParticle.attr
-        ({
-        x:this.OuterSat.x,
-        y: this.OuterSat.y
-        });
-                                
-        switch (outerParticleColor)
-        {
-        case 1:
-        outerParticle.setStartColor(cc.color(255,0,0));
-        break;
-                                
-        case 2:
-        outerParticle.setStartColor(cc.color(0,255,0));
-        break;
-                                
-        case 3:
-        outerParticle.setStartColor(cc.color(0,0,255));
-        break;
-                                
-        default:
-                                // don't change the particle color
-        break;
-        }
-                                
-        this.rotationPointOut.addChild(outerParticle);
-                                
-        }
+        }//outer particle
                                 
                                 
                                 
     }//else if 
     else{
+
+        //speed control - player doesn't get less than 10 speed
+        if(levelInner<10){
         levelDown("Miss");
+        }//speed control
                                 
-    if (levelOuter == 0 && outerTrail)
-    {
-    outerTrail = false;
-    this.rotationPointOut.removeChildByTag(2);
-    }
+        if (levelOuter == 0 && outerTrail)
+        {
+        outerTrail = false;
+        this.rotationPointOut.removeChildByTag(2);
+        
+        }
                                 
                                 
                                 
@@ -823,6 +839,7 @@ var GameLayer = cc.Layer.extend({
 
 
         this.missLabel.runAction(FlashMessage);
+
         if(consecutiveTouches == 3){
             MISSLOSS=true;
             GameOver();
@@ -834,30 +851,32 @@ var GameLayer = cc.Layer.extend({
         turboCount = 0;
 
         if(turboMode==true){
-            
-        levelInner = 10;
-        levelOuter = 5;
-                                
-        speedInner = baseSpeed/levelInner;
-        speedOuter = baseSpeed / levelOuter;
-                                
+                                 
+            //////////////change speed back/////////////
+            speedInner = baseSpeed/levelInner;
+            speedOuter = baseSpeed / levelOuter;
+            /////////////change speed back////////////// 
             this.turboEnd();
         }
     }//else
 
+
+    /////////////////////TURBO SPEED OVERRIDE/////////////////////
     //new speed for turbo mode - overrides speed
    if(turboMode == true)
     {
-    levelInner = 14;
-    levelOuter = 7;
+        //change the factor as needed
+        //bigger = slower. smaller = faster
+        var factor = 3;
                                 
-    speedInner = baseSpeed/levelInner;
-    speedOuter = baseSpeed/levelOuter;
+    speedInner = baseSpeed/levelInner*factor;
+    speedOuter = baseSpeed/levelOuter*factor;
                     
     
                                 
     
     }//changing speed for turbo mode - make faster as needed
+    /////////////////////TURBO SPEED OVERRIDE/////////////////////
 
     },//checking distance
 
@@ -996,7 +1015,8 @@ var levelUp = function(amount,message){
         levelOuter = 5;
     }
     
-    //display message
+    //display message - just for testing
+    //image popping is within the main scene
     if(message == "Perfect"){
         //change to pop the image on the screen
 
@@ -1006,6 +1026,8 @@ var levelUp = function(amount,message){
         //change to pop the image
         cc.log("Great");
     }
+
+    //doubling the score
     if (!turboMode)
     {
     currentScore += levelInner + levelOuter;
@@ -1026,8 +1048,12 @@ var levelUp = function(amount,message){
 
 //level down 
 var levelDown = function (message){
+
+    //speed control - so player never gets below lv 10. but must work up there
+    //if(levelInner<10){
     levelInner--;
     levelOuter--;
+    //}
     cc.log("you leveled down");
 
     //var myLayer = cc.director.getRunningScene();
@@ -1042,6 +1068,7 @@ var levelDown = function (message){
         levelInner = 0;
     }
 
+    //just for testing
     if(levelInner == 1){
         cc.log("you're about to lose");
     }
@@ -1051,7 +1078,11 @@ var levelDown = function (message){
         SLOWLOSS = true;
         GameOver();
     }
+
+    //setting speed of inner dot
     speedInner = baseSpeed/levelInner;
+
+    //setting speed of outer dot
     if(levelOuter == 0){
         speedOuter = 999;
     }else{
