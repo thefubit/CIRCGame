@@ -25,6 +25,7 @@ var turboMode = false;
 var innerTrail = false;
 var outerTrail = false;
 
+
 //The main layer of this scene
 var GameLayer = cc.Layer.extend({
                                 
@@ -58,6 +59,9 @@ var GameLayer = cc.Layer.extend({
     innerParticleParticleCount: null,
     outerParticleEmissionRate: null,
     outerParticleParticleCount:null,
+    innerParticleTrailColor:null,
+    starsParticleCount:null,
+    BackgroundSpin:null,
 
 
     ctor:function () {
@@ -87,7 +91,7 @@ var GameLayer = cc.Layer.extend({
         //cc.audioEngine.playMusic(res.Background_music, true);
         //this.schedule(cc.audioEngine.setMusicVolume(musicVolume),1);
 
-
+        
 
 
         //calculate appropriate lengths
@@ -337,6 +341,22 @@ var GameLayer = cc.Layer.extend({
         this.levelLabel.x = size.width/10*9;
         this.levelLabel.y = size.height-120;
         this.addChild(this.levelLabel,0);
+                                
+                                
+        BackgroundSpin = new cc.ParticleSystem.create(res.Stars_plist);
+        BackgroundSpin.setTag(4);
+                                
+        BackgroundSpin.attr
+        ({
+        x:this.rotationPointOut.x,
+        y:this.rotationPointOut.y
+        });
+        
+        starsParticleCount = BackgroundSpin.getTotalParticles();
+        
+        BackgroundSpin.setTotalParticles(0);
+                                
+        this.addChild(BackgroundSpin);
 
         //////////////SCORING/////////////////////
         //////////////////////////////////////////
@@ -473,18 +493,9 @@ var GameLayer = cc.Layer.extend({
                                 
         /////////////////////////// PARTICLES //////////////////////////////
                                 
-    
-                                
-        var BackgroundSpin = new cc.ParticleSystem.create(res.Stars_plist);
-        BackgroundSpin.setTag(4);
-                                
-        BackgroundSpin.attr
-        ({
-        x:this.rotationPointOut.x,
-        y:this.rotationPointOut.y
-        });
-                                
-        this.addChild(BackgroundSpin);
+        
+        BackgroundSpin.setTotalParticles(starsParticleCount);
+       
                                 
         var darken = cc.FadeTo(1,50);
         this.sprite.runAction(darken);
@@ -518,7 +529,7 @@ var GameLayer = cc.Layer.extend({
 
         ////////////////////STOP TURBO MUSIC//////////////
 
-        cc.audioEngine.stopEffect(this.turboMusic);
+       cc.audioEngine.stopEffect(this.turboMusic);
 
         cc.audioEngine.resumeMusic();
 
@@ -538,7 +549,7 @@ var GameLayer = cc.Layer.extend({
                                 
                                 
                                 
-        this.removeChildByTag(4,true);
+        BackgroundSpin.setTotalParticles(0);
                                 
         var brighten = cc.FadeTo(0.5,225);
         this.sprite.runAction(brighten);
@@ -677,80 +688,19 @@ var GameLayer = cc.Layer.extend({
         }//turbostart
                                 
         
+        // start the inner trail
         if (levelInner > 0 && !innerTrail)
         {
-        innerTrail = true;
-        innerParticle = new cc.ParticleSystem.create(res.innertrailingParticle_plist);
-                                
-        var innerParticleColor = Math.floor(Math.random()*4);
-                            
-        innerParticle.setTag(1);
-                                
-        innerParticle.attr
-        ({
-        x: this.InnerSat.x,
-        y: this.InnerSat.y
-        });
-                                
-        switch (innerParticleColor)
-        {
-        case 1:
-        innerParticle.setStartColor(cc.color(255,0,0));
-        break;
-                                
-        case 2:
-        innerParticle.setStartColor(cc.color(0,255,0));
-        break;
-                                
-        case 3:
-        innerParticle.setStartColor(cc.color(0,0,255));
-        break;
-                                
-        default:
-        // don't change the particle color
-        break;
-        }//switch
-
-        this.rotationPointIn.addChild(innerParticle);
-                                                       
-        }//setting particles
-                                
-            
-        
-        if (levelOuter > 0 && !outerTrail)
-        {
-        outerTrail = true;
-        outerParticle = new cc.ParticleSystem.create(res.outertrailingParticle_plist);
-        var outerParticleColor = Math.floor(Math.random()*4);
-        outerParticle.setTag(2);
-                                
-                                
-        outerParticle.attr
-        ({
-        x:this.OuterSat.x,
-        y: this.OuterSat.y
-        });
-                                
-        switch (outerParticleColor)
-        {
-        case 1:
-        outerParticle.setStartColor(cc.color(255,0,0));
-        break;
-                                
-        case 2:
-        outerParticle.setStartColor(cc.color(0,255,0));
-        break;
-                                
-        case 3:
-        outerParticle.setStartColor(cc.color(0,0,255));
-        break;
-                                
-        default:
-        // don't change the particle color
-        break;
+        this.innerStart();
         }
                                 
-        this.rotationPointOut.addChild(outerParticle);
+        //setting particles
+                                
+            
+        // start the outer trail
+        if (levelOuter > 0 && !outerTrail)
+        {
+        this.outerStart();
                                 
         }
                                 
@@ -786,38 +736,8 @@ var GameLayer = cc.Layer.extend({
         //trails 
         if (levelOuter > 0 && !outerTrail)
         {
-            outerTrail = true;
-            outerParticle = new cc.ParticleSystem.create(res.outertrailingParticle_plist);
-            var outerParticleColor = Math.floor(Math.random()*4);
-            outerParticle.setTag(2);
-                                    
-                                    
-            outerParticle.attr
-            ({
-                x:this.OuterSat.x,
-                y: this.OuterSat.y
-            });
-                                    
-            switch (outerParticleColor)
-            {
-                case 1:
-                outerParticle.setStartColor(cc.color(255,0,0));
-                break;
-                                        
-                case 2:
-                outerParticle.setStartColor(cc.color(0,255,0));
-                break;
-                                        
-                case 3:
-                outerParticle.setStartColor(cc.color(0,0,255));
-                break;
-                                        
-                default:
-                                        // don't change the particle color
-                break;
-            }
-                                    
-            this.rotationPointOut.addChild(outerParticle);
+         
+        this.outerStart();
                                 
         }//outer particle
                                 
@@ -833,8 +753,11 @@ var GameLayer = cc.Layer.extend({
         levelDown("Miss");
         }//speed control
                                 
+        // remove the outer trail
+                                
         if (levelOuter == 0 && outerTrail)
         {
+        
         outerTrail = false;
         this.rotationPointOut.removeChildByTag(2);
         
@@ -934,7 +857,97 @@ var GameLayer = cc.Layer.extend({
     this.rotationPointIn.addChild(explosionParticle);
                                 
     }, // particleExplosion
+                                
     
+                                
+    innerStart: function ()
+    {
+                    
+    innerTrail = true;
+    innerParticle = new cc.ParticleSystem.create(res.innertrailingParticle_plist);
+                        
+    innerParticleTrailColor = Math.floor(Math.random()*4);
+    cc.log("INNER TRAIL COLOR IS " + innerParticleTrailColor);
+                                
+    innerParticle.setTag(1);
+                                
+    innerParticle.attr
+    ({
+     x: this.InnerSat.x,
+    y: this.InnerSat.y
+    });
+                                
+    switch (innerParticleTrailColor)
+    {
+    case 1:
+    innerParticle.setStartColor(cc.color(255,0,0));
+    break;
+                                
+    case 2:
+    innerParticle.setStartColor(cc.color(0,255,0));
+    break;
+                                
+    case 3:
+    innerParticle.setStartColor(cc.color(0,0,255));
+    break;
+                                
+    default:
+                                // don't change the particle color
+    break;
+    }//switch
+                                
+    this.rotationPointIn.addChild(innerParticle);
+
+                                
+    },
+                                
+    outerStart: function ()
+    {
+                                
+    outerTrail = true;
+    outerParticle = new cc.ParticleSystem.create(res.outertrailingParticle_plist);
+                                
+   
+    
+    var outerParticleColor = Math.floor(Math.random()*4);
+                                
+    if (outerParticleColor == innerParticleTrailColor)
+    {
+    outerParticleColor = 0;
+    }
+                                
+    outerParticle.setTag(2);
+                                
+                                
+    outerParticle.attr
+    ({
+    x:this.OuterSat.x,
+    y: this.OuterSat.y
+    });
+                                
+    switch (outerParticleColor)
+    {
+    case 1:
+    outerParticle.setStartColor(cc.color(255,0,0));
+    break;
+                                
+    case 2:
+    outerParticle.setStartColor(cc.color(0,255,0));
+    break;
+                                
+    case 3:
+    outerParticle.setStartColor(cc.color(0,0,255));
+    break;
+                                
+    default:
+    // don't change the particle color
+    break;
+    }
+                                
+    this.rotationPointOut.addChild(outerParticle);
+                                
+    },
+
                                 
     
     
