@@ -90,7 +90,7 @@ var GameOverLayer = cc.Layer.extend({
             reasonLabel.setString("Where did you go?");
         }
         else if (MISSLOSS == true){
-            reasonLabel.setString("You missed 3 in a row!")
+            reasonLabel.setString("You missed 2 in a row!")
         }
         else if (SLOWLOSS == true){
             reasonLabel.setString("You slowed down too much!");

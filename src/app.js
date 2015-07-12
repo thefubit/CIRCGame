@@ -12,7 +12,7 @@ var currentScore = 0;
 var highScore = 0;//must grab from local storage
 
 //checking for consecutive touches
-var consecutiveTouches = 0;
+var consecutiveMisses = 0;
 
 //default speed
 var baseSpeed = 9;
@@ -41,7 +41,11 @@ var GameLayer = cc.Layer.extend({
     perfectLabel:null,
     greatLabel:null,
     missLabel:null,
+
+    //turbo mode messaging
     turboLabel:null,
+    turboCountDown:null,
+    //turboCountDownMessage:"Turbo In...",
 
     spriteSheet:null,
     animatedAction:null,
@@ -203,7 +207,7 @@ var GameLayer = cc.Layer.extend({
         this.instructionsLabel = new cc.LabelTTF("Touch when they meet", "Arial", 38);
         // position the label on the center of the screen
         this.instructionsLabel.x = size.width / 2;
-        this.instructionsLabel.y = size.height/2;
+        this.instructionsLabel.y = size.height/4*3;
         // add the label as a child to this layer
         this.addChild(this.instructionsLabel, 5);
         //NEWGAME = false;
@@ -246,30 +250,6 @@ var GameLayer = cc.Layer.extend({
 
 
 
-        /*
-        this.perfectLabel = new cc.LabelTTF("PERFECT!!","Verdana",55);
-        this.perfectLabel.x = size.width/2;
-        this.perfectLabel.y = size.height/2;
-        this.perfectLabel.setOpacity(0);
-        this.addChild(this.perfectLabel,5);
-
-
-        this.greatLabel = new cc.LabelTTF("GREAT!","Verdana",55);
-        this.greatLabel.x = size.width/2;
-        this.greatLabel.y = size.height/2;
-        this.greatLabel.setOpacity(0);
-        this.addChild(this.greatLabel,5);
-
-        this.missLabel = new cc.LabelTTF("MISS!!", "Verdana",55);
-        this.missLabel.x = size.width/2;
-        this.missLabel.y = size.height/2;
-        this.missLabel.setOpacity(0);
-        this.addChild(this.missLabel,5);
-        */
-
-
-
-
 
 
         ///////////////////DISPLAY LABELS//////////////////////////
@@ -308,8 +288,13 @@ var GameLayer = cc.Layer.extend({
 
 
 
-
+        this.turboCountDown = new cc.LabelTTF("haha","Verdana",35);
+        this.turboCountDown.x = size.width/2;
+        this.turboCountDown.y = size.height/3;
+        this.turboCountDown.setOpacity(0);
+        this.addChild(this.turboCountDown);
         
+
 
 
 
@@ -367,8 +352,7 @@ var GameLayer = cc.Layer.extend({
                     //testing
                     cc.log('touch worked');
                     
-                    testing;
-                    // randomizeTextColor();
+                    
 
                     //tracking untouched loss
                     UNTOUCHEDLOSS = false;
@@ -377,6 +361,10 @@ var GameLayer = cc.Layer.extend({
 
                     //get layer as target
                     var myLayer = event.getCurrentTarget();
+
+
+
+                    
 
                     //get the coordinates
                     var InnerPos = myLayer.InnerSat.convertToWorldSpace(myLayer.InnerSat.getPosition());
@@ -439,8 +427,12 @@ var GameLayer = cc.Layer.extend({
     startCheckingForTouch : function(){
         cc.log("started checking for touch")
         this.schedule(this.didPlayerTouch,baseSpeed/1.1);
-        var fadeAction = cc.FadeTo.create(1,0);
-        this.instructionsLabel.runAction(fadeAction);
+
+
+
+
+        //var fadeAction = cc.FadeTo.create(1,0);
+        //this.instructionsLabel.runAction(fadeAction);
     },//start checking for touch
 
 
@@ -449,7 +441,9 @@ var GameLayer = cc.Layer.extend({
         turboMode = true;
         cc.log("STARTING TURBO");
         cc.log("Is turbo started?" + turboMode);
+        //
         this.turboLabel.setOpacity(255);
+
         
                 
         innerParticleEmissionRate = innerParticle.getEmissionRate();
@@ -496,8 +490,9 @@ var GameLayer = cc.Layer.extend({
         this.sprite.runAction(darken);
         
         
-                               
+        ////////////////////PARTICLES[[[[[[[[[[[[[[]]]]]]]]]]]]]]
                                 
+                                     
         
     },
 
@@ -509,7 +504,10 @@ var GameLayer = cc.Layer.extend({
 
 
         //ending stuff here
-
+        //if (turboMode){
+        //var FadeOut = cc.FadeTo.create(0.1,0);
+        //this.turboCountDown.setOpacity(0);  
+        //}
         
 
 
@@ -563,6 +561,10 @@ var GameLayer = cc.Layer.extend({
     //checking whether player touched
     didPlayerTouch:function(){
         cc.log("checked for touch"); 
+        
+        
+
+
         if (this.touched == false){
             UNTOUCHEDLOSS = true;
 
@@ -603,19 +605,6 @@ var GameLayer = cc.Layer.extend({
         this.rotationPointOut.runAction(rotateForeverOut);
     },//change speed
 
-    //resetting after a gameover
-    resetGame:function(){
-        this.GameStarted = false;
-        this.touched = false;
-
-        var resetLocation = cc.RotateTo.create(4,0);
-        this.rotationPointIn.runAction(resetLocation);
-        this.rotationPointOut.runAction(resetLocation);
-
-
-
-
-    },//reset
 
 
     //checking distance
@@ -635,10 +624,19 @@ var GameLayer = cc.Layer.extend({
 
     //set up actions
     var FadeMessageIn = cc.FadeTo.create(0.1,255);
-    var FadeMessageOut = cc.FadeTo.create(0.2,0);
+    var FadeMessageOut = cc.FadeTo.create(0.4,0);
     var FlashMessage = cc.Sequence.create(FadeMessageIn,FadeMessageOut);
+    //fade instructions
+    var fadeAction = cc.FadeTo.create(1,0);
     
+
+
+    
+
+
+
     //note will take two global variables - perfectDistance and greatDistance
+    ///////////////////PERFECT/////////////////////////
     if (distance <= perfectDistance){
 
         //leveling up and increasing speed
@@ -651,20 +649,31 @@ var GameLayer = cc.Layer.extend({
             cc.audioEngine.playEffect(res.TurboPerfectSound,false);
         }
 
-        consecutiveTouches = 0;
+        consecutiveMisses = 0;
         //show "perfect"
         this.perfectLabel.runAction(FlashMessage);
 
         //starting turbomode
+        var showCountDown = cc.FadeTo.create(0.2,255);
         if(turboMode == false && levelInner ==10){
             cc.log(levelInner);
             turboCount ++;
-            cc.log("turbo countdown: " + turboCount);
+            cc.log("this is running")
+
+            if(turboCount >=2){
+            this.turboCountDown.setString("Turbo Mode in " +(5-turboCount)+ "...");
+            cc.log("Turbo Mode in " +(6-turboCount)+ "...");
+            
+            this.turboCountDown.setOpacity(255);
+            }
+            
+            cc.log("should be counting down turbo")
         }//counting turbo
 
-        if(turboCount == 3 && turboMode == false){
+        if(turboCount == 5 && turboMode == false){
             
             this.turboStart();
+            this.turboCountDown.setOpacity(0);
         }//turbostart
                                 
         
@@ -750,6 +759,9 @@ var GameLayer = cc.Layer.extend({
        
 
     }//if
+
+
+    /////////////////GREAT//////////////////////////////
     else if (distance <=greatDistance){
         levelUp(1, "Great");
 
@@ -760,11 +772,13 @@ var GameLayer = cc.Layer.extend({
             cc.audioEngine.playEffect(res.TurboGreatSound,false);
         }
 
-        consecutiveTouches = 0;
+        consecutiveMisses = 0;
         this.greatLabel.runAction(FlashMessage);
 
         if(turboMode == false){
         turboCount = 0;
+        //this.turboCountDown.setString("Turbo Mode in " +(6-turboCount)+ "...");
+        this.turboCountDown.setOpacity(0);
         }//if false
                                 
                                 
@@ -810,6 +824,8 @@ var GameLayer = cc.Layer.extend({
                                 
                                 
     }//else if 
+
+    //////////////////////MISS////////////////////
     else{
 
         //speed control - player doesn't get less than 10 speed
@@ -827,7 +843,7 @@ var GameLayer = cc.Layer.extend({
                                 
                                 
                                 
-        consecutiveTouches ++;
+        consecutiveMisses ++;
 
         if(turboMode == false){
             cc.audioEngine.playEffect(res.NormalMissSound,false);
@@ -840,15 +856,20 @@ var GameLayer = cc.Layer.extend({
 
         this.missLabel.runAction(FlashMessage);
 
-        if(consecutiveTouches == 3){
+        //controlling how many misses in a row a player can have
+        if(consecutiveMisses == 2){
             MISSLOSS=true;
+            //speedInner = 9001;
+            //speedOuter = 9001;
             GameOver();
 
         
 
-        }//if within else
+        }//if within miss
 
         turboCount = 0;
+        //this.turboCountDown.setString("Turbo Mode in " +(6-turboCount)+ "...");
+        this.turboCountDown.setOpacity(0);
 
         if(turboMode==true){
                                  
@@ -861,13 +882,23 @@ var GameLayer = cc.Layer.extend({
     }//else
 
 
+    ///////////////////FADING INSTRUCTIONS////////
+    if(levelInner == 7 || levelInner == 8){
+        
+        this.instructionsLabel.runAction(fadeAction);
+    }//fade the instructions
+    ///////////////////FADING INSTRUCTIONS/////////
+
+
+
+
     /////////////////////TURBO SPEED OVERRIDE/////////////////////
     //new speed for turbo mode - overrides speed
    if(turboMode == true)
     {
         //change the factor as needed
         //bigger = slower. smaller = faster
-        var factor = 3;
+        var factor = 0.82;
                                 
     speedInner = baseSpeed/levelInner*factor;
     speedOuter = baseSpeed/levelOuter*factor;
@@ -939,13 +970,7 @@ var GameOver = function(){
     
 
     
-    //myLayer.resetGame();
-    var currentScene = cc.director.getRunningScene();
-    var gamelayer = currentScene.AccessLayer;
-    //var myLayer2 = myLayer.getCurrentTarget();
-    //var layername = myLayer.getName();
-    cc.log("the current layer is:"+gamelayer.GameStarted);
-
+    
 
     //gamelayer.resetGame();
     //var resetRotation = cc.RotateTo.create(3,1);
@@ -967,8 +992,8 @@ var GameOver = function(){
 
     levelInner = 0;
     levelOuter = 0;
-    speedInner = 0;
-    speedOuter = 0;
+    speedInner = 9001;
+    speedOuter = 9001;
     //currentScore = 0;
     NEWGAME = true;
 
@@ -1030,16 +1055,14 @@ var levelUp = function(amount,message){
         cc.log("Great");
     }
 
-    //doubling the score
-    if (!turboMode)
-    {
-    currentScore += levelInner + levelOuter;
+    //Changing the score
+    if(levelInner == 10){
+        currentScore += 1;
     }
-    
-    else
-    {
-        currentScore += (levelInner + levelOuter)*2 ;
+    if (turboMode){
+        currentScore+=1;
     }
+    //new scoring system
 
     //changing the speed accordingly
     speedInner = baseSpeed/levelInner;
@@ -1105,6 +1128,7 @@ var setHighScore = function(currentScore){
 
 
     }
+    //setting highscore to local storage
     ls.setItem("highscore",highScore);
 }//check and set highscore
 
