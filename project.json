@@ -17,6 +17,7 @@
         "src/mainmenu.js",
         "src/gameover.js",
         "src/pause.js",
-        "src/settings.js"
+        "src/settings.js",
+        "src/credits.js"
     ]
 }

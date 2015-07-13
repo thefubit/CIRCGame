@@ -163,32 +163,33 @@ var MenuLayer = cc.Layer.extend({
             scale:0.4
         });
 
-        var MailButton = new cc.MenuItemImage(
-            res.MailButton_png,
-            res.MailButtonPressed_png,
+        var CreditsButton = new cc.MenuItemImage(
+            res.CreditsButton_png,
+            res.CreditsButtonPressed_png,
             function(){
                 cc.log("Go to mail");
                 //StartGame();
                 this.increasespeed();
+                GoToCredits();
                 cc.log("increase speed");
 
 
 
 
             },this);
-        MailButton.attr({
+        CreditsButton.attr({
             x : size.width-100,
             y : size.height /4*3,
             anchorX : 0.5,
             anchorY : 0.5,
             scale : 0.4
         });
-        MailButton.setScale(0.4);
+        //CreditsButton.setScale(0.4);
         
 
 
 
-        var menu = new cc.Menu(SettingsButton,MailButton);
+        var menu = new cc.Menu(SettingsButton,CreditsButton);
         menu.x = 0;
         menu.y = 0;
         this.addChild(menu, 1);
@@ -311,6 +312,12 @@ var GoToSettings = function(){
     cc.log("test2");
     cc.director.pushScene(scene);
 
+};
+
+var GoToCredits = function(){
+    cc.log("Going to Credits now");
+    var scene = new CreditsScene();
+    cc.director.pushScene(scene);
 };
 
 var StartGame = function(){

@@ -150,6 +150,9 @@ var res = {
     PlayButton_png : "res/buttons/play.png",
     PlayButtonPressed_png : "res/buttons/playselected.png",
 
+    CreditsButton_png: "res/buttons/credits.png",
+    CreditsButtonPressed_png: "res/buttons/creditsselected.png",
+
     //symbols
     HighScoreSymbol_png : "res/symbols/highscore.png",
     YourScoreSymbol_png : "res/symbols/score.png",
@@ -196,7 +199,7 @@ var res = {
     //font files
     Ethnocentric_BMFont : "res/bmfonts/EthnocentricBM.fnt",
     Junegull_BMFont : "res/bmfonts/JunegullBM.fnt",
-    
+
 
     //effects?
 
