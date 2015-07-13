@@ -73,12 +73,16 @@ var PauseLayer = cc.Layer.extend({
         // 3. add your codes below...
         // add a label shows "Hello World"
         // create and initialize a label
-        var helloLabel = new cc.LabelTTF("Pause", "Arial", 38);
+        //var helloLabel = new cc.LabelTTF("Pause", "Arial", 38);
+        
+        var pauseLabel = new cc.LabelBMFont("PAUSE", res.Ethnocentric_BMFont);
         // position the label on the center of the screen
-        helloLabel.x = size.width / 2;
-        helloLabel.y = size.height/2;
+        pauseLabel.x = size.width / 2;
+        pauseLabel.y = size.height/2;
+        pauseLabel.color = cc.color(255,0,0);
+        pauseLabel.setScale(2);
         // add the label as a child to this layer
-        this.addChild(helloLabel, 5);
+        this.addChild(pauseLabel, 5);
 
         // add "HelloWorld" splash screen"
         this.sprite = new cc.Sprite(res.Background_png);

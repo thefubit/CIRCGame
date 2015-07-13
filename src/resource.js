@@ -193,7 +193,10 @@ var res = {
     animatedTurboModeText_png : "res/words/animatedTurboText/sprites.png",
 
 
-
+    //font files
+    Ethnocentric_BMFont : "res/bmfonts/EthnocentricBM.fnt",
+    Junegull_BMFont : "res/bmfonts/JunegullBM.fnt",
+    
 
     //effects?
 

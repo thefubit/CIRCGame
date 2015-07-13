@@ -66,12 +66,14 @@ var SettingsLayer = cc.Layer.extend({
         // 3. add your codes below...
         // add a label shows "Hello World"
         // create and initialize a label
-        var helloLabel = new cc.LabelTTF("Settings", "Arial", 38);
+        //var helloLabel = new cc.LabelTTF("Settings", "Arial", 38);
+        var settingsLabel = new cc.LabelBMFont("SETTINGS",res.Ethnocentric_BMFont);
         // position the label on the center of the screen
-        helloLabel.x = size.width / 2;
-        helloLabel.y = size.width/2;
+        settingsLabel.x = size.width / 2;
+        settingsLabel.y = size.height/6*5;
+        settingsLabel.setScale(2);
         // add the label as a child to this layer
-        this.addChild(helloLabel, 5);
+        this.addChild(settingsLabel, 5);
 
 
 

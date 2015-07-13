@@ -71,10 +71,11 @@ var GameOverLayer = cc.Layer.extend({
         // 3. add your codes below...
         // add a label shows "Hello World"
         // create and initialize a label
-        var gameoverLabel = new cc.LabelTTF("GameOver", "Arial", 38);
+        var gameoverLabel = new cc.LabelBMFont("GAME OVER", res.Ethnocentric_BMFont);
         // position the label on the center of the screen
         gameoverLabel.x = size.width / 2;
         gameoverLabel.y = size.height/5*4;
+        gameoverLabel.setScale(2);
         // add the label as a child to this layer
         this.addChild(gameoverLabel, 5);
 
@@ -82,9 +83,9 @@ var GameOverLayer = cc.Layer.extend({
         //////////////////////////////////
         //////////why you lost/////////////
 
-        var reasonLabel = new cc.LabelTTF("reason", "Verdana", 30);
+        var reasonLabel = new cc.LabelBMFont("reason", res.Junegull_BMFont);
         reasonLabel.x = size.width/2;
-        reasonLabel.y = size.height/2;
+        reasonLabel.y = size.height/6*4;
 
         if(UNTOUCHEDLOSS  == true){
             reasonLabel.setString("Where did you go?");
@@ -105,19 +106,35 @@ var GameOverLayer = cc.Layer.extend({
         ///////////////SCORES///////////////
         highscore = ls.getItem("highscore");
 
-        var highScoreNum = new cc.LabelTTF("Highscore:"+highscore,"Verdana",30);
-        highScoreNum.x = size.width*0.8;
-        highScoreNum.y = size.height/2;
+        //var highScoreNum = new cc.LabelTTF("Highscore:"+highscore,"Verdana",30);
+        var highScoreNum = new cc.LabelBMFont(highscore, res.Junegull_BMFont);
+        highScoreNum.x = size.width/2;
+        highScoreNum.y = size.height/6*2;
         this.addChild(highScoreNum,5);
 
-        var yourScoreNum = new cc.LabelTTF("Your Score:"+currentScore,"Verdana",30);
-        yourScoreNum.x = size.width*0.8;
-        yourScoreNum.y = size.height/3;
+        //var yourScoreNum = new cc.LabelTTF("Your Score:"+currentScore,"Verdana",30);
+        var yourScoreNum = new cc.LabelBMFont(""+currentScore,res.Junegull_BMFont);
+        yourScoreNum.x = size.width/2;
+        yourScoreNum.y = size.height/6*3;
         this.addChild(yourScoreNum,5);
 
 
 
+        var highScoreSymbol = new cc.Sprite.create(res.HighScoreSymbol_png);
+        highScoreSymbol.attr({
+            x: size.width/10*4,
+            y: size.height/6*2,
+            scale: 1/4,
+        });
+        this.addChild(highScoreSymbol);
 
+        var yourScoreSymbol = new cc.Sprite.create(res.YourScoreSymbol_png);
+        yourScoreSymbol.attr({
+            x: size.width/10*4,
+            y: size.height/6*3,
+            scale: 1/4,
+        });
+        this.addChild(yourScoreSymbol)
 
 
         /////////////////SCORES////////////////////

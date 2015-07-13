@@ -193,27 +193,24 @@ var MenuLayer = cc.Layer.extend({
         menu.y = 0;
         this.addChild(menu, 1);
 
-        /////////////////////////////
-        // 3. add your codes below...
-        // add a label shows "Hello World"
-        // create and initialize a label
+        /////////////////////START INSTRUCTIONS LABEL////////
         
-        var scorelabel = "Touch To Start";
-        this.helloLabel = new cc.LabelTTF(scorelabel, "Verdana", 38);
+        
+
+
+
+        this.helloLabel = new cc.LabelBMFont("TOUCH TO START",res.Junegull_BMFont);
+        //this.helloLabel = new cc.LabelBMFont("TOUCH TO START",res.Ethnocentric_BMFont);
         // position the label on the center of the screen
         this.helloLabel.x = size.width / 2;
         this.helloLabel.y = size.height/2;
+        this.helloLabel.color = cc.color(255,0,50);
+        this.helloLabel.setScale(2);
         // add the label as a child to this layer
         this.addChild(this.helloLabel, 5);
-        
-        //this.schedule(this.updatescore,0);
 
 
-
-
-
-
-
+        /////////////////////START INSTRUCTIONS LABEL/////////////
 
 
 
@@ -221,45 +218,6 @@ var MenuLayer = cc.Layer.extend({
         //////////////////////////////////////
         ////////////TITLE/////////////////////
 
-        /*
-        var TitleSprite = new cc.Sprite.create(res.GameTitle_png);
-        TitleSprite.setAnchorPoint(cc.p(0.5,0.5));
-        TitleSprite.setPosition(size.width/2,size.height/4*3);
-        TitleSprite.setScale(0.3);
-        this.addChild(TitleSprite);
-        */
-
-        
-
-
-        /*
-
-        //load sprite sheet
-        cc.spriteFrameCache.addSpriteFrames(res.animatedTitle_plist);
-
-        this.spriteSheet = new cc.SpriteBatchNode(res.animatedTitle_png);
-        this.addChild(this.spriteSheet);
-        
-        //create sprite frame array
-        var animFrames = [];
-        for (var i = 1; i < 16; i++){
-            var str = "circgreen"+i + ".png";
-            var frame = cc.spriteFrameCache.getSpriteFrame(str);
-            animFrames.push(frame);
-        
-        }
-        
-        var animation = new cc.Animation(animFrames,0.1);//spriteframe array and period time
-        
-        //repeating forever
-        this.runningAction = new cc.RepeatForever(new cc.Animate(animation));
-        this.TitleSprite = new cc.Sprite("#circgreen1.png");
-
-        this.TitleSprite.attr({x:400,y:300,scale:0.25});
-        this.TitleSprite.runAction(this.runningAction);
-        this.TitleSpriteSheet.addChild(this.TitleSprite);
-        
-        */
 
         cc.spriteFrameCache.addSpriteFrames(res.animatedTitle_plist);
 

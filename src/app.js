@@ -207,18 +207,20 @@ var GameLayer = cc.Layer.extend({
 
 
 
-        if(NEWGAME == true){
-        this.instructionsLabel = new cc.LabelTTF("Touch when they meet", "Arial", 38);
+        
+        //this.instructionsLabel = new cc.LabelTTF("Touch when they meet", "Arial", 38);
+        
+        this.instructionsLabel = new cc.LabelBMFont("TOUCH WHEN THE DOTS MEET",res.Junegull_BMFont);
         // position the label on the center of the screen
         this.instructionsLabel.x = size.width / 2;
-        this.instructionsLabel.y = size.height/4*3;
+        this.instructionsLabel.y = size.height/3*2;
         // add the label as a child to this layer
         this.addChild(this.instructionsLabel, 5);
         //NEWGAME = false;
         //this.resetGame;
 
         
-        }//putting the middle thing on
+        //putting the middle thing on
         
         /////////////////////////////////////////////
         ////////////////////DISPLAY LABELS/////////////////////////
@@ -291,13 +293,20 @@ var GameLayer = cc.Layer.extend({
         this.spriteSheet.addChild(this.turboLabel);
 
 
-
-        this.turboCountDown = new cc.LabelTTF("haha","Verdana",35);
+        //for the countdown text
+        /*
+        this.turboCountDown = new cc.LabelTTF("temp","Verdana",35);
         this.turboCountDown.x = size.width/2;
         this.turboCountDown.y = size.height/3;
         this.turboCountDown.setOpacity(0);
         this.addChild(this.turboCountDown);
+        */
         
+        this.turboCountDown = new cc.LabelBMFont("temp",res.Junegull_BMFont);
+        this.turboCountDown.x = size.width/2;
+        this.turboCountDown.y = size.height/3;
+        this.turboCountDown.setOpacity(0);
+        this.addChild(this.turboCountDown);
 
 
 
@@ -327,7 +336,18 @@ var GameLayer = cc.Layer.extend({
 
         //change to bitmap
         var scoretext = "" + currentScore;
+        /*
         this.scoreLabel = new cc.LabelTTF(scoretext,"Verdana",35);
+        this.scoreLabel.x = size.width/10*9;
+        this.scoreLabel.y = size.height-80;
+        this.addChild(this.scoreLabel,5);
+        */
+
+        
+
+
+        //bitmap label
+        this.scoreLabel = new cc.LabelBMFont(scoretext,res.Junegull_BMFont);
         this.scoreLabel.x = size.width/10*9;
         this.scoreLabel.y = size.height-80;
         this.addChild(this.scoreLabel,5);
@@ -496,7 +516,7 @@ var GameLayer = cc.Layer.extend({
         
         BackgroundSpin.setTotalParticles(starsParticleCount);
        
-                                
+        //darkening the background                        
         var darken = cc.FadeTo(1,50);
         this.sprite.runAction(darken);
         
