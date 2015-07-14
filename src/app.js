@@ -492,10 +492,11 @@ var GameLayer = cc.Layer.extend({
         outerParticleEmissionRate = outerParticle.getEmissionRate();
         outerParticleParticleCount = outerParticle.getTotalParticles();
                                 
-        innerParticle.setTotalParticles(innerParticleParticleCount + 40);
+                                
+        //innerParticle.setTotalParticles(innerParticleParticleCount + 40);
         innerParticle.setEmissionRate(innerParticleEmissionRate*2);
       
-        outerParticle.setTotalParticles(outerParticleParticleCount + 40);
+        //outerParticle.setTotalParticles(outerParticleParticleCount + 40);
         outerParticle.setEmissionRate(outerParticleEmissionRate*2);
                                 
     
@@ -672,6 +673,7 @@ var GameLayer = cc.Layer.extend({
 
         //leveling up and increasing speed
         levelUp(2, "Perfect");
+        
 
         if(turboMode == false){
             cc.audioEngine.playEffect(res.NormalPerfectSound,false);
@@ -734,6 +736,7 @@ var GameLayer = cc.Layer.extend({
     /////////////////GREAT//////////////////////////////
     else if (distance <=greatDistance){
         levelUp(1, "Great");
+        
 
         if(turboMode == false){
             cc.audioEngine.playEffect(res.NormalGreatSound,false);
@@ -885,6 +888,7 @@ var GameLayer = cc.Layer.extend({
                     
     innerTrail = true;
     innerParticle = new cc.ParticleSystem.create(res.innertrailingParticle_plist);
+    cc.log("LIFE IS " + innerParticle.getLife());
                         
     innerParticleTrailColor = Math.floor(Math.random()*4);
     cc.log("INNER TRAIL COLOR IS " + innerParticleTrailColor);

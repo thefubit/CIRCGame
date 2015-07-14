@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>1C973D66-9699-445B-B99F-C93F0BDA5FA8</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>CIRCGame</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>AF5B04ED1B2DCC50D285BBCDEAB01B821B5FC57A</key>
 		<string>https://github.com/thefubit/CIRCGame.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>frameworks/runtime-src/proj.ios_mac/CIRCGame.xcodeproj/project.xcworkspace</string>
+	<string>frameworks/runtime-src/proj.ios_mac/CIRCGame.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>AF5B04ED1B2DCC50D285BBCDEAB01B821B5FC57A</key>
