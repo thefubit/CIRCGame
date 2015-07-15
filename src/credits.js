@@ -72,7 +72,8 @@ var CreditsLayer = cc.Layer.extend({
             res.MailButtonPressed_png,
             function(){
                 cc.log("mail button pressed");
-                window.location.href = 'mailto:ymotqy@hotmail.com';
+                window.location = 'mailto:this.that@here.com';
+                                              
             },this);
 
         MailButton.attr({

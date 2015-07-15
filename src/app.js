@@ -505,10 +505,12 @@ var GameLayer = cc.Layer.extend({
 
         
         //////////////////////MUSIC////////////////////////
+                                
+        
+        
         cc.audioEngine.pauseMusic();
         this.turboMusic = cc.audioEngine.playEffect(res.TurboBackground_music,true);
-
-
+        
 
         //////////////////////MUSIC/////////////////////////
                                 
