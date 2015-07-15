@@ -112,7 +112,7 @@ else if (missselect == 2){
 var res = {
 
 	//Background image
-    Background_png : "res/goodresbackground.png",
+    Background_png : "res/background/shadedbackground.png",
 
     //for temporary testing
     //CloseNormal_png : "res/CloseNormal.png",
