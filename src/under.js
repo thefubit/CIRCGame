@@ -2,6 +2,7 @@
 
 //to check whether the layer already exists - prevents duplicates
 var UNDERINITIALIZED = false;
+var TurboMusic = null;
 
 //The main layer of this scene
 var UnderLayer = cc.Layer.extend({
@@ -20,7 +21,7 @@ var UnderLayer = cc.Layer.extend({
         var size = cc.winSize;
         /////////////////////////////
         // add "HelloWorld" splash screen"
-        this.sprite = new cc.Sprite(res.Background_png);
+        this.sprite = new cc.Sprite(res.TTRCLogo_png);
         this.sprite.attr({
             x: size.width / 2,
             y: size.height / 2,
@@ -34,8 +35,10 @@ var UnderLayer = cc.Layer.extend({
         cc.audioEngine.playMusic(res.Background_music, true);
         this.schedule(cc.audioEngine.setMusicVolume(musicVolume),1);
 
+        
 
-        GoStraightToMainMenu();
+
+        this.scheduleOnce(GoStraightToMainMenu(),2);
         
 
         return true;
@@ -52,7 +55,7 @@ var UnderLayer = cc.Layer.extend({
 
 var GoStraightToMainMenu = function(){
     var scene = new MenuScene();
-    cc.director.pushScene(scene);
+    cc.director.pushScene(new cc.TransitionFade(0.5,scene));
 }
 
 
