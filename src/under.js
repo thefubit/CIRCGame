@@ -36,6 +36,11 @@ var UnderLayer = cc.Layer.extend({
         this.schedule(cc.audioEngine.setMusicVolume(musicVolume),1);
 
         
+        //preload into system
+        cc.audioEngine.playEffect(res.TurboBackground_music,false);
+        cc.audioEngine.stopAllEffects();
+
+
 
 
         this.scheduleOnce(GoStraightToMainMenu(),2);

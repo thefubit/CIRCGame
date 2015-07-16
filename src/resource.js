@@ -123,18 +123,18 @@ var res = {
 
     //Music
     MusicSymbol_png : "res/symbols/musicsymbol.png",
-    Background_music : "res/sound/circbg.mp3",
-    TurboBackground_music :"res/sound/turbobg.mp3",
+    Background_music : "res/sound/normalbg.wav",
+    TurboBackground_music :"res/sound/turbobg.wav",
     //Sound
     SoundSymbol_png : "res/symbols/sfxsymbol.png",
-    NormalPerfectSound : "res/sound/turboperfect.mp3",//note sonic ring sound ideal, but needs to be cut shorter
-    NormalGreatSound : "res/sound/normalgreat.mp3",
-    NormalMissSound : "res/sound/normalmiss.mp3",
-    GameOverSound : "res/sound/Megaman-death.mp3",
+    NormalPerfectSound : "res/sound/normalperfect.wav",//note sonic ring sound ideal, but needs to be cut shorter
+    NormalGreatSound : "res/sound/normalgreat.wav",
+    NormalMissSound : "res/sound/normalmiss.wav",
+    GameOverSound : "res/sound/gameover.wav",
 
-    TurboPerfectSound : "res/sound/turboperfect.mp3",
-    TurboGreatSound : "res/sound/turbogreat.mp3",
-    TurboMissSound : "res/sound/turbomiss.mp3",
+    TurboPerfectSound : "res/sound/turboperfect.wav",
+    TurboGreatSound : "res/sound/turbogreat.wav",
+    TurboMissSound : "res/sound/turbomiss.wav",
 
 
     //Button images -settings/mainmenu/mail/resume/ -for pressing

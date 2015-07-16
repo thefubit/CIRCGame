@@ -214,6 +214,7 @@ var GameLayer = cc.Layer.extend({
         // position the label on the center of the screen
         this.instructionsLabel.x = size.width / 2;
         this.instructionsLabel.y = size.height/3*2;
+        this.instructionsLabel.color = cc.color(100,150,150);
         // add the label as a child to this layer
         this.addChild(this.instructionsLabel, 5);
         //NEWGAME = false;

@@ -205,7 +205,7 @@ var MenuLayer = cc.Layer.extend({
         // position the label on the center of the screen
         this.helloLabel.x = size.width / 2;
         this.helloLabel.y = size.height/2;
-        this.helloLabel.color = cc.color(255,0,50);
+        this.helloLabel.color = cc.color(100,150,150);
         this.helloLabel.setScale(2);
         // add the label as a child to this layer
         this.addChild(this.helloLabel, 5);
