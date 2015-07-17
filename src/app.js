@@ -494,11 +494,11 @@ var GameLayer = cc.Layer.extend({
   //  outerParticleLife = outerParticle.getLife();
                                 
     //innerParticle.setTotalParticles(innerParticleParticleCount - 40);
-    innerParticle.setEmissionRate(innerParticleEmissionRate/2);
+    innerParticle.setEmissionRate(innerParticleEmissionRate/3);
     innerParticle.setBlendAdditive(false);
                                 
     //outerParticle.setTotalParticles(outerParticleParticleCount - 40);
-    outerParticle.setEmissionRate(outerParticleEmissionRate/2);
+    outerParticle.setEmissionRate(outerParticleEmissionRate/3);
     outerParticle.setBlendAdditive(false);
     },
                                 
@@ -917,7 +917,7 @@ var GameLayer = cc.Layer.extend({
                                 
     innerParticle.attr
     ({
-     x: this.InnerSat.x-size/90,
+     x: this.InnerSat.x-size/75,
     y: this.InnerSat.y
     });
                                 
@@ -975,7 +975,7 @@ var GameLayer = cc.Layer.extend({
                                 
     outerParticle.attr
     ({
-    x:this.OuterSat.x+size/90,
+    x:this.OuterSat.x+size/75,
     y: this.OuterSat.y
     });
                                 
