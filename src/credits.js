@@ -123,13 +123,13 @@ var CreditsLayer = cc.Layer.extend({
 
 
         //giving knowledge
-        var GameMadeBy = new cc.LabelBMFont("Game made with Cocos2d.",res.Junegull_BMFont);
+        var GameMadeBy = new cc.LabelBMFont("Game made with Cocos2d",res.Junegull_BMFont);
         GameMadeBy.x = size.width/2;
         GameMadeBy.y = size.height/2 - 10;
         GameMadeBy.setScale(0.7);
         this.addChild(GameMadeBy);
 
-        var MusicMadeBy = new cc.LabelBMFont("Music made with AUXY.",res.Junegull_BMFont);
+        var MusicMadeBy = new cc.LabelBMFont("Music made with AUXY",res.Junegull_BMFont);
         MusicMadeBy.x = size.width/2;
         MusicMadeBy.y = GameMadeBy.y-40;
         MusicMadeBy.setScale(0.7);
