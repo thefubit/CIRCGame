@@ -59,13 +59,16 @@ var CreditsLayer = cc.Layer.extend({
                 cc.log("returning to menu")
             }, this);
         MainMenuButton.attr({
-            x: size.width/6*2,
-            y: size.height/4,
+            x: size.width/2,
+            y: size.height/5,
             anchorX: 0.5,
             anchorY: 0.5,
             scale : 0.4,
         });
 
+
+
+        /* POSTPONING THIS FUNCTIONALITY
 
         var MailButton = new cc.MenuItemImage(
             res.MailButton_png,
@@ -90,8 +93,9 @@ var CreditsLayer = cc.Layer.extend({
 
 
             });
+            */
 
-        var menu = new cc.Menu(MainMenuButton,MailButton);
+        var menu = new cc.Menu(MainMenuButton);
         menu.x = 0;
         menu.y = 0;
         this.addChild(menu, 1);
@@ -109,25 +113,31 @@ var CreditsLayer = cc.Layer.extend({
         // add the label as a child to this layer
         this.addChild(CreditsLabel, 5);
 
+        var EmailUs = new cc.LabelBMFont("Email Us At: ttrcgames@outlook.com",res.Junegull_BMFont);
+        EmailUs.x = size.width/2;
+        EmailUs.y = size.height/3*2;
+        EmailUs.setScale(1.2);
+        this.addChild(EmailUs);
+
 
 
 
         //giving knowledge
         var GameMadeBy = new cc.LabelBMFont("Game made with Cocos2d.",res.Junegull_BMFont);
         GameMadeBy.x = size.width/2;
-        GameMadeBy.y = size.height/10*6;
+        GameMadeBy.y = size.height/2 - 10;
         GameMadeBy.setScale(0.7);
         this.addChild(GameMadeBy);
 
         var MusicMadeBy = new cc.LabelBMFont("Music made with AUXY.",res.Junegull_BMFont);
         MusicMadeBy.x = size.width/2;
-        MusicMadeBy.y = size.height/10*5;
+        MusicMadeBy.y = GameMadeBy.y-40;
         MusicMadeBy.setScale(0.7);
         this.addChild(MusicMadeBy);
 
         var SFXMadeBy = new cc.LabelBMFont("SFX made with www.bfxr.net", res.Junegull_BMFont);
         SFXMadeBy.x = size.width/2;
-        SFXMadeBy.y = size.height/10*4;
+        SFXMadeBy.y = MusicMadeBy.y-40;
         SFXMadeBy.setScale(0.7);
         this.addChild(SFXMadeBy);        
 

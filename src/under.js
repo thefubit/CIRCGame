@@ -21,7 +21,7 @@ var UnderLayer = cc.Layer.extend({
         var size = cc.winSize;
         /////////////////////////////
         // add "HelloWorld" splash screen"
-        this.sprite = new cc.Sprite(res.TTRCLogo_png);
+        this.sprite = new cc.Sprite(res.TTRCGamesLogo_png);
         this.sprite.attr({
             x: size.width / 2,
             y: size.height / 2,
