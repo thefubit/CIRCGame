@@ -59,7 +59,10 @@ var GameLayer = cc.Layer.extend({
     innerParticleParticleCount: null,
     outerParticleEmissionRate: null,
     outerParticleParticleCount:null,
+    innerParticleLife:null,
+    outerParticleLife:null,
     innerParticleTrailColor:null,
+    particleLagDistance:null,
     starsParticleCount:null,
     BackgroundSpin:null,
 
@@ -75,6 +78,7 @@ var GameLayer = cc.Layer.extend({
         //    you may modify it.
         // ask the window size
         var size = cc.winSize;
+        particleLagDistance = size;
         /////////////////////////////
         // add "HelloWorld" splash screen"
         this.sprite = new cc.Sprite(res.Background_png);
@@ -422,6 +426,8 @@ var GameLayer = cc.Layer.extend({
                     myLayer.particleExplosion();
                     }
                                         
+                   
+                                        
                                         
                     //update the speed
                     myLayer.changeSpeed();
@@ -476,7 +482,32 @@ var GameLayer = cc.Layer.extend({
         //this.instructionsLabel.runAction(fadeAction);
     },//start checking for touch
 
-
+    particleTurbo:function()
+    {
+    innerParticleEmissionRate = innerParticle.getEmissionRate();
+    innerParticleParticleCount = innerParticle.getTotalParticles();
+   // innerParticleLife = innerParticle.getLife();
+                                
+    outerParticleEmissionRate = outerParticle.getEmissionRate();
+    outerParticleParticleCount = outerParticle.getTotalParticles();
+  //  outerParticleLife = outerParticle.getLife();
+                                
+    innerParticle.setTotalParticles(innerParticleParticleCount + 40);
+    innerParticle.setEmissionRate(innerParticleEmissionRate*2);
+                                
+    outerParticle.setTotalParticles(outerParticleParticleCount + 40);
+    outerParticle.setEmissionRate(outerParticleEmissionRate*2);
+    
+    },
+                                
+    particleUnturbo:function()
+    {
+    innerParticle.setEmissionRate(innerParticleEmissionRate);
+    innerParticle.setTotalParticles(innerParticleParticleCount);
+                                
+    outerParticle.setEmissionRate(outerParticleEmissionRate);
+    outerParticle.setTotalParticles(outerParticleParticleCount);
+    },
 
     turboStart : function(){
         turboMode = true;
@@ -485,25 +516,8 @@ var GameLayer = cc.Layer.extend({
         //
         this.turboLabel.setOpacity(255);
 
-        
-                
-        innerParticleEmissionRate = innerParticle.getEmissionRate();
-        innerParticleParticleCount = innerParticle.getTotalParticles();
-                                
-        outerParticleEmissionRate = outerParticle.getEmissionRate();
-        outerParticleParticleCount = outerParticle.getTotalParticles();
-                                
-                                
-        //innerParticle.setTotalParticles(innerParticleParticleCount + 40);
-        innerParticle.setEmissionRate(innerParticleEmissionRate*2);
-      
-        //outerParticle.setTotalParticles(outerParticleParticleCount + 40);
-        outerParticle.setEmissionRate(outerParticleEmissionRate*2);
                                 
     
-    
-                                
-
         
         //////////////////////MUSIC////////////////////////
                                 
@@ -516,7 +530,7 @@ var GameLayer = cc.Layer.extend({
         //////////////////////MUSIC/////////////////////////
                                 
         /////////////////////////// PARTICLES //////////////////////////////
-                                
+        this.particleTurbo();
         
         BackgroundSpin.setTotalParticles(starsParticleCount);
        
@@ -564,14 +578,8 @@ var GameLayer = cc.Layer.extend({
 
         ///////////////// PARTICLES //////////////////////
         
-        
-       innerParticle.setEmissionRate(innerParticleEmissionRate);
-        innerParticle.setTotalParticles(innerParticleParticleCount);
-                                
-        outerParticle.setEmissionRate(outerParticleEmissionRate);
-        outerParticle.setTotalParticles(outerParticleParticleCount);
-                                
-                                
+        this.particleUnturbo();
+    
                                 
         BackgroundSpin.setTotalParticles(0);
                                 
@@ -716,7 +724,7 @@ var GameLayer = cc.Layer.extend({
         // start the inner trail
         if (levelInner > 0 && !innerTrail)
         {
-        this.innerStart();
+        this.innerStart(particleLagDistance.width);
         }
                                 
         //setting particles
@@ -725,7 +733,7 @@ var GameLayer = cc.Layer.extend({
         // start the outer trail
         if (levelOuter > 0 && !outerTrail)
         {
-        this.outerStart();
+        this.outerStart(particleLagDistance.width);
                                 
         }
                                 
@@ -763,7 +771,7 @@ var GameLayer = cc.Layer.extend({
         if (levelOuter > 0 && !outerTrail)
         {
          
-        this.outerStart();
+        this.outerStart(particleLagDistance.width);
                                 
         }//outer particle
                                 
@@ -884,9 +892,10 @@ var GameLayer = cc.Layer.extend({
                                 
     }, // particleExplosion
                                 
-    
+   
                                 
-    innerStart: function ()
+                                
+    innerStart: function (size)
     {
                     
     innerTrail = true;
@@ -900,35 +909,45 @@ var GameLayer = cc.Layer.extend({
                                 
     innerParticle.attr
     ({
-     x: this.InnerSat.x,
+     x: this.InnerSat.x-size/100,
     y: this.InnerSat.y
     });
                                 
     switch (innerParticleTrailColor)
     {
     case 1:
-    innerParticle.setStartColor(cc.color(255,0,0));
+    innerParticle.setStartColor(cc.color(255,204,51));
+    innerParticle.setEndColor(cc.color(255,0,25));
+    innerParticle.setStartColorVar(cc.color(0,0,0));
+    innerParticle.setEndColorVar(cc.color(0,0,0));
     break;
                                 
     case 2:
     innerParticle.setStartColor(cc.color(0,255,0));
+    innerParticle.setEndColor(cc.color(255,255,51));
+    innerParticle.setStartColorVar(cc.color(0,0,0));
+    innerParticle.setEndColorVar(cc.color(0,0,0));
     break;
                                 
     case 3:
-    innerParticle.setStartColor(cc.color(0,0,255));
+    innerParticle.setStartColor(cc.color(51,51,255));
+    innerParticle.setEndColor(cc.color(255,51,255));
+    innerParticle.setStartColorVar(cc.color(0,0,0));
+    innerParticle.setEndColorVar(cc.color(0,0,0));
     break;
                                 
     default:
                                 // don't change the particle color
     break;
     }//switch
-                                
+                         
+    
     this.rotationPointIn.addChild(innerParticle);
-
+    
                                 
     },
                                 
-    outerStart: function ()
+    outerStart: function (size)
     {
                                 
     outerTrail = true;
@@ -948,22 +967,31 @@ var GameLayer = cc.Layer.extend({
                                 
     outerParticle.attr
     ({
-    x:this.OuterSat.x,
+    x:this.OuterSat.x+size/100,
     y: this.OuterSat.y
     });
                                 
     switch (outerParticleColor)
     {
     case 1:
-    outerParticle.setStartColor(cc.color(255,0,0));
+    outerParticle.setStartColor(cc.color(255,204,51));
+    outerParticle.setEndColor(cc.color(255,0,25));
+    outerParticle.setStartColorVar(cc.color(0,0,0));
+    outerParticle.setEndColorVar(cc.color(0,0,0));
     break;
                                 
     case 2:
     outerParticle.setStartColor(cc.color(0,255,0));
+    outerParticle.setEndColor(cc.color(255,255,51));
+    outerParticle.setStartColorVar(cc.color(0,0,0));
+    outerParticle.setEndColorVar(cc.color(0,0,0));
     break;
                                 
     case 3:
-    outerParticle.setStartColor(cc.color(0,0,255));
+    outerParticle.setStartColor(cc.color(51,51,255));
+    outerParticle.setEndColor(cc.color(255,51,255));
+    outerParticle.setStartColorVar(cc.color(0,0,0));
+    outerParticle.setEndColorVar(cc.color(0,0,0));
     break;
                                 
     default:

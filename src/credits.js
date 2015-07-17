@@ -78,6 +78,7 @@ var CreditsLayer = cc.Layer.extend({
                 window.location = 'mailto:this.that@here.com';
                                               
 //>>>>>>> origin/master
+
             },this);
 
         MailButton.attr({
