@@ -484,29 +484,34 @@ var GameLayer = cc.Layer.extend({
 
     particleTurbo:function()
     {
+    cc.log("ACTIVATED");
     innerParticleEmissionRate = innerParticle.getEmissionRate();
-    innerParticleParticleCount = innerParticle.getTotalParticles();
+   // innerParticleParticleCount = innerParticle.getTotalParticles();
    // innerParticleLife = innerParticle.getLife();
                                 
     outerParticleEmissionRate = outerParticle.getEmissionRate();
-    outerParticleParticleCount = outerParticle.getTotalParticles();
+    //outerParticleParticleCount = outerParticle.getTotalParticles();
   //  outerParticleLife = outerParticle.getLife();
                                 
-    innerParticle.setTotalParticles(innerParticleParticleCount + 40);
-    innerParticle.setEmissionRate(innerParticleEmissionRate*2);
+    //innerParticle.setTotalParticles(innerParticleParticleCount - 40);
+    innerParticle.setEmissionRate(innerParticleEmissionRate/2);
+    innerParticle.setBlendAdditive(false);
                                 
-    outerParticle.setTotalParticles(outerParticleParticleCount + 40);
-    outerParticle.setEmissionRate(outerParticleEmissionRate*2);
-    
+    //outerParticle.setTotalParticles(outerParticleParticleCount - 40);
+    outerParticle.setEmissionRate(outerParticleEmissionRate/2);
+    outerParticle.setBlendAdditive(false);
     },
                                 
     particleUnturbo:function()
     {
+    cc.log("ACTIVATED 2 ")
     innerParticle.setEmissionRate(innerParticleEmissionRate);
-    innerParticle.setTotalParticles(innerParticleParticleCount);
+    //innerParticle.setTotalParticles(innerParticleParticleCount);
+    innerParticle.setBlendAdditive(true);
                                 
     outerParticle.setEmissionRate(outerParticleEmissionRate);
-    outerParticle.setTotalParticles(outerParticleParticleCount);
+    //outerParticle.setTotalParticles(outerParticleParticleCount);
+    outerParticle.setBlendAdditive(true);
     },
 
     turboStart : function(){
@@ -578,8 +583,11 @@ var GameLayer = cc.Layer.extend({
 
         ///////////////// PARTICLES //////////////////////
         
+                                
+        if (turboMode == false)
+        {
         this.particleUnturbo();
-    
+        }
                                 
         BackgroundSpin.setTotalParticles(0);
                                 
@@ -909,7 +917,7 @@ var GameLayer = cc.Layer.extend({
                                 
     innerParticle.attr
     ({
-     x: this.InnerSat.x-size/100,
+     x: this.InnerSat.x-size/90,
     y: this.InnerSat.y
     });
                                 
@@ -967,7 +975,7 @@ var GameLayer = cc.Layer.extend({
                                 
     outerParticle.attr
     ({
-    x:this.OuterSat.x+size/100,
+    x:this.OuterSat.x+size/90,
     y: this.OuterSat.y
     });
                                 
