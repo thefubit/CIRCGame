@@ -28,7 +28,7 @@
 @interface AppController : NSObject <UIAccelerometerDelegate, UIAlertViewDelegate, UITextFieldDelegate,UIApplicationDelegate>
 {
     UIWindow *window;
-    RootViewController    *viewController;
+    @public RootViewController    *viewController;
 }
 
 @end
