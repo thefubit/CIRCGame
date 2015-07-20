@@ -18,7 +18,6 @@
         "src/gameover.js",
         "src/pause.js",
         "src/settings.js",
-        "src/credits.js",
-        "src/SonarFrameworks.js"
+        "src/credits.js"
     ]
 }

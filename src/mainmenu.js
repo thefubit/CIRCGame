@@ -56,27 +56,6 @@ var MenuLayer = cc.Layer.extend({
 
 
 
-        ////////////////COCOS Helper///////////
-        //SonarCocosHelper.IOS.Setup();
-        //SonarCocosHelper.AdMob.showBannerAd();//this shows banner at top
-
-        //showing at bottom
-        //SonarCocosHelper.AdMob.showBannerAd(SonarCocosHelper.AdBannerPosition.eBottom);
-
-        //to hide a banner ad, by default, hides all
-        //SonarCocosHelper.AdMob.hideBannerAd();
-        //SonarCocosHelper.AdMob.hideBannerAd(SonarCocosHelper.AdBannerPosition.eBoth);
-
-        //show full screen ad- most rev
-        //SonarCocosHelper.AdMob.showFullscreenAd();
-
-
-
-        // AdSupport.framework, AudioToolbox.framework, AVFoundation.framework, CoreGraphics.framework, CoreMedia.framework, CoreTelephony.framework, EventKit.framework, EventKitUI.framework, MessageUI.framework, StoreKit.framework, SystemConfiguration.framework
-        //////////////cocos helper/////////////
-
-
-
 
         //////////////////////////////////////////////////////
         ////////////////MAIN MENU ROTATOR/////////////////////
