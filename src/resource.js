@@ -114,7 +114,7 @@ var res = {
 	//Background image
     Background_png : "res/background/shadedbackground.png",
 
-    TTRCLogo_png : "res/background/TTRCLogo.png",
+    //TTRCLogo_png : "res/background/TTRCLogo.png",
     TTRCGamesLogo_png : "res/background/TTRCGamesLogo.png",
 
     //for temporary testing

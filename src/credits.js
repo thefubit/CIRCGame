@@ -6,12 +6,9 @@ var CREDITSINITIALIZED = false;
 
 //The main layer of this scene
 var CreditsLayer = cc.Layer.extend({
-    sprite:null,
+    backgroundPic:null,
 
-    //trying animations here
-    sprite1:null,
-    spriteSheet:null,
-    animatedAction:null,
+    
 
     ctor:function () {
         //////////////////////////////
@@ -23,6 +20,7 @@ var CreditsLayer = cc.Layer.extend({
         //    you may modify it.
         // ask the window size
         var size = cc.winSize;
+        var normalizescale = size.height/640;
         /////////////////////////////
 
 
@@ -33,15 +31,15 @@ var CreditsLayer = cc.Layer.extend({
 
 
         // add "HelloWorld" splash screen"
-        this.sprite = new cc.Sprite(res.Background_png);
-        this.sprite.attr({
+        this.backgroundPic = new cc.Sprite(res.Background_png);
+        this.backgroundPic.attr({
             x: size.width / 2,
             y: size.height / 2,
-            scaleX : size.width/this.sprite.width,
-            scaleY : size.height/this.sprite.height
+            
             
         });
-        this.addChild(this.sprite, 0);
+        this.backgroundPic.setScale(0.4*normalizescale);
+        this.addChild(this.backgroundPic, 0);
 
 
 
@@ -60,10 +58,10 @@ var CreditsLayer = cc.Layer.extend({
             }, this);
         MainMenuButton.attr({
             x: size.width/2,
-            y: size.height/5,
+            y: size.height/3,
             anchorX: 0.5,
             anchorY: 0.5,
-            scale : 0.4,
+            scale : 0.4*normalizescale,
         });
 
 
@@ -89,7 +87,7 @@ var CreditsLayer = cc.Layer.extend({
             y: size.height/4,
             anchorX:0.5,
             anchorY: 0.5,
-            scale: 1/2.5,
+            scale: 0.4 * normalizescale,
 
 
             });
@@ -109,36 +107,41 @@ var CreditsLayer = cc.Layer.extend({
         // position the label on the center of the screen
         CreditsLabel.x = size.width / 2;
         CreditsLabel.y = size.height/6*5;
-        CreditsLabel.setScale(2);
+        CreditsLabel.setScale(2*normalizescale);
+        CreditsLabel.color = cc.color(100,150,150);
         // add the label as a child to this layer
         this.addChild(CreditsLabel, 5);
 
         var EmailUs = new cc.LabelBMFont("Email Us At: ttrcgames@outlook.com",res.Junegull_BMFont);
         EmailUs.x = size.width/2;
         EmailUs.y = size.height/3*2;
-        EmailUs.setScale(1.2);
+        EmailUs.setScale(1.2*normalizescale);
+        EmailUs.color = cc.color(100,150,150);
         this.addChild(EmailUs);
 
 
 
 
         //giving knowledge
-        var GameMadeBy = new cc.LabelBMFont("Game made with Cocos2d.",res.Junegull_BMFont);
+        var GameMadeBy = new cc.LabelBMFont("Game made with Cocos2d",res.Junegull_BMFont);
         GameMadeBy.x = size.width/2;
-        GameMadeBy.y = size.height/2 - 10;
-        GameMadeBy.setScale(0.7);
+        GameMadeBy.y = size.height/10*6;
+        GameMadeBy.setScale(0.7*normalizescale);
+        GameMadeBy.color = cc.color(100,150,150);
         this.addChild(GameMadeBy);
 
-        var MusicMadeBy = new cc.LabelBMFont("Music made with AUXY.",res.Junegull_BMFont);
+        var MusicMadeBy = new cc.LabelBMFont("Music made with AUXY",res.Junegull_BMFont);
         MusicMadeBy.x = size.width/2;
         MusicMadeBy.y = GameMadeBy.y-40;
-        MusicMadeBy.setScale(0.7);
+        MusicMadeBy.setScale(0.7*normalizescale);
+        MusicMadeBy.color = cc.color(100,150,150);
         this.addChild(MusicMadeBy);
 
         var SFXMadeBy = new cc.LabelBMFont("SFX made with www.bfxr.net", res.Junegull_BMFont);
         SFXMadeBy.x = size.width/2;
         SFXMadeBy.y = MusicMadeBy.y-40;
-        SFXMadeBy.setScale(0.7);
+        SFXMadeBy.setScale(0.7*normalizescale);
+        SFXMadeBy.color = cc.color(100,150,150);
         this.addChild(SFXMadeBy);        
 
 

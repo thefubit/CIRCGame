@@ -8,7 +8,7 @@ var SLOWLOSS = false;
 
 //The main layer of this scene
 var GameOverLayer = cc.Layer.extend({
-    sprite:null,
+    backgroundPic:null,
     ctor:function () {
         //////////////////////////////
         // 1. super init first
@@ -19,18 +19,16 @@ var GameOverLayer = cc.Layer.extend({
         //    you may modify it.
         // ask the window size
         var size = cc.winSize;
+        var normalizescale = size.height/640;
         /////////////////////////////
         // add "HelloWorld" splash screen"
-        this.sprite = new cc.Sprite(res.Background_png);
-        this.sprite.attr({
+        this.backgroundPic = new cc.Sprite(res.Background_png);
+        this.backgroundPic.attr({
             x: size.width / 2,
             y: size.height / 2,
-            scaleX : size.width/this.sprite.width,
-            scaleY : size.height/this.sprite.height
         });
-
-
-        this.addChild(this.sprite, 0);
+        this.backgroundPic.setScale(0.4*normalizescale);
+        this.addChild(this.backgroundPic, 0);
 
         //display gameover
         //display highscore from local storage
@@ -59,7 +57,7 @@ var GameOverLayer = cc.Layer.extend({
             y: size.height/6,
             anchorX: 0.5,
             anchorY: 0.5,
-            scale : 0.4
+            scale : 0.4*normalizescale,
         });
 
         var menu = new cc.Menu(MainMenuButton);
@@ -75,7 +73,7 @@ var GameOverLayer = cc.Layer.extend({
         // position the label on the center of the screen
         gameoverLabel.x = size.width / 2;
         gameoverLabel.y = size.height/5*4;
-        gameoverLabel.setScale(2);
+        gameoverLabel.setScale(2*normalizescale);
         // add the label as a child to this layer
         this.addChild(gameoverLabel, 5);
 
@@ -124,7 +122,7 @@ var GameOverLayer = cc.Layer.extend({
         highScoreSymbol.attr({
             x: size.width/10*4,
             y: size.height/6*2,
-            scale: 1/4,
+            scale: 0.25*normalizescale,
         });
         this.addChild(highScoreSymbol);
 
@@ -132,9 +130,9 @@ var GameOverLayer = cc.Layer.extend({
         yourScoreSymbol.attr({
             x: size.width/10*4,
             y: size.height/6*3,
-            scale: 1/4,
+            scale: 0.25*normalizescale,
         });
-        this.addChild(yourScoreSymbol)
+        this.addChild(yourScoreSymbol);
 
 
         /////////////////SCORES////////////////////

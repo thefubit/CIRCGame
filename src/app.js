@@ -29,7 +29,7 @@ var outerTrail = false;
 //The main layer of this scene
 var GameLayer = cc.Layer.extend({
                                 
-    sprite:null,
+    backgroundPic:null,
     //RotationSpeedOuter:null,//changing outer speed
     //RotationSpeedInner:null,//changing inner speed
     //currentScore:null,//tracking current score
@@ -79,18 +79,18 @@ var GameLayer = cc.Layer.extend({
         //    you may modify it.
         // ask the window size
         var size = cc.winSize;
+        var normalizescale = size.height/640;
+
         particleLagDistance = size;
         /////////////////////////////
         // add "HelloWorld" splash screen"
-        this.sprite = new cc.Sprite(res.Background_png);
-        this.sprite.attr({
+        this.backgroundPic = new cc.Sprite(res.Background_png);
+        this.backgroundPic.attr({
             x: size.width / 2,
             y: size.height / 2,
-            scaleX : size.width/this.sprite.width,
-            scaleY : size.height/this.sprite.height
         });
-        //this.sprite.setScale(0.5);
-        this.addChild(this.sprite, 0);
+        this.backgroundPic.setScale(0.4*normalizescale);
+        this.addChild(this.backgroundPic, 0);
 
         //start playing music
         //cc.audioEngine.playMusic(res.Background_music, true);
@@ -130,7 +130,7 @@ var GameLayer = cc.Layer.extend({
         this.InnerSat.attr({
             x: 0,
             y: size.height /8*3,
-            scale:0.5,
+            scale:0.5*normalizescale,
         });
         //this.addChild(this.InnerSat); // <- Adds your earth to the scene.
 
@@ -139,7 +139,7 @@ var GameLayer = cc.Layer.extend({
         this.OuterSat.attr({
             x: 0,
             y: size.height/16*7,
-            scale : 0.5,
+            scale : 0.5*normalizescale,
         });
         //this.addChild(this.OuterSat);
 
@@ -195,11 +195,11 @@ var GameLayer = cc.Layer.extend({
                 PauseGame();
             },this);
         PauseButton.attr({
-            x: 80,
+            x: size.height/10,
             y: size.height/10*9,
             anchorX : 0.5,
             anchorY : 0.5,
-            scale:0.15
+            scale:0.2*normalizescale,
         });
 
 
@@ -220,6 +220,7 @@ var GameLayer = cc.Layer.extend({
         this.instructionsLabel.x = size.width / 2;
         this.instructionsLabel.y = size.height/3*2;
         this.instructionsLabel.color = cc.color(100,150,150);
+        this.instructionsLabel.setScale(1*normalizescale);
         // add the label as a child to this layer
         this.addChild(this.instructionsLabel, 5);
         //NEWGAME = false;
@@ -237,7 +238,7 @@ var GameLayer = cc.Layer.extend({
         this.perfectLabel.attr({
             x: size.width/2,
             y: size.height/2,
-            scale : 1/2.5,
+            scale : 0.4*normalizescale,
         });
         this.perfectLabel.setOpacity(0);
         this.addChild(this.perfectLabel);
@@ -246,7 +247,7 @@ var GameLayer = cc.Layer.extend({
         this.greatLabel.attr({
             x: size.width/2,
             y: size.height/2,
-            scale : 1/2.5,
+            scale : 0.4*normalizescale,
         });
         this.greatLabel.setOpacity(0);
         this.addChild(this.greatLabel);
@@ -255,7 +256,7 @@ var GameLayer = cc.Layer.extend({
         this.missLabel.attr ({
             x: size.width/2,
             y: size.height/2,
-            scale : 1/2.5,
+            scale : 0.4*normalizescale,
         });
         this.missLabel.setOpacity(0);
         this.addChild(this.missLabel);
@@ -291,7 +292,7 @@ var GameLayer = cc.Layer.extend({
         this.turboLabel.attr({
             x: size.width/2,
             y: size.height/3,
-            scale: 1/2.5,
+            scale: 0.4*normalizescale,
 
         });
         this.turboLabel.setOpacity(0);
@@ -312,6 +313,7 @@ var GameLayer = cc.Layer.extend({
         this.turboCountDown.x = size.width/2;
         this.turboCountDown.y = size.height/3;
         this.turboCountDown.setOpacity(0);
+        this.turboCountDown.setScale(1*normalizescale);
         this.addChild(this.turboCountDown);
 
 
@@ -549,7 +551,7 @@ var GameLayer = cc.Layer.extend({
        
         //darkening the background                        
         var darken = cc.FadeTo(1,50);
-        this.sprite.runAction(darken);
+        this.backgroundPic.runAction(darken);
         
         
         ////////////////////PARTICLES[[[[[[[[[[[[[[]]]]]]]]]]]]]]
@@ -598,7 +600,7 @@ var GameLayer = cc.Layer.extend({
         BackgroundSpin.setTotalParticles(0);
                                 
         var brighten = cc.FadeTo(0.5,225);
-        this.sprite.runAction(brighten);
+        this.backgroundPic.runAction(brighten);
         
        
 
