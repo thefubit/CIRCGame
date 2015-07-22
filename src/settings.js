@@ -7,12 +7,12 @@ var sfxVolume = 1;
 
 //The main layer of this scene
 var SettingsLayer = cc.Layer.extend({
-    sprite:null,
+    backgroundPic:null,
 
     //trying animations here
-    sprite1:null,
-    spriteSheet:null,
-    animatedAction:null,
+    //sprite1:null,
+    //spriteSheet:null,
+    //animatedAction:null,
 
     ctor:function () {
         //////////////////////////////
@@ -24,6 +24,7 @@ var SettingsLayer = cc.Layer.extend({
         //    you may modify it.
         // ask the window size
         var size = cc.winSize;
+        var normalizescale = size.height/640;
         /////////////////////////////
 
 
@@ -31,7 +32,14 @@ var SettingsLayer = cc.Layer.extend({
         //make a slider for volume - not necessary
         //return to menu - pop this scene
 
-
+        // add "HelloWorld" splash screen"
+        this.backgroundPic = new cc.Sprite(res.Background_png);
+        this.backgroundPic.attr({
+            x: size.width / 2,
+            y: size.height / 2,   
+        });
+        this.backgroundPic.setScale(0.4*normalizescale);
+        this.addChild(this.backgroundPic, 0);
 
 
 
@@ -51,10 +59,10 @@ var SettingsLayer = cc.Layer.extend({
             }, this);
         MainMenuButton.attr({
             x: size.width/2,
-            y: size.height/4,
+            y: size.height/3,
             anchorX: 0.5,
             anchorY: 0.5,
-            scale : 0.4
+            scale : 0.4*normalizescale,
         });
 
         var menu = new cc.Menu(MainMenuButton);
@@ -71,7 +79,7 @@ var SettingsLayer = cc.Layer.extend({
         // position the label on the center of the screen
         settingsLabel.x = size.width / 2;
         settingsLabel.y = size.height/6*5;
-        settingsLabel.setScale(2);
+        settingsLabel.setScale(2*normalizescale);
         // add the label as a child to this layer
         this.addChild(settingsLabel, 5);
 
@@ -87,30 +95,21 @@ var SettingsLayer = cc.Layer.extend({
 
 
 
-        // add "HelloWorld" splash screen"
-        this.sprite = new cc.Sprite(res.Background_png);
-        this.sprite.attr({
-            x: size.width / 2,
-            y: size.height / 2,
-            scaleX : size.width/this.sprite.width,
-            scaleY : size.height/this.sprite.height
-            
-        });
-        this.addChild(this.sprite, 0);
+        
 
         
         //music symbol
         var MusicSymbol = new cc.Sprite.create(res.MusicSymbol_png);
         MusicSymbol.setAnchorPoint(cc.p(0.5,0.5));
-        MusicSymbol.setPosition(cc.p(size.width/5*2,size.height/10*7));
-        MusicSymbol.setScale(0.25);
+        MusicSymbol.setPosition(cc.p(size.width/10*4,size.height/10*7));
+        MusicSymbol.setScale(0.25*normalizescale);
         this.addChild(MusicSymbol,0);
 
         //sfx symbol
         var SFXSymbol = new cc.Sprite.create(res.SoundSymbol_png);
         SFXSymbol.setAnchorPoint(cc.p(0.5,0.5));
-        SFXSymbol.setPosition(cc.p(size.width/5*2,size.height/10*5));
-        SFXSymbol.setScale(0.25);
+        SFXSymbol.setPosition(cc.p(size.width/10*4,size.height/10*5));
+        SFXSymbol.setScale(0.25*normalizescale);
         this.addChild(SFXSymbol,0);
 
 
@@ -118,9 +117,9 @@ var SettingsLayer = cc.Layer.extend({
         //music checkbox
         var MusicCheckBox = new ccui.CheckBox();
         MusicCheckBox.loadTextures(res.Unchecked_png, res.UncheckedSelected_png,res.Checked_png,res.CheckedSelected_png,res.CheckedDisabled_png);
-        MusicCheckBox.x = (size.width/5*3);
+        MusicCheckBox.x = (size.width/10*6);
         MusicCheckBox.y = (size.height/10*7);
-        MusicCheckBox.setScale(0.25);
+        MusicCheckBox.setScale(0.25*normalizescale);
         MusicCheckBox.addEventListener(this.selectedEventMusic,this);
         
         // Checks to see if the music is on, if it is, the checkbox is automatically selected.
@@ -136,9 +135,9 @@ var SettingsLayer = cc.Layer.extend({
         //SFX checkbox
         var SFXCheckBox = new ccui.CheckBox();
         SFXCheckBox.loadTextures(res.Unchecked_png,res.UncheckedSelected_png, res.Checked_png,res.CheckedSelected_png,res.CheckedDisabled_png);
-        SFXCheckBox.x = size.width/5*3;
+        SFXCheckBox.x = size.width/10*6;
         SFXCheckBox.y = size.height/10*5;
-        SFXCheckBox.setScale(0.25);
+        SFXCheckBox.setScale(0.25*normalizescale);
         SFXCheckBox.addEventListener(this.selectedEventSFX,this);
         
         // Checks to see if the sound effects are on, if they are, the checkbox is automatically selected.

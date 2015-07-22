@@ -6,7 +6,7 @@ var TurboMusic = null;
 
 //The main layer of this scene
 var UnderLayer = cc.Layer.extend({
-    sprite:null,
+    backgroundPic:null,
     
     //consecutiveTouches:0,
     ctor:function () {
@@ -19,17 +19,21 @@ var UnderLayer = cc.Layer.extend({
         //    you may modify it.
         // ask the window size
         var size = cc.winSize;
+        //normalizing scale according to current screen size
+        var normalizescale = size.height/640;
         /////////////////////////////
+
+
+
+
         // add "HelloWorld" splash screen"
-        this.sprite = new cc.Sprite(res.TTRCGamesLogo_png);
-        this.sprite.attr({
+        this.backgroundPic = new cc.Sprite(res.TTRCGamesLogo_png);
+        this.backgroundPic.attr({
             x: size.width / 2,
             y: size.height / 2,
-            scaleX : size.width/this.sprite.width,
-            scaleY : size.height/this.sprite.height
         });
-        //this.sprite.setScale(0.5);
-        this.addChild(this.sprite, 0);
+        this.backgroundPic.setScale(0.4*normalizescale);
+        this.addChild(this.backgroundPic, 0);
 
         //start playing music
         cc.audioEngine.playMusic(res.Background_music, true);

@@ -30,6 +30,8 @@ var MenuLayer = cc.Layer.extend({
         //    you may modify it.
         // ask the window size
         var size = cc.winSize;
+        var normalizescale = size.height/640;
+
         /////////////////////////////
 
         // add "HelloWorld" splash screen"
@@ -38,9 +40,8 @@ var MenuLayer = cc.Layer.extend({
         this.backgroundPic.attr({
             x: size.width / 2,
             y: size.height / 2,
-            scaleX : size.width/this.backgroundPic.width,
-            scaleY : size.height/this.backgroundPic.height
         });
+        this.backgroundPic.setScale(0.4*normalizescale);
         this.addChild(this.backgroundPic, 0);
         
 
@@ -81,7 +82,7 @@ var MenuLayer = cc.Layer.extend({
 
             x: 0,
             y: size.height/8*3,
-            scale:0.5
+            scale:0.5*normalizescale,
         });
 
         cc.log(size.width/2);
@@ -160,7 +161,7 @@ var MenuLayer = cc.Layer.extend({
             y: size.height/4*3,
             anchorX: 0.5,
             anchorY: 0.5,
-            scale:0.4
+            scale:0.4*normalizescale,
         });
 
         var CreditsButton = new cc.MenuItemImage(
@@ -182,7 +183,7 @@ var MenuLayer = cc.Layer.extend({
             y : size.height /4*3,
             anchorX : 0.5,
             anchorY : 0.5,
-            scale : 0.4
+            scale : 0.4*normalizescale,
         });
         //CreditsButton.setScale(0.4);
         
@@ -206,7 +207,7 @@ var MenuLayer = cc.Layer.extend({
         this.helloLabel.x = size.width / 2;
         this.helloLabel.y = size.height/2;
         this.helloLabel.color = cc.color(100,150,150);
-        this.helloLabel.setScale(2);
+        this.helloLabel.setScale(2*normalizescale);
         // add the label as a child to this layer
         this.addChild(this.helloLabel, 5);
 
@@ -241,7 +242,7 @@ var MenuLayer = cc.Layer.extend({
         var filename = "#" + circcolor + "1.png";
         this.TitleSprite = new cc.Sprite(filename);
 
-        this.TitleSprite.attr({x:size.width/2,y:size.height/4*3,scale:1/2.5});
+        this.TitleSprite.attr({x:size.width/2,y:size.height/4*3,scale:0.4*normalizescale});
         this.TitleSprite.runAction(this.runningAction);
         this.spriteSheet.addChild(this.TitleSprite);
 
