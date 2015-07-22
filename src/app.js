@@ -34,6 +34,7 @@ var GameLayer = cc.Layer.extend({
     //RotationSpeedInner:null,//changing inner speed
     //currentScore:null,//tracking current score
     touched:true,//autolose if no touch
+    UNTOUCHEDLOSS:false,
     normalizedWinDistance:null,
     GameStarted:false,
     scoreLabel:null,
@@ -399,17 +400,18 @@ var GameLayer = cc.Layer.extend({
                     //testing
                     cc.log('touch worked');
                     
-                    
+               
+
 
                     //tracking untouched loss
-                    UNTOUCHEDLOSS = false;
+                   
 
 
 
                     //get layer as target
                     var myLayer = event.getCurrentTarget();
 
-
+                  
 
                     
 
@@ -422,6 +424,8 @@ var GameLayer = cc.Layer.extend({
                     //checking distance between the two
                     myLayer.checkDistance (myLayer.normalizedWinDistance,InnerPos.x, InnerPos.y,OuterPos.x,OuterPos.y);
                      
+                    
+
                     // If turbo mode is activated, show an explosion when a "great" or "perfect" is acheived.
                     if (turboMode)
                     {
@@ -441,13 +445,17 @@ var GameLayer = cc.Layer.extend({
                     myLayer.touched=true;
                     
                     //start checking for no touch on game start
-                    if(myLayer.GameStarted==false){
+                    
+                        /*if(myLayer.GameStarted==false){
                         myLayer.startCheckingForTouch();
 
-                    }
+                    }*/
 
                     //understand that the game has started
                     myLayer.GameStarted = true;
+                                        
+                    
+                                
 
                     
 
@@ -459,11 +467,11 @@ var GameLayer = cc.Layer.extend({
         ///////////AUTO LOSE////////////////////
 
         //if(this.GameStarted== true){
-            cc.log("test for touch function" + this.GameStarted);
+           /* cc.log("test for touch function" + this.GameStarted);
         while(this.GameStarted){
         this.scheduleOnce(this.didPlayerTouch(),5);
         cc.log("touched?" +this.touched)
-        }
+        }*/
         /////////////////////////////////////////
 
         
@@ -473,7 +481,7 @@ var GameLayer = cc.Layer.extend({
 
 
 
-    startCheckingForTouch : function(){
+  /*  startCheckingForTouch : function(){
         cc.log("started checking for touch")
         this.schedule(this.didPlayerTouch,baseSpeed/1.1);
 
@@ -482,7 +490,7 @@ var GameLayer = cc.Layer.extend({
 
         //var fadeAction = cc.FadeTo.create(1,0);
         //this.instructionsLabel.runAction(fadeAction);
-    },//start checking for touch
+    },//start checking for touch */
 
     particleTurbo:function()
     {
@@ -585,11 +593,9 @@ var GameLayer = cc.Layer.extend({
 
         ///////////////// PARTICLES //////////////////////
         
-                                
-        if (turboMode == false)
-        {
+        
         this.particleUnturbo();
-        }
+        
                                 
         BackgroundSpin.setTotalParticles(0);
                                 
@@ -612,7 +618,7 @@ var GameLayer = cc.Layer.extend({
 
 
     //checking whether player touched
-    didPlayerTouch:function(){
+  /*  didPlayerTouch:function(){
         cc.log("checked for touch"); 
         
         
@@ -620,17 +626,21 @@ var GameLayer = cc.Layer.extend({
 
         if (this.touched == false){
             UNTOUCHEDLOSS = true;
-
+            cc.log("Player did not touch");
             //ending turbo
+            
+            if (turboMode)
+            {
             this.turboEnd();
-
+            }
+                                
             levelDown("Miss");
             levelDown("Miss");
             levelDown("Miss");
             this.changeSpeed();
         }//if
         this.touched = false;
-    },//checking player touch
+    },//checking player touch */
 
     //updating score
     updateScore:function(){
@@ -682,7 +692,7 @@ var GameLayer = cc.Layer.extend({
     //fade instructions
     var fadeAction = cc.FadeTo.create(1,0);
     
-
+    
 
     
 
@@ -691,10 +701,37 @@ var GameLayer = cc.Layer.extend({
     //note will take two global variables - perfectDistance and greatDistance
     ///////////////////PERFECT/////////////////////////
     if (distance <= perfectDistance){
-
+        
         //leveling up and increasing speed
         levelUp(2, "Perfect");
+
+        if (UNTOUCHEDLOSS)
+        {  
+        cc.director.getScheduler().unscheduleCallbackForTarget(this,this.unTouchedLoss);
+        UNTOUCHEDLOSS = false ;
+        } 
         
+
+    if (levelOuter == 0)
+    {
+        var missSpeed = speedInner*1.05;
+    }
+
+    else
+    {
+    var innerOmega = 360/speedInner;
+    var outerOmega = 360/speedOuter;
+
+    var thetaInner = innerOmega*360/(outerOmega + innerOmega);
+    var missSpeed = thetaInner/innerOmega*1.15;
+                                
+        
+
+                                
+    }
+
+         cc.director.getScheduler().scheduleCallbackForTarget(this,this.unTouchedLoss,missSpeed);
+         UNTOUCHEDLOSS = true;
 
         if(turboMode == false){
             cc.audioEngine.playEffect(res.NormalPerfectSound,false);
@@ -756,8 +793,35 @@ var GameLayer = cc.Layer.extend({
 
     /////////////////GREAT//////////////////////////////
     else if (distance <=greatDistance){
-        levelUp(1, "Great");
         
+
+
+        levelUp(1, "Great");
+
+        if (UNTOUCHEDLOSS)
+        {  
+        cc.director.getScheduler().unscheduleCallbackForTarget(this,this.unTouchedLoss);
+        UNTOUCHEDLOSS = false 
+        } 
+
+    if (levelOuter == 0)
+    {
+        var missSpeed = speedInner*1.05;
+    }
+
+    else
+    {
+    var innerOmega = 360/speedInner;
+    var outerOmega = 360/speedOuter;
+
+    var thetaInner = innerOmega*360/(outerOmega + innerOmega);
+    var missSpeed = thetaInner/innerOmega*1.15;
+                                
+    }
+
+        cc.director.getScheduler().scheduleCallbackForTarget(this,this.unTouchedLoss,missSpeed);
+        UNTOUCHEDLOSS = true;
+
 
         if(turboMode == false){
             cc.audioEngine.playEffect(res.NormalGreatSound,false);
@@ -791,12 +855,20 @@ var GameLayer = cc.Layer.extend({
 
     //////////////////////MISS////////////////////
     else{
+        
+      
 
         //speed control - player doesn't get less than 10 speed
         if(levelInner<10){
         levelDown("Miss");
         }//speed control
                                 
+        if (UNTOUCHEDLOSS)
+        {  
+        cc.director.getScheduler().unscheduleCallbackForTarget(this,this.unTouchedLoss);
+        UNTOUCHEDLOSS = false 
+        } 
+
         // remove the outer trail
                                 
         if (levelOuter == 0 && outerTrail)
@@ -1013,6 +1085,119 @@ var GameLayer = cc.Layer.extend({
                                 
     },
 
+
+    autoMiss:function()
+    {
+    var FadeMessageIn = cc.FadeTo.create(0.1,255);
+    var FadeMessageOut = cc.FadeTo.create(0.4,0);
+    var FlashMessage = cc.Sequence.create(FadeMessageIn,FadeMessageOut);
+
+        //speed control - player doesn't get less than 10 speed
+        if(levelInner<10)
+        {
+                               
+        levelDown("Miss");
+
+        }//speed control
+                                
+        // remove the outer trail
+                                
+        if (levelOuter == 0 && outerTrail)
+        {
+        cc.log("Somehow this is being activated");
+        outerTrail = false;
+        this.rotationPointOut.removeChildByTag(2);
+        
+        }
+                                
+                                
+                                
+                                
+        consecutiveMisses ++;
+
+        if(turboMode == false){
+            cc.audioEngine.playEffect(res.NormalMissSound,false);
+        }
+        else if(turboMode == true){
+            cc.audioEngine.playEffect(res.TurboMissSound,false);
+        }
+        
+
+
+        this.missLabel.runAction(FlashMessage);
+
+        //controlling how many misses in a row a player can have
+        if(consecutiveMisses == 2){
+            MISSLOSS=true;
+            //speedInner = 9001;
+            //speedOuter = 9001;
+            GameOver();
+
+        
+
+        }//if within miss
+
+        turboCount = 0;
+        //this.turboCountDown.setString("Turbo Mode in " +(6-turboCount)+ "...");
+        this.turboCountDown.setOpacity(0);
+
+        if(turboMode==true){
+                                 
+            //////////////change speed back/////////////
+            speedInner = baseSpeed/levelInner;
+            speedOuter = baseSpeed / levelOuter;
+            /////////////change speed back////////////// 
+            this.turboEnd();
+        }
+
+        this.changeSpeed();
+    //else
+    }, //AUTOMISS
+                                
+    unTouchedLoss:function()
+    {
+    cc.log("Activating auto-miss");
+    
+                                
+                                
+                                
+                                
+    this.autoMiss();
+                                
+      if (UNTOUCHEDLOSS)
+        {  
+        cc.director.getScheduler().unscheduleCallbackForTarget(this,this.unTouchedLoss);
+        UNTOUCHEDLOSS = false ;
+        } 
+        
+
+    if (levelOuter == 0)
+    {
+        var missSpeed = speedInner*1.05;
+    }
+
+    else
+    {
+    var innerOmega = 360/speedInner;
+    var outerOmega = 360/speedOuter;
+
+    var thetaInner = innerOmega*360/(outerOmega + innerOmega);
+    var missSpeed = thetaInner/innerOmega*1.1;
+                                
+        
+
+                                
+    }
+
+         cc.director.getScheduler().scheduleCallbackForTarget(this,this.unTouchedLoss,missSpeed);
+         UNTOUCHEDLOSS = true;
+                          
+    
+
+    },                            
+
+
+
                                 
     
     
@@ -1155,8 +1340,10 @@ var levelDown = function (message){
 
     //speed control - so player never gets below lv 10. but must work up there
     //if(levelInner<10){
+    
     levelInner--;
     levelOuter--;
+    
     //}
     cc.log("you leveled down");
 
@@ -1166,6 +1353,7 @@ var levelDown = function (message){
 
 
     if (levelOuter<0){
+        cc.log("levelouter is now 0");
         levelOuter = 0;
     }
     if (levelInner < 0){
