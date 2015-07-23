@@ -112,10 +112,10 @@ else if (missselect == 2){
 var res = {
 
 	//Background image
-    Background_png : "res/background/shadedbackground.png",
+    Background_png : "res/background/fitallbg.png",
 
     //TTRCLogo_png : "res/background/TTRCLogo.png",
-    TTRCGamesLogo_png : "res/background/TTRCGamesLogo.png",
+    TTRCGamesLogo_png : "res/background/fitallttrcgames.png",
 
     //for temporary testing
     //CloseNormal_png : "res/CloseNormal.png",

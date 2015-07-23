@@ -214,8 +214,25 @@ var MenuLayer = cc.Layer.extend({
 
         /////////////////////START INSTRUCTIONS LABEL/////////////
 
+        /////////////////////SHOW HIGHSCORE///////////////////////
 
 
+        highscore = ls.getItem("highscore");
+
+        //var highScoreNum = new cc.LabelTTF("Highscore:"+highscore,"Verdana",30);
+        var highScoreNum = new cc.LabelBMFont(highscore, res.Junegull_BMFont);
+        highScoreNum.x = size.width/18*10;
+        highScoreNum.y = size.height/10*3;
+        this.addChild(highScoreNum,5);
+
+
+        var highScoreSymbol = new cc.Sprite.create(res.HighScoreSymbol_png);
+        highScoreSymbol.x = size.width/18*8;
+        highScoreSymbol.y = size.height/10*3;
+        highScoreSymbol.setScale(0.2*normalizescale);
+        this.addChild(highScoreSymbol);
+
+        ////////////////////SHOW HIGHSCORE//////////////////////////
 
         //////////////////////////////////////
         ////////////TITLE/////////////////////

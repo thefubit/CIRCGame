@@ -9,7 +9,7 @@ var speedInner = 0;//controlling the speed of inner satellite
 var levelOuter = 0;//controlling level of outer satellite
 var speedOuter = 0;//controlling speed of inner satellite
 var currentScore = 0;
-var highScore = 0;//must grab from local storage
+var highScore;//must grab from local storage
 
 //checking for consecutive touches
 var consecutiveMisses = 0;
@@ -1390,6 +1390,9 @@ var levelDown = function (message){
 var setHighScore = function(currentScore){
     if (currentScore > highScore){
         highScore = currentScore;
+
+
+
 
 
 
