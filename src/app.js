@@ -705,33 +705,9 @@ var GameLayer = cc.Layer.extend({
         //leveling up and increasing speed
         levelUp(2, "Perfect");
 
-        if (UNTOUCHEDLOSS)
-        {  
-        cc.director.getScheduler().unscheduleCallbackForTarget(this,this.unTouchedLoss);
-        UNTOUCHEDLOSS = false ;
-        } 
+        this.autoLossSpeed(1.05,1.15);
+
         
-
-    if (levelOuter == 0)
-    {
-        var missSpeed = speedInner*1.05;
-    }
-
-    else
-    {
-    var innerOmega = 360/speedInner;
-    var outerOmega = 360/speedOuter;
-
-    var thetaInner = innerOmega*360/(outerOmega + innerOmega);
-    var missSpeed = thetaInner/innerOmega*1.15;
-                                
-        
-
-                                
-    }
-
-         cc.director.getScheduler().scheduleCallbackForTarget(this,this.unTouchedLoss,missSpeed);
-         UNTOUCHEDLOSS = true;
 
         if(turboMode == false){
             cc.audioEngine.playEffect(res.NormalPerfectSound,false);
@@ -798,29 +774,8 @@ var GameLayer = cc.Layer.extend({
 
         levelUp(1, "Great");
 
-        if (UNTOUCHEDLOSS)
-        {  
-        cc.director.getScheduler().unscheduleCallbackForTarget(this,this.unTouchedLoss);
-        UNTOUCHEDLOSS = false 
-        } 
+        this.autoLossSpeed(1.05,1.15);
 
-    if (levelOuter == 0)
-    {
-        var missSpeed = speedInner*1.05;
-    }
-
-    else
-    {
-    var innerOmega = 360/speedInner;
-    var outerOmega = 360/speedOuter;
-
-    var thetaInner = innerOmega*360/(outerOmega + innerOmega);
-    var missSpeed = thetaInner/innerOmega*1.15;
-                                
-    }
-
-        cc.director.getScheduler().scheduleCallbackForTarget(this,this.unTouchedLoss,missSpeed);
-        UNTOUCHEDLOSS = true;
 
 
         if(turboMode == false){
@@ -1157,14 +1112,17 @@ var GameLayer = cc.Layer.extend({
     unTouchedLoss:function()
     {
     cc.log("Activating auto-miss");
-    
-                                
-                                
-                                
+              
                                 
     this.autoMiss();
+    this.autoLossSpeed(1.05,1.1);
                                 
-      if (UNTOUCHEDLOSS)
+
+    },      
+
+    autoLossSpeed:function(innerFactor, combinedFactor)
+    {
+        if (UNTOUCHEDLOSS)
         {  
         cc.director.getScheduler().unscheduleCallbackForTarget(this,this.unTouchedLoss);
         UNTOUCHEDLOSS = false ;
@@ -1173,7 +1131,7 @@ var GameLayer = cc.Layer.extend({
 
     if (levelOuter == 0)
     {
-        var missSpeed = speedInner*1.05;
+        var missSpeed = speedInner*innerFactor;
     }
 
     else
@@ -1182,7 +1140,7 @@ var GameLayer = cc.Layer.extend({
     var outerOmega = 360/speedOuter;
 
     var thetaInner = innerOmega*360/(outerOmega + innerOmega);
-    var missSpeed = thetaInner/innerOmega*1.1;
+    var missSpeed = thetaInner/innerOmega*combinedFactor;
                                 
         
 
@@ -1191,10 +1149,7 @@ var GameLayer = cc.Layer.extend({
 
          cc.director.getScheduler().scheduleCallbackForTarget(this,this.unTouchedLoss,missSpeed);
          UNTOUCHEDLOSS = true;
-                          
-    
-
-    },                            
+    },                     
 
 
 
@@ -1243,7 +1198,7 @@ var GameOver = function(){
 
 
     //set high score
-    setHighScore(currentScore);
+    //setHighScore(currentScore);
     cc.log("CurrentScore = " + currentScore);
     cc.log("HighScore = " + highScore);
 
@@ -1387,7 +1342,7 @@ var levelDown = function (message){
 
 
 //check and set highScore
-var setHighScore = function(currentScore){
+/*var setHighScore = function(currentScore){
     if (currentScore > highScore){
         highScore = currentScore;
 
@@ -1399,7 +1354,7 @@ var setHighScore = function(currentScore){
     }
     //setting highscore to local storage
     ls.setItem("highscore",highScore);
-}//check and set highscore
+}//check and set highscore*/
 
 
 
