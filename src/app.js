@@ -1151,9 +1151,9 @@ var GameLayer = cc.Layer.extend({
 
                                 
     }
-
-         cc.director.getScheduler().scheduleCallbackForTarget(this,this.unTouchedLoss,missSpeed);
-         UNTOUCHEDLOSS = true;
+        
+        cc.director.getScheduler().scheduleCallbackForTarget(this,this.unTouchedLoss,missSpeed);
+        UNTOUCHEDLOSS = true;
     },                     
 
 
@@ -1203,7 +1203,7 @@ var GameOver = function(){
 
 
     //set high score
-    //setHighScore(currentScore);
+    setHighScore(currentScore);
     cc.log("CurrentScore = " + currentScore);
     cc.log("HighScore = " + highScore);
 
@@ -1347,7 +1347,7 @@ var levelDown = function (message){
 
 
 //check and set highScore
-/*var setHighScore = function(currentScore){
+var setHighScore = function(currentScore){
     if (currentScore > highScore){
         highScore = currentScore;
 
@@ -1359,7 +1359,7 @@ var levelDown = function (message){
     }
     //setting highscore to local storage
     ls.setItem("highscore",highScore);
-}//check and set highscore*/
+}//check and set highscore
 
 
 
