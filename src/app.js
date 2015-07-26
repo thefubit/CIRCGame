@@ -851,10 +851,30 @@ var GameLayer = cc.Layer.extend({
         var thetaInner = innerOmega*360/(outerOmega + innerOmega);
         var missSpeed = thetaInner/innerOmega*combinedFactor;
     }
+<<<<<<< HEAD
 
     cc.director.getScheduler().scheduleCallbackForTarget(this,this.unTouchedLoss,missSpeed);
     UNTOUCHEDLOSS = true;
     },//end the thing that calculates the speed             
+=======
+        
+        cc.director.getScheduler().scheduleCallbackForTarget(this,this.unTouchedLoss,missSpeed);
+        UNTOUCHEDLOSS = true;
+    },                     
+
+
+
+                                
+    
+    
+                                
+    
+
+   
+
+
+
+>>>>>>> origin/master
 });//GameLayer
 
 //pause - launch pause scene
@@ -866,7 +886,35 @@ var PauseGame = function(){
 
 //key function -stops everything and resets all the variables and all the random stuff
 var GameOver = function(){
+<<<<<<< HEAD
     //resetting all the parameters and variables for new game
+=======
+
+
+    
+
+    
+    
+
+    //gamelayer.resetGame();
+    //var resetRotation = cc.RotateTo.create(3,1);
+
+    //gamelayer.rotationPointIn.runAction(resetRotation);
+    //gamelayer.rotationPointOut.runAction(resetRotation);
+
+
+    //set high score
+    setHighScore(currentScore);
+    cc.log("CurrentScore = " + currentScore);
+    cc.log("HighScore = " + highScore);
+
+
+
+    cc.log("go to gameover menu and record score and stop moving");
+    //must reset everything. ie, move everything to starting point
+
+
+>>>>>>> origin/master
     levelInner = 0;
     levelOuter = 0;
     speedInner = 9001;
@@ -952,6 +1000,40 @@ var levelDown = function (message){
 
 };//leveldown
 
+<<<<<<< HEAD
+=======
+
+
+
+//check and set highScore
+var setHighScore = function(currentScore){
+    if (currentScore > highScore){
+        highScore = currentScore;
+
+
+
+
+
+
+    }
+    //setting highscore to local storage
+    ls.setItem("highscore",highScore);
+}//check and set highscore
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> origin/master
 ///////////////////////////////////////////
 ////////////////////////////////////////////
 //////////////////////////////////////////
