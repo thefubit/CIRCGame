@@ -1,0 +1,62 @@
+24 Card Game
+
+Main menu - play, settings, How to play (tutorial), credits
+
+play-
+	52 cards. Four suits, 13 cards. 1-10 has values of 1-10. J value of 11, Q value of 12, K value of 13
+	dealt 4 cards each turn. 
+	must use multiply, divide, subtract and addition to make 24.
+	Points count down every second from 1000 - thus longer it takes to solve, lower the score
+	May pass at no penalty
+	May hint (?) - not sure how this will work yet. Perhaps, giving two cards and one operation. Lowering score by 500.
+	Computer must detect all the possible solutions, or at least one. 
+		This way, if there are no possible combinations, the computer will detect it and automatically skip the 4 cards, giving players 500pts free
+	Game ends when the player finishes the deck. 13 turns. Total score is tallied. 
+
+	Behind the Scenes - layout needed:
+								4 cards - dealt at the start of each round. by randomized generator. will need to omit the cards already dealt
+								4 card slots, can be miniaturized - so the card would shrink down and show only the mathematical value and the suit.
+								4 operations - X / + -
+								3 operation slots
+								Answer box - shows the sum/whatever, if it's 24, then success and proceed to next 4 cards
+								A Deck on the bottom ? - or can show up when cards need to be dealt - sends four cards on to the table.
+								pause button - on which, pause,return to main menu
+								skip button - skips a level. no score added. 
+
+					  -	Touch - when touching a card, it'll follow the finger. and be placed where needed.
+					    		no multitouch
+					    		when held down, the card shrinks a little to accomodate the finger
+					    		when let go, if not within the card slots, the card will snap back to the original location
+
+					    		When touching an operation, the operation block will follow the finger, and be placed where slotted
+					    		when held down, the card will shrink according need. and be placed within the operation slot.
+					   -Answer is automatically calculated
+					   			the thing will display as soon as all things are placed. Upon each placement, detect whether all fields are full. if so, then calculate the operations and see what would the answer be. 
+					   			If answer is 24, add score and end round
+
+					   	Start of each game needs:
+					   			reset all generated cards
+					   			reset allscores
+					   			reshuffle cards? (Can do this or just generate four cards every time.)
+					   			replace everything back to normal locations
+
+
+
+    Settings page - music and sound effects toggle. 
+    				change card backs or change card faces? - future development
+
+    Tutorial page - launch a guide line tutorial to teach how to play. touch to progress, but not interactive
+    				will guide players
+    				demonstrate and emphasize the mathematical value of each card
+    				show touch and hold to move cards
+    				show select operations
+    				and show how 4 cards can be answered
+
+
+    Info Page - email and credits
+
+
+
+
+
+IAP - skins for the cards and card backs

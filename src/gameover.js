@@ -15,13 +15,11 @@ var GameOverLayer = cc.Layer.extend({
         this._super();
 
         /////////////////////////////
-        // 2. add a menu item with "X" image, which is clicked to quit the program
-        //    you may modify it.
-        // ask the window size
+        //screen size and normalizing
         var size = cc.winSize;
         var normalizescale = size.height/640;
         /////////////////////////////
-        // add "HelloWorld" splash screen"
+        //backgrounds
         this.backgroundPic = new cc.Sprite(res.Background_png);
         this.backgroundPic.attr({
             x: size.width / 2,
@@ -30,21 +28,12 @@ var GameOverLayer = cc.Layer.extend({
         this.backgroundPic.setScale(0.4*normalizescale);
         this.addChild(this.backgroundPic, 0);
 
-        //display gameover
-        //display highscore from local storage
-        //display your score
-        //set score to high score
-        //link to main menu
-
         //play game over sound
         cc.audioEngine.pauseMusic();
         cc.audioEngine.playEffect(res.GameOverSound,false);
         cc.audioEngine.resumeMusic();
 
-
-        //default code from setup - REPLACE it as needed
-        // add a "close" icon to exit the progress. it's an autorelease object
-        //image as a menu 
+        //main menu button
         var MainMenuButton = new cc.MenuItemImage(
             res.HomeButton_png,
             res.HomeButtonPressed_png,
@@ -65,10 +54,7 @@ var GameOverLayer = cc.Layer.extend({
         menu.y = 0;
         this.addChild(menu, 1);
 
-        /////////////////////////////
-        // 3. add your codes below...
-        // add a label shows "Hello World"
-        // create and initialize a label
+        //////////////////LABELS////////////////////////////
         var gameoverLabel = new cc.LabelBMFont("GAME OVER", res.Ethnocentric_BMFont);
         // position the label on the center of the screen
         gameoverLabel.x = size.width / 2;
@@ -76,10 +62,11 @@ var GameOverLayer = cc.Layer.extend({
         gameoverLabel.setScale(2*normalizescale);
         // add the label as a child to this layer
         this.addChild(gameoverLabel, 5);
+        //////////////////////LABELS////////////////////
 
 
         //////////////////////////////////
-        //////////why you lost/////////////
+        //////////REASON/////////////
 
         var reasonLabel = new cc.LabelBMFont("reason", res.Junegull_BMFont);
         reasonLabel.x = size.width/2;
@@ -98,26 +85,24 @@ var GameOverLayer = cc.Layer.extend({
         this.addChild(reasonLabel,5);
 
 
-
+        ///////////////REASON////////////////////
         ///////////////////////////////////
 
         ///////////////SCORES///////////////
+        //score numbers
         highscore = ls.getItem("highscore");
 
-        //var highScoreNum = new cc.LabelTTF("Highscore:"+highscore,"Verdana",30);
         var highScoreNum = new cc.LabelBMFont(highscore, res.Junegull_BMFont);
         highScoreNum.x = size.width/2;
         highScoreNum.y = size.height/6*2;
         this.addChild(highScoreNum,5);
 
-        //var yourScoreNum = new cc.LabelTTF("Your Score:"+currentScore,"Verdana",30);
         var yourScoreNum = new cc.LabelBMFont(""+currentScore,res.Junegull_BMFont);
         yourScoreNum.x = size.width/2;
         yourScoreNum.y = size.height/6*3;
         this.addChild(yourScoreNum,5);
 
-
-
+        //score symbols
         var highScoreSymbol = new cc.Sprite.create(res.HighScoreSymbol_png);
         highScoreSymbol.attr({
             x: size.width/10*4,
@@ -133,26 +118,11 @@ var GameOverLayer = cc.Layer.extend({
             scale: 0.25*normalizescale,
         });
         this.addChild(yourScoreSymbol);
-
-
         /////////////////SCORES////////////////////
         //////////////////////////////////////////
-
-
-
-
-
-        
-
-        
-
-
-        //enter code above
         return true;
     }//ctor function - main code
 });//GameLayer
-
-//insert public functions here
 
 //Use go to main menu
 var RestartMainMenu = function(){
@@ -165,7 +135,8 @@ var RestartMainMenu = function(){
     cc.director.runScene(new cc.TransitionFade(0.5,scene));
 };
 
-
+///////////////////////////////////////////////////
+///////////////////////////////////////////////////
 var GameOverScene = cc.Scene.extend({
     onEnter:function () {
         this._super();

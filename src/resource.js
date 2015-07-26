@@ -12,17 +12,6 @@ testvar = "this is a global variable";
 /////////////////////LOCAL STORAGE/////////////////
 var ls = cc.sys.localStorage;
 
-
-
-/////////////////////LOCAL STORAGE/////////////////////
-
-
-
-
-
-
-
-
 //setting what color to display for animated title
 var colorselect=0;
 while(colorselect == 0){
@@ -57,14 +46,12 @@ var misscolor = "red";
 
 
 //////////////randomization//////////////////////
-//
-
 perfectselect = Math.floor(Math.random()*4);
 greatselect = Math.floor(Math.random()*4);
 missselect = Math.floor(Math.random()*2);
+///////////////////randomization////////////////////
 
-
-    //select perfect text
+//select perfect text
 if(perfectselect == 0 || perfectselect ==1){
     perfectcolor = "green";
 }
@@ -101,12 +88,6 @@ else if (missselect == 2){
 }
 //randomize text color
 
-
-
-
-
-
-
 //list out all the resources that the game needs
 //REMEMBER THE COMMAS!!!!!!!!!!!
 var res = {
@@ -116,10 +97,6 @@ var res = {
 
     //TTRCLogo_png : "res/background/TTRCLogo.png",
     TTRCGamesLogo_png : "res/background/fitallttrcgames.png",
-
-    //for temporary testing
-    //CloseNormal_png : "res/CloseNormal.png",
-    //CloseSelected_png : "res/CloseSelected.png",
 
     //Music
     MusicSymbol_png : "res/symbols/musicsymbol.png",
@@ -180,7 +157,6 @@ var res = {
     animatedTitle_png : "res/animated/" + titlefolder+"sprites.png",
     
     // Particles
-    
     innertrailingParticle_plist: "res/particles/innerTrail.plist",
     outertrailingParticle_plist: "res/particles/outerTrail.plist",
     explosionParticle_plist: "res/particles/explosion.plist",
@@ -190,9 +166,7 @@ var res = {
 
     //Word labels
     PerfectText : "res/words/perfect" + perfectcolor+".png",
-    
     GreatText : "res/words/great"+greatcolor + ".png",
-    
     MissText : "res/words/miss"+misscolor +".png",
     
     animatedTurboModeText_plist : "res/words/animatedTurboText/sprites.plist",
@@ -203,15 +177,9 @@ var res = {
     Ethnocentric_BMFont : "res/bmfonts/EthnocentricBM.fnt",
     Junegull_BMFont : "res/bmfonts/JunegullBM.fnt",
 
-
-    //effects?
-
-
-
-
-
 };
 
+//adding the resources
 var g_resources = [];
 for (var i in res) {
     g_resources.push(res[i]);

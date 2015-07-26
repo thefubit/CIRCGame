@@ -12,16 +12,11 @@ var PauseLayer = cc.Layer.extend({
         this._super();
 
         /////////////////////////////
-        // 2. add a menu item with "X" image, which is clicked to quit the program
-        //    you may modify it.
-        // ask the window size
+        //normalizing the window size and setting the size
         var size = cc.winSize;
         var normalizescale = size.height/640;
         /////////////////////////////
-
-
-
-        // add "HelloWorld" splash screen"
+        //background pictures
         this.backgroundPic = new cc.Sprite(res.Background_png);
         this.backgroundPic.attr({
             x: size.width / 2,
@@ -30,24 +25,12 @@ var PauseLayer = cc.Layer.extend({
         this.backgroundPic.setScale(0.4*normalizescale);
         this.addChild(this.backgroundPic, 0);
 
-        //pause functionality
-        //main menu button
-        //resume button
-
-
-
-
-        //default code from setup - REPLACE it as needed
-        // add a "close" icon to exit the progress. it's an autorelease object
-        //image as a menu 
-
+        //////////////////////////////////////////
+        ///////////////////BUTTONS////////////////
         var ResumeButton = new cc.MenuItemImage(
             res.PlayButton_png,
             res.PlayButtonPressed_png,
             function () {
-                
-                cc.log(testvar);
-                cc.log("unpause");
                 Unpause();
             }, this);
         ResumeButton.attr({
@@ -62,7 +45,6 @@ var PauseLayer = cc.Layer.extend({
             res.HomeButton_png,
             res.HomeButtonPressed_png,
             function(){
-                cc.log("goes to main menu");
                 GoToMainMenu();
             },this);
         MainMenuButton.attr({
@@ -79,12 +61,10 @@ var PauseLayer = cc.Layer.extend({
         menu.y = 0;
         this.addChild(menu, 1);
 
+        ///////////////BUTTONS/////////////
         /////////////////////////////
-        // 3. add your codes below...
-        // add a label shows "Hello World"
-        // create and initialize a label
-        //var helloLabel = new cc.LabelTTF("Pause", "Arial", 38);
         
+        //PAUSE TITLE
         var pauseLabel = new cc.LabelBMFont("PAUSE", res.Ethnocentric_BMFont);
         // position the label on the center of the screen
         pauseLabel.x = size.width / 2;
@@ -94,30 +74,23 @@ var PauseLayer = cc.Layer.extend({
         // add the label as a child to this layer
         this.addChild(pauseLabel, 5);
 
-        
 
-        
-
-
-        //enter code above
         return true;
     }//ctor function - main code
 });//GameLayer
 
-//insert public functions here
+//unpause function-return to game
 var Unpause = function(){
     PAUSEINITIALIZED = false;
     cc.director.popScene();
 };
 
+//go to main menu
 var GoToMainMenu = function (){
+    //resetting all the variables
     PAUSEINITIALIZED = false;
     GAMEINITIALIZED = false;
-    
-    // resetting global variables
-    
-    GAMEINITIALIZED = false;
-    ISITGAMEOVER = false;
+
     NEWGAME = true;
     levelInner = 0;//controlling level of inner satellite
     speedInner = 0;//controlling the speed of inner satellite
@@ -136,25 +109,21 @@ var GoToMainMenu = function (){
     turboCount = 0;
     turboMode = false;
 
+    //removing the trails
     innerTrail = false;
     outerTrail = false;
-    
-    
 
-
+    //resetting music
     cc.audioEngine.stopAllEffects();
-    cc.audioEngine.resumeMusic();
-
-    Unpause();
-    cc.log("test whether it'll run")
-    //GameOver();
     
-    
-
+    //changing the scene to menu
     var scene = new MenuScene;
     cc.director.runScene(scene);
 };
 
+
+//////////////////////////////////////////////
+///////////////////////////////////////////////
 var PauseScene = cc.Scene.extend({
     onEnter:function () {
         this._super();

@@ -2,31 +2,38 @@
 
 //to check whether the layer already exists - prevents duplicates
 var GAMEINITIALIZED = false;
-var ISITGAMEOVER = false;
-var NEWGAME = true;
+
+
+//initializing the speed of the satellites
 var levelInner = 0;//controlling level of inner satellite
 var speedInner = 0;//controlling the speed of inner satellite
 var levelOuter = 0;//controlling level of outer satellite
 var speedOuter = 0;//controlling speed of inner satellite
+
+//initializing the score
 var currentScore = 0;
 
+
+//retreving high score or setting it to zero if don't have a high score
 if ( ls.getItem("highscore") >0){
     var highScore = ls.getItem("highscore");
 }
 else{
 var  highScore = 0;//must grab from local storage
 }
-//checking for consecutive touches
+
+//checking for consecutive touches - initiating variable
 var consecutiveMisses = 0;
 
 //default speed
+//change to alter difficulty of the game
 var baseSpeed = 9;
 
-//turbo tracker
+//turbo tracker initiation
 var turboCount = 0;
 var turboMode = false;
 
-// trailingParticletracker
+// trailingParticletracker initiation
 var innerTrail = false;
 var outerTrail = false;
 
@@ -34,14 +41,13 @@ var outerTrail = false;
 //The main layer of this scene
 var GameLayer = cc.Layer.extend({
                                 
-    backgroundPic:null,
-    //RotationSpeedOuter:null,//changing outer speed
-    //RotationSpeedInner:null,//changing inner speed
-    //currentScore:null,//tracking current score
-    touched:true,//autolose if no touch
-    UNTOUCHEDLOSS:false,
-    normalizedWinDistance:null,
-    GameStarted:false,
+    backgroundPic:null,//background sprite
+    
+    
+    UNTOUCHEDLOSS:false,//checking lose condition
+    normalizedWinDistance:null,//calculate certain distances from the screen resolution
+    
+    //label initiation
     scoreLabel:null,
     levelLabel:null,
     instructionsLabel:null,
@@ -54,8 +60,11 @@ var GameLayer = cc.Layer.extend({
     turboCountDown:null,
     //turboCountDownMessage:"Turbo In...",
 
+    //for sprite animations
     spriteSheet:null,
     animatedAction:null,
+
+    //turbo sound effect
     turboMusic: null,
 
     // variables for manipulating trailing particles
@@ -70,7 +79,7 @@ var GameLayer = cc.Layer.extend({
     innerParticleTrailColor:null,
     particleLagDistance:null,
     starsParticleCount:null,
-    BackgroundSpin:null,
+    BackgroundSpin:null,//background stars particle
 
 
     ctor:function () {
@@ -80,15 +89,18 @@ var GameLayer = cc.Layer.extend({
         
 
         /////////////////////////////
-        // 2. add a menu item with "X" image, which is clicked to quit the program
-        //    you may modify it.
-        // ask the window size
+        //find screen size and normalize the scale
         var size = cc.winSize;
         var normalizescale = size.height/640;
 
+        //setting particle lag distance with regards to size
         particleLagDistance = size;
+
+        //calculate appropriate lengths
+        this.normalizedWinDistance = size.height*0.17;
         /////////////////////////////
-        // add "HelloWorld" splash screen"
+        
+        ////////////BACKGROUND////////////////////
         this.backgroundPic = new cc.Sprite(res.Background_png);
         this.backgroundPic.attr({
             x: size.width / 2,
@@ -96,59 +108,33 @@ var GameLayer = cc.Layer.extend({
         });
         this.backgroundPic.setScale(0.4*normalizescale);
         this.addChild(this.backgroundPic, 0);
-
-        //start playing music
-        //cc.audioEngine.playMusic(res.Background_music, true);
-        //this.schedule(cc.audioEngine.setMusicVolume(musicVolume),1);
-
+        //////////////BACKGROUND//////////////////
         
-
-
-        //calculate appropriate lengths
-        this.normalizedWinDistance = size.height*0.17;
+        //resetting current score every new game
         currentScore = 0;
-
-        //provide empty node and outer node
-        //provide empty node and inner node
-        //spin them both - accordingly - using global speed variables
-        //level system - hidden
-        //track score and show score
-        //touch event
-        //levelup
-        //leveldown
-        //pause the game
-        //lose the game - auto check and consecutivity
-
-
-
-        //default code from setup - REPLACE it as needed
-        // add a "close" icon to exit the progress. it's an autorelease object
-        //image as a menu 
         
         ////////////////////////////////
         ////////Satellites/////////////
         
 
         //the spinning
-        // Your earth.
+        //Inner satellite
         this.InnerSat = new cc.Sprite(res.InnerSatellite_png);
         this.InnerSat.attr({
             x: 0,
             y: size.height /8*3,
             scale:0.5*normalizescale,
         });
-        //this.addChild(this.InnerSat); // <- Adds your earth to the scene.
-
-        // Your moon.
+        
+        //Outer Satellite
         this.OuterSat = new cc.Sprite(res.OuterSatellite_png);
         this.OuterSat.attr({
             x: 0,
             y: size.height/16*7,
             scale : 0.5*normalizescale,
         });
-        //this.addChild(this.OuterSat);
 
-        // The specific point where your moon will rotate around.
+        // The specific point where your inner moon will rotate around.
         this.rotationPointIn = new cc.Node();
         this.rotationPointIn.attr({
             // Places this node wherever your earth is.
@@ -158,6 +144,7 @@ var GameLayer = cc.Layer.extend({
         this.rotationPointIn.addChild(this.InnerSat); // <- Adds your moon to this node.
         this.addChild(this.rotationPointIn); // <- Adds this node to the scene.
 
+        //rotation point of outer satellite
         this.rotationPointOut = new cc.Node();
         this.rotationPointOut.attr({
             x : size.width/2,
@@ -166,31 +153,9 @@ var GameLayer = cc.Layer.extend({
         this.rotationPointOut.addChild(this.OuterSat);
         this.addChild(this.rotationPointOut);
 
-        //temp speed
-        this.RotationSpeedInner = 2;
-        this.RotationSpeedOuter = 5;
-
-
-        // Revolve your inner satellite around center
-        /*
-        if(this.GameStarted == true){
-        var rotatePointIn = new cc.RotateBy(speedInner, 360); // <- Rotate the node by 360 degrees in 5 seconds.
-        var rotateForeverIn = new cc.RepeatForever(rotatePointIn); // <- Keeps the node rotating forever.
-        this.rotationPointIn.runAction(rotateForeverIn); //
-
-        //revolve outer satellite around center
-        var rotatePointOut = new cc.RotateBy(speedOuter, -360);
-        var rotateForeverOut = new cc.RepeatForever(rotatePointOut);
-        this.rotationPointOut.runAction(rotateForeverOut);
-        }
-        */
-        //note must change RotationSpeedInner and outer according to level
-
         ///////////////satellites/////////////////
         ////////////////////////////////
         /////////////BUTTONS/////////
-        
-
         var PauseButton = new cc.MenuItemImage(
             res.PauseButton_png,
             res.PauseButtonPressed_png,
@@ -206,39 +171,32 @@ var GameLayer = cc.Layer.extend({
             anchorY : 0.5,
             scale:0.2*normalizescale,
         });
-
-
+        //initiate a menu
         var menu = new cc.Menu(PauseButton);
         menu.x = 0;
         menu.y = 0;
         this.addChild(menu, 1);
-
+        ////////////////BUTTONS/////////////////////
         ////////////////////////////////////////////////
-
-
-
-        
-        //this.instructionsLabel = new cc.LabelTTF("Touch when they meet", "Arial", 38);
-        
+        /////////LABELS FROM TEXT///////////////////////////////
         this.instructionsLabel = new cc.LabelBMFont("TOUCH WHEN THE DOTS MEET",res.Junegull_BMFont);
-        // position the label on the center of the screen
         this.instructionsLabel.x = size.width / 2;
         this.instructionsLabel.y = size.height/3*2;
         this.instructionsLabel.color = cc.color(100,150,150);
         this.instructionsLabel.setScale(1*normalizescale);
-        // add the label as a child to this layer
         this.addChild(this.instructionsLabel, 5);
-        //NEWGAME = false;
-        //this.resetGame;
+        
+        this.turboCountDown = new cc.LabelBMFont("temp",res.Junegull_BMFont);
+        this.turboCountDown.x = size.width/2;
+        this.turboCountDown.y = size.height/3;
+        this.turboCountDown.setOpacity(0);
+        this.turboCountDown.setScale(1*normalizescale);
+        this.addChild(this.turboCountDown);
 
-        
-        //putting the middle thing on
-        
+        /////////LABELS FROM TEXT/////////////
         /////////////////////////////////////////////
-        ////////////////////DISPLAY LABELS/////////////////////////
-
-        //randomizeTextColor();
-
+        ////////////////////LABELS FROM PICTURES/////////////////////////
+        //perfect 
         this.perfectLabel = new cc.Sprite(res.PerfectText);
         this.perfectLabel.attr({
             x: size.width/2,
@@ -247,7 +205,7 @@ var GameLayer = cc.Layer.extend({
         });
         this.perfectLabel.setOpacity(0);
         this.addChild(this.perfectLabel);
-
+        //great
         this.greatLabel = new cc.Sprite(res.GreatText);
         this.greatLabel.attr({
             x: size.width/2,
@@ -256,7 +214,7 @@ var GameLayer = cc.Layer.extend({
         });
         this.greatLabel.setOpacity(0);
         this.addChild(this.greatLabel);
-
+        //miss
         this.missLabel = new cc.Sprite(res.MissText);
         this.missLabel.attr ({
             x: size.width/2,
@@ -265,17 +223,12 @@ var GameLayer = cc.Layer.extend({
         });
         this.missLabel.setOpacity(0);
         this.addChild(this.missLabel);
-
-
-
-
-
-        ///////////////////DISPLAY LABELS//////////////////////////
+        ///////////////////LABELS FROM PICTURES//////////////////////////
         /////////////////////////////////////////////
 
 
         /////////////////////////////////////////
-        ////////////////TURBO/////////////////////
+        ////////////////TURBO ANIMATED LABEL/////////////////////
 
         cc.spriteFrameCache.addSpriteFrames(res.animatedTurboModeText_plist);
         
@@ -304,67 +257,20 @@ var GameLayer = cc.Layer.extend({
         this.turboLabel.runAction(this.runningAction);
         this.spriteSheet.addChild(this.turboLabel);
 
-
-        //for the countdown text
-        /*
-        this.turboCountDown = new cc.LabelTTF("temp","Verdana",35);
-        this.turboCountDown.x = size.width/2;
-        this.turboCountDown.y = size.height/3;
-        this.turboCountDown.setOpacity(0);
-        this.addChild(this.turboCountDown);
-        */
-        
-        this.turboCountDown = new cc.LabelBMFont("temp",res.Junegull_BMFont);
-        this.turboCountDown.x = size.width/2;
-        this.turboCountDown.y = size.height/3;
-        this.turboCountDown.setOpacity(0);
-        this.turboCountDown.setScale(1*normalizescale);
-        this.addChild(this.turboCountDown);
-
-
-
-
-        /*
-        this.turboLabel = new cc.LabelTTF("TURBO MODE","Verdana",35);
-        this.turboLabel.x = size.width/2;
-        this.turboLabel.y = size.height/3;
-        this.addChild(this.turboLabel,5);
-        this.turboLabel.setOpacity(0);//disappear it
-        */
-
-        /////////////////////TURBO////////////////////
+        /////////////////////TURBO ANIMATED LABEL////////////////////
         //////////////////////////////////////////
-
-        ///////////////////////////////////////////////
-        ///////////////////////////////////////////
-
-
-
-
-
 
 
         /////////////////////////////////////////////
         //////////////SCORING///////////////////////
-
-        //change to bitmap
         var scoretext = "" + currentScore;
-        /*
-        this.scoreLabel = new cc.LabelTTF(scoretext,"Verdana",35);
-        this.scoreLabel.x = size.width/10*9;
-        this.scoreLabel.y = size.height-80;
-        this.addChild(this.scoreLabel,5);
-        */
-
-        
-
-
         //bitmap label
         this.scoreLabel = new cc.LabelBMFont(scoretext,res.Junegull_BMFont);
         this.scoreLabel.x = size.width/10*9;
         this.scoreLabel.y = size.height-80;
         this.addChild(this.scoreLabel,5);
 
+        //update the score at every frame
         this.schedule(this.updateScore,0);
 
 
@@ -374,8 +280,11 @@ var GameLayer = cc.Layer.extend({
         this.levelLabel.x = size.width/10*9;
         this.levelLabel.y = size.height-120;
         this.addChild(this.levelLabel,0);
+        //////////////SCORING/////////////////////
+        //////////////////////////////////////////         
                                 
-                                
+
+        ////////////BACKGROUND PARTICLES/////////////
         BackgroundSpin = new cc.ParticleSystem.create(res.Stars_plist);
         BackgroundSpin.setTag(4);
                                 
@@ -390,11 +299,10 @@ var GameLayer = cc.Layer.extend({
         BackgroundSpin.setTotalParticles(0);
                                 
         this.addChild(BackgroundSpin);
+        ////////////BACKGROUND PARTICLES
 
-        //////////////SCORING/////////////////////
         //////////////////////////////////////////
         ////////////TOUCHING//////////////////////
-        //////////////////////////////////////////
 
         if(cc.sys.capabilities.hasOwnProperty('touches')){
             cc.eventManager.addListener({
@@ -402,81 +310,31 @@ var GameLayer = cc.Layer.extend({
 
                 onTouchBegan: function(touch,event){
                     
-                    //testing
-                    cc.log('touch worked');
-                    
-               
-
-
-                    //tracking untouched loss
-                   
-
-
-
                     //get layer as target
                     var myLayer = event.getCurrentTarget();
 
-                  
-
-                    
-
-                    //get the coordinates
+                    //get the coordinates of each satellite
                     var InnerPos = myLayer.InnerSat.convertToWorldSpace(myLayer.InnerSat.getPosition());
                     var OuterPos = myLayer.OuterSat.convertToWorldSpace(myLayer.OuterSat.getPosition());
-                    cc.log("innerx" + InnerPos.x);
-                    cc.log("outerx" + OuterPos.x);
-
-                    //checking distance between the two
-                    myLayer.checkDistance (myLayer.normalizedWinDistance,InnerPos.x, InnerPos.y,OuterPos.x,OuterPos.y);
-                     
                     
 
+                    //checking distance between the two using coordinates
+                    myLayer.checkDistance (myLayer.normalizedWinDistance,InnerPos.x, InnerPos.y,OuterPos.x,OuterPos.y);
+                     
                     // If turbo mode is activated, show an explosion when a "great" or "perfect" is acheived.
                     if (turboMode)
                     {
                     myLayer.particleExplosion();
-                    }
+                    }        
                                         
-                   
-                                        
-                                        
-                    //update the speed
+                    //update the speed of spins
                     myLayer.changeSpeed();
-
-                    
-
-
-                    //player has touched
-                    myLayer.touched=true;
-                    
-                    //start checking for no touch on game start
-                    
-                        /*if(myLayer.GameStarted==false){
-                        myLayer.startCheckingForTouch();
-
-                    }*/
-
-                    //understand that the game has started
-                    myLayer.GameStarted = true;
-                                        
-                    
-                                
-
-                    
 
                     return true;
                 }//onTouchBegan
             },this);//eventManager
         }//if
-        //////////////////////////////////////////
-        ///////////AUTO LOSE////////////////////
-
-        //if(this.GameStarted== true){
-           /* cc.log("test for touch function" + this.GameStarted);
-        while(this.GameStarted){
-        this.scheduleOnce(this.didPlayerTouch(),5);
-        cc.log("touched?" +this.touched)
-        }*/
+        ///////////////////////TOUCH FUNCTION///////////////////
         /////////////////////////////////////////
 
         
@@ -485,34 +343,18 @@ var GameLayer = cc.Layer.extend({
     },//ctor function - main code
 
 
-
-  /*  startCheckingForTouch : function(){
-        cc.log("started checking for touch")
-        this.schedule(this.didPlayerTouch,baseSpeed/1.1);
-
-
-
-
-        //var fadeAction = cc.FadeTo.create(1,0);
-        //this.instructionsLabel.runAction(fadeAction);
-    },//start checking for touch */
-
     particleTurbo:function()
     {
-    cc.log("ACTIVATED");
+    
     innerParticleEmissionRate = innerParticle.getEmissionRate();
-   // innerParticleParticleCount = innerParticle.getTotalParticles();
-   // innerParticleLife = innerParticle.getLife();
+   
                                 
     outerParticleEmissionRate = outerParticle.getEmissionRate();
-    //outerParticleParticleCount = outerParticle.getTotalParticles();
-  //  outerParticleLife = outerParticle.getLife();
+    
                                 
-    //innerParticle.setTotalParticles(innerParticleParticleCount - 40);
     innerParticle.setEmissionRate(innerParticleEmissionRate/3);
     innerParticle.setBlendAdditive(false);
                                 
-    //outerParticle.setTotalParticles(outerParticleParticleCount - 40);
     outerParticle.setEmissionRate(outerParticleEmissionRate/3);
     outerParticle.setBlendAdditive(false);
     },
@@ -521,131 +363,50 @@ var GameLayer = cc.Layer.extend({
     {
     cc.log("ACTIVATED 2 ")
     innerParticle.setEmissionRate(innerParticleEmissionRate);
-    //innerParticle.setTotalParticles(innerParticleParticleCount);
     innerParticle.setBlendAdditive(true);
                                 
     outerParticle.setEmissionRate(outerParticleEmissionRate);
-    //outerParticle.setTotalParticles(outerParticleParticleCount);
     outerParticle.setBlendAdditive(true);
     },
 
-    turboStart : function(){
+    turboStart : function(){//starting turbo mode
         turboMode = true;
-        cc.log("STARTING TURBO");
-        cc.log("Is turbo started?" + turboMode);
-        //
+        //turning on the turbomode animated label
         this.turboLabel.setOpacity(255);
-
-                                
-    
-        
         //////////////////////MUSIC////////////////////////
-                                
-        
-        
         cc.audioEngine.pauseMusic();
         this.turboMusic = cc.audioEngine.playEffect(res.TurboBackground_music,true);
-        
-
         //////////////////////MUSIC/////////////////////////
                                 
         /////////////////////////// PARTICLES //////////////////////////////
-        this.particleTurbo();
-        
+        this.particleTurbo();//initiate the turbo particles
         BackgroundSpin.setTotalParticles(starsParticleCount);
-       
         //darkening the background                        
         var darken = cc.FadeTo(1,50);
         this.backgroundPic.runAction(darken);
-        
-        
         ////////////////////PARTICLES[[[[[[[[[[[[[[]]]]]]]]]]]]]]
                                 
                                      
         
-    },
+    },//end of turbo start
 
-    turboEnd:function(){
-        cc.log("ENDING TURBO MODE");
+    turboEnd:function(){//ending turbo function
         turboMode = false;
-        cc.log("Is turbo still on?" + turboMode);
+        //disabling turbo label, make it disappear
         this.turboLabel.setOpacity(0);
-
-
-        //ending stuff here
-        //if (turboMode){
-        //var FadeOut = cc.FadeTo.create(0.1,0);
-        //this.turboCountDown.setOpacity(0);  
-        //}
-        
-
-
-
-
-
-        //play a poop sound to show that turbo mode ended
-
         ////////////////////STOP TURBO MUSIC//////////////
-
-       cc.audioEngine.stopEffect(this.turboMusic);
-
+        cc.audioEngine.stopEffect(this.turboMusic);
         cc.audioEngine.resumeMusic();
-
         ////////////////////STOP TURBO MUSIC////////////////
 
-
-
-
-        ///////////////// PARTICLES //////////////////////
-        
-        
+        /////////////////ENDING PARTICLES //////////////////////
         this.particleUnturbo();
-        
-                                
         BackgroundSpin.setTotalParticles(0);
-                                
+        //get background back to normal                                
         var brighten = cc.FadeTo(0.5,225);
         this.backgroundPic.runAction(brighten);
-        
-       
-
-        },
-
-
-
-
-
-
-
-
-
-
-
-
-    //checking whether player touched
-  /*  didPlayerTouch:function(){
-        cc.log("checked for touch"); 
-        
-        
-
-
-        if (this.touched == false){
-            UNTOUCHEDLOSS = true;
-            cc.log("Player did not touch");
-            //ending turbo
-            
-            if (turboMode)
-            {
-            this.turboEnd();
-            }
-                                
-            levelDown("Miss");
-            levelDown("Miss");
-            levelDown("Miss");
-            this.changeSpeed();
-        }//if
-        this.touched = false;
-    },//checking player touch */
+        //////////////////ENDING PARTICLES////////////////////
+        },//function to end turbo
 
     //updating score
     updateScore:function(){
@@ -657,10 +418,7 @@ var GameLayer = cc.Layer.extend({
 
     },//update score
 
-
-
-    //insert methods here
-    changeSpeed:function(speedIn,speedOut){
+    changeSpeed:function(speedIn,speedOut){//changing speed function
         //change speed here
         // change inner to new speed
         var rotatePointIn = new cc.RotateBy(speedInner, 360); // <- Rotate the node by 360 degrees in 5 seconds.
@@ -679,267 +437,227 @@ var GameLayer = cc.Layer.extend({
     checkDistance : function(d,x1,y1,x2,y2){
 
 
-    var perfectDistance = d;//preset perfect
-    var greatDistance = d *2;//preset great
+        var perfectDistance = d;//preset perfect
+        var greatDistance = d *2;//preset great
 
-    //calculate the distance between the two
-    var distance = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+        //calculate the distance between the two
+        var distance = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
 
-    //for console logging and debugging
-    cc.log("perfect"+perfectDistance);
-    cc.log("great:"+greatDistance);
-    cc.log("between two dots: "+distance);
+        //for console logging and debugging
+        /*
+        cc.log("perfect"+perfectDistance);
+        cc.log("great:"+greatDistance);
+        cc.log("between two dots: "+distance);
+        */
 
-    //set up actions
-    var FadeMessageIn = cc.FadeTo.create(0.1,255);
-    var FadeMessageOut = cc.FadeTo.create(0.4,0);
-    var FlashMessage = cc.Sequence.create(FadeMessageIn,FadeMessageOut);
-    //fade instructions
-    var fadeAction = cc.FadeTo.create(1,0);
-    
-    
+        //set up actions
+        var FadeMessageIn = cc.FadeTo.create(0.1,255);
+        var FadeMessageOut = cc.FadeTo.create(0.4,0);
+        var FlashMessage = cc.Sequence.create(FadeMessageIn,FadeMessageOut);
+        //fade instructions
+        var fadeAction = cc.FadeTo.create(1,0);
 
-    
-
-
-
-    //note will take two global variables - perfectDistance and greatDistance
-    ///////////////////PERFECT/////////////////////////
-    if (distance <= perfectDistance){
-        
-        //leveling up and increasing speed
-        levelUp(2, "Perfect");
-
-        this.autoLossSpeed(1.05,1.15);
-
-        
-
-        if(turboMode == false){
-            cc.audioEngine.playEffect(res.NormalPerfectSound,false);
-        }
-        else if(turboMode == true){
-            cc.audioEngine.playEffect(res.TurboPerfectSound,false);
-        }
-
-        consecutiveMisses = 0;
-        //show "perfect"
-        this.perfectLabel.runAction(FlashMessage);
-
-        //starting turbomode
-        var showCountDown = cc.FadeTo.create(0.2,255);
-        if(turboMode == false && levelInner ==10){
-            cc.log(levelInner);
-            turboCount ++;
-            cc.log("this is running")
-
-            if(turboCount >=2){
-            this.turboCountDown.setString("Turbo Mode in " +(5-turboCount)+ "...");
-            cc.log("Turbo Mode in " +(6-turboCount)+ "...");
+        ///////////////////PERFECT/////////////////////////
+        if (distance <= perfectDistance){
             
-            this.turboCountDown.setOpacity(255);
+            //leveling up and increasing speed, calling levelup function
+            levelUp(2, "Perfect");
+
+            this.autoLossSpeed(1.05,1.15);
+
+            
+            //playing a sound
+            if(turboMode == false){
+                cc.audioEngine.playEffect(res.NormalPerfectSound,false);
+            }
+            else if(turboMode == true){
+                cc.audioEngine.playEffect(res.TurboPerfectSound,false);
+            }
+            //playing a sound
+
+            consecutiveMisses = 0;
+
+            //show "perfect"
+            this.perfectLabel.runAction(FlashMessage);
+
+            //starting turbomode
+            var showCountDown = cc.FadeTo.create(0.2,255);
+            if(turboMode == false && levelInner ==10){
+                cc.log(levelInner);
+                turboCount ++;
+                
+                if(turboCount >=2){
+                this.turboCountDown.setString("Turbo Mode in " +(5-turboCount)+ "...");
+                
+                this.turboCountDown.setOpacity(255);
+                }//show turbo mode
+                
+            }//counting turbo
+
+            if(turboCount == 5 && turboMode == false){//launch turbo at 5 consecutive perfects
+                
+                this.turboStart();
+                this.turboCountDown.setOpacity(0);
+            }//turbostart
+                                    
+            
+            // start the inner trail
+            if (levelInner > 0 && !innerTrail)
+            {
+            this.innerStart(particleLagDistance.width);
+            }
+                                    
+            //setting particles
+                                    
+                
+            // start the outer trail
+            if (levelOuter > 0 && !outerTrail)
+            {
+            this.outerStart(particleLagDistance.width);
+                                    
+            }//outer trail
+ 
+        }//if perfect
+
+
+        /////////////////GREAT//////////////////////////////
+        else if (distance <=greatDistance){
+            //speed up once
+            levelUp(1, "Great");
+            //missing
+            this.autoLossSpeed(1.05,1.15);
+
+
+            //playing a sound
+            if(turboMode == false){
+                cc.audioEngine.playEffect(res.NormalGreatSound,false);
+            }
+            else if(turboMode == true){
+                cc.audioEngine.playEffect(res.TurboGreatSound,false);
+            }
+
+            //counting miss
+            consecutiveMisses = 0;
+            //showing a message
+            this.greatLabel.runAction(FlashMessage);
+
+            //removing the turbo countdown
+            if(turboMode == false){
+            turboCount = 0;
+            this.turboCountDown.setOpacity(0);
+            }//ending turbo count down
+                                    
+            //trails 
+            if (levelOuter > 0 && !outerTrail)
+            {
+            this.outerStart(particleLagDistance.width);                 
+            }//outer particle trail
+                                    
+                                    
+                                    
+        }//else if 
+
+        //////////////////////MISS////////////////////
+        else{
+
+            //speed control - player doesn't get less than 10 speed
+            if(levelInner<10){
+            levelDown("Miss");
+            }//speed control
+                                    
+            //from an auto miss, if hit, won't be an untouched loss
+            if (UNTOUCHEDLOSS)
+            {  
+            cc.director.getScheduler().unscheduleCallbackForTarget(this,this.unTouchedLoss);
+            UNTOUCHEDLOSS = false 
+            } 
+
+            // remove the outer trail        
+            if (levelOuter == 0 && outerTrail)
+            {
+            outerTrail = false;
+            this.rotationPointOut.removeChildByTag(2);
+            }//disabling outer trail
+                     
+            //can't miss twice. so must add in the consecutiveness                         
+            consecutiveMisses ++;
+
+            //playing a sound for miss
+            if(turboMode == false){
+                cc.audioEngine.playEffect(res.NormalMissSound,false);
+            }
+            else if(turboMode == true){
+                cc.audioEngine.playEffect(res.TurboMissSound,false);
             }
             
-            cc.log("should be counting down turbo")
-        }//counting turbo
+            //miss label display
+            this.missLabel.runAction(FlashMessage);
 
-        if(turboCount == 5 && turboMode == false){
-            
-            this.turboStart();
+            //controlling how many misses in a row a player can have
+            if(consecutiveMisses == 2){
+                MISSLOSS=true;
+                GameOver();
+            }//miss loss check
+
+            //reset turbo count down
+            turboCount = 0;
             this.turboCountDown.setOpacity(0);
-        }//turbostart
-                                
-        
-        // start the inner trail
-        if (levelInner > 0 && !innerTrail)
-        {
-        this.innerStart(particleLagDistance.width);
-        }
-                                
-        //setting particles
-                                
+
+            //ending turbo if miss
+            if(turboMode==true){
+                //////////////change speed back/////////////
+                speedInner = baseSpeed/levelInner;
+                speedOuter = baseSpeed / levelOuter;
+                /////////////change speed back////////////// 
+                this.turboEnd();
+            }
+        }//else of miss
+
+
+        ///////////////////FADING INSTRUCTIONS////////
+        if(levelInner == 7 || levelInner == 8){
             
-        // start the outer trail
-        if (levelOuter > 0 && !outerTrail)
+            this.instructionsLabel.runAction(fadeAction);
+        }//fade the instructions
+        ///////////////////FADING INSTRUCTIONS/////////
+
+
+
+
+        /////////////////////TURBO SPEED OVERRIDE/////////////////////
+        //new speed for turbo mode - overrides speed
+       if(turboMode == true)
         {
-        this.outerStart(particleLagDistance.width);
-                                
-        }
-                                
-        
-
-       
-
-    }//if
-
-
-    /////////////////GREAT//////////////////////////////
-    else if (distance <=greatDistance){
-        
-
-
-        levelUp(1, "Great");
-
-        this.autoLossSpeed(1.05,1.15);
-
-
-
-        if(turboMode == false){
-            cc.audioEngine.playEffect(res.NormalGreatSound,false);
-        }
-        else if(turboMode == true){
-            cc.audioEngine.playEffect(res.TurboGreatSound,false);
-        }
-
-        consecutiveMisses = 0;
-        this.greatLabel.runAction(FlashMessage);
-
-        if(turboMode == false){
-        turboCount = 0;
-        //this.turboCountDown.setString("Turbo Mode in " +(6-turboCount)+ "...");
-        this.turboCountDown.setOpacity(0);
-        }//if false
-                                
-                                
-
-        //trails 
-        if (levelOuter > 0 && !outerTrail)
-        {
-         
-        this.outerStart(particleLagDistance.width);
-                                
-        }//outer particle
-                                
-                                
-                                
-    }//else if 
-
-    //////////////////////MISS////////////////////
-    else{
-        
-      
-
-        //speed control - player doesn't get less than 10 speed
-        if(levelInner<10){
-        levelDown("Miss");
-        }//speed control
-                                
-        if (UNTOUCHEDLOSS)
-        {  
-        cc.director.getScheduler().unscheduleCallbackForTarget(this,this.unTouchedLoss);
-        UNTOUCHEDLOSS = false 
-        } 
-
-        // remove the outer trail
-                                
-        if (levelOuter == 0 && outerTrail)
-        {
-        
-        outerTrail = false;
-        this.rotationPointOut.removeChildByTag(2);
-        
-        }
-                                
-                                
-                                
-                                
-        consecutiveMisses ++;
-
-        if(turboMode == false){
-            cc.audioEngine.playEffect(res.NormalMissSound,false);
-        }
-        else if(turboMode == true){
-            cc.audioEngine.playEffect(res.TurboMissSound,false);
-        }
-        
-
-
-        this.missLabel.runAction(FlashMessage);
-
-        //controlling how many misses in a row a player can have
-        if(consecutiveMisses == 2){
-            MISSLOSS=true;
-            //speedInner = 9001;
-            //speedOuter = 9001;
-            GameOver();
-
-        
-
-        }//if within miss
-
-        turboCount = 0;
-        //this.turboCountDown.setString("Turbo Mode in " +(6-turboCount)+ "...");
-        this.turboCountDown.setOpacity(0);
-
-        if(turboMode==true){
-                                 
-            //////////////change speed back/////////////
-            speedInner = baseSpeed/levelInner;
-            speedOuter = baseSpeed / levelOuter;
-            /////////////change speed back////////////// 
-            this.turboEnd();
-        }
-    }//else
-
-
-    ///////////////////FADING INSTRUCTIONS////////
-    if(levelInner == 7 || levelInner == 8){
-        
-        this.instructionsLabel.runAction(fadeAction);
-    }//fade the instructions
-    ///////////////////FADING INSTRUCTIONS/////////
-
-
-
-
-    /////////////////////TURBO SPEED OVERRIDE/////////////////////
-    //new speed for turbo mode - overrides speed
-   if(turboMode == true)
-    {
-        //change the factor as needed
-        //bigger = slower. smaller = faster
-        var factor = 0.82;
-                                
-    speedInner = baseSpeed/levelInner*factor;
-    speedOuter = baseSpeed/levelOuter*factor;
-                    
-    
-                                
-    
-    }//changing speed for turbo mode - make faster as needed
-    /////////////////////TURBO SPEED OVERRIDE/////////////////////
-
+            //speed factor for turbo mode
+            //smaller is faster. bigger is slower
+            var factor = 0.82;
+            //changing the speed based on the factor              
+            speedInner = baseSpeed/levelInner*factor;
+            speedOuter = baseSpeed/levelOuter*factor;
+        }//changing speed for turbo mode - make faster as needed
+        /////////////////////TURBO SPEED OVERRIDE/////////////////////
     },//checking distance
 
 
-    // PARTICLE EXPLOSION EFFECT
-                                
-                                
-    particleExplosion: function ()
-    {
+    // PARTICLE EXPLOSION EFFECT            
+    particleExplosion: function (){
      
     var explosionParticle = new cc.ParticleSystem.create(res.explosionParticle_plist);
-                                
-    explosionParticle.setTag(3);
-                                
-    explosionParticle.attr
-    ({
-                       
+    //assign a tag to explosion particle            
+    explosionParticle.setTag(3);          
+    explosionParticle.attr({
      x: this.InnerSat.x,
-     y: this.InnerSat.y
-                                
+     y: this.InnerSat.y,                            
     });
-                                
-    
-    this.rotationPointIn.addChild(explosionParticle);
-                                
+    this.rotationPointIn.addChild(explosionParticle);                   
     }, // particleExplosion
                                 
    
                                 
-                                
-    innerStart: function (size)
-    {
-                    
+    //starting inner explosion                       
+    innerStart: function (size){
+    
+
     innerTrail = true;
     innerParticle = new cc.ParticleSystem.create(res.innertrailingParticle_plist);
     cc.log("LIFE IS " + innerParticle.getLife());
@@ -949,92 +667,86 @@ var GameLayer = cc.Layer.extend({
                                 
     innerParticle.setTag(1);
                                 
-    innerParticle.attr
-    ({
+    innerParticle.attr({
      x: this.InnerSat.x-size/75,
     y: this.InnerSat.y
     });
                                 
-    switch (innerParticleTrailColor)
-    {
+    switch (innerParticleTrailColor){
+
     case 1:
-    innerParticle.setStartColor(cc.color(255,204,51));
-    innerParticle.setEndColor(cc.color(255,0,25));
-    innerParticle.setStartColorVar(cc.color(0,0,0));
-    innerParticle.setEndColorVar(cc.color(0,0,0));
-    break;
+        innerParticle.setStartColor(cc.color(255,204,51));
+        innerParticle.setEndColor(cc.color(255,0,25));
+        innerParticle.setStartColorVar(cc.color(0,0,0));
+        innerParticle.setEndColorVar(cc.color(0,0,0));
+        break;
                                 
     case 2:
-    innerParticle.setStartColor(cc.color(0,255,0));
-    innerParticle.setEndColor(cc.color(255,255,51));
-    innerParticle.setStartColorVar(cc.color(0,0,0));
-    innerParticle.setEndColorVar(cc.color(0,0,0));
-    break;
+        innerParticle.setStartColor(cc.color(0,255,0));
+        innerParticle.setEndColor(cc.color(255,255,51));
+        innerParticle.setStartColorVar(cc.color(0,0,0));
+        innerParticle.setEndColorVar(cc.color(0,0,0));
+        break;
                                 
     case 3:
-    innerParticle.setStartColor(cc.color(51,51,255));
-    innerParticle.setEndColor(cc.color(255,51,255));
-    innerParticle.setStartColorVar(cc.color(0,0,0));
-    innerParticle.setEndColorVar(cc.color(0,0,0));
-    break;
+        innerParticle.setStartColor(cc.color(51,51,255));
+        innerParticle.setEndColor(cc.color(255,51,255));
+        innerParticle.setStartColorVar(cc.color(0,0,0));
+        innerParticle.setEndColorVar(cc.color(0,0,0));
+        break;
                                 
     default:
-                                // don't change the particle color
-    break;
-    }//switch
-                         
-    
+        // don't change the particle color
+        break;
+    }//switch for selecting colour
+    //rotate 
     this.rotationPointIn.addChild(innerParticle);
     
                                 
     },
-                                
-    outerStart: function (size)
-    {
+         
+    //start particles in outer dot                       
+    outerStart: function (size){
                                 
     outerTrail = true;
     outerParticle = new cc.ParticleSystem.create(res.outertrailingParticle_plist);
                                 
-   
-    
     var outerParticleColor = Math.floor(Math.random()*4);
                                 
-    if (outerParticleColor == innerParticleTrailColor)
-    {
+    if (outerParticleColor == innerParticleTrailColor){
     outerParticleColor = 0;
     }
                                 
     outerParticle.setTag(2);
                                 
                                 
-    outerParticle.attr
-    ({
+    outerParticle.attr({
     x:this.OuterSat.x+size/75,
     y: this.OuterSat.y
     });
                                 
-    switch (outerParticleColor)
-    {
+    switch (outerParticleColor){
+
     case 1:
-    outerParticle.setStartColor(cc.color(255,204,51));
-    outerParticle.setEndColor(cc.color(255,0,25));
-    outerParticle.setStartColorVar(cc.color(0,0,0));
-    outerParticle.setEndColorVar(cc.color(0,0,0));
-    break;
+        outerParticle.setStartColor(cc.color(255,204,51));
+        outerParticle.setEndColor(cc.color(255,0,25));
+        outerParticle.setStartColorVar(cc.color(0,0,0));
+        outerParticle.setEndColorVar(cc.color(0,0,0));
+        break;
                                 
     case 2:
-    outerParticle.setStartColor(cc.color(0,255,0));
-    outerParticle.setEndColor(cc.color(255,255,51));
-    outerParticle.setStartColorVar(cc.color(0,0,0));
-    outerParticle.setEndColorVar(cc.color(0,0,0));
-    break;
+        outerParticle.setStartColor(cc.color(0,255,0));
+        outerParticle.setEndColor(cc.color(255,255,51));
+        outerParticle.setStartColorVar(cc.color(0,0,0));
+        outerParticle.setEndColorVar(cc.color(0,0,0));
+        break;
                                 
     case 3:
-    outerParticle.setStartColor(cc.color(51,51,255));
-    outerParticle.setEndColor(cc.color(255,51,255));
-    outerParticle.setStartColorVar(cc.color(0,0,0));
-    outerParticle.setEndColorVar(cc.color(0,0,0));
-    break;
+        outerParticle.setStartColor(cc.color(51,51,255));
+        outerParticle.setEndColor(cc.color(255,51,255));
+        outerParticle.setStartColorVar(cc.color(0,0,0));
+        outerParticle.setEndColorVar(cc.color(0,0,0));
+        break;
                                 
     default:
     // don't change the particle color
@@ -1045,7 +757,7 @@ var GameLayer = cc.Layer.extend({
                                 
     },
 
-
+    //automiss function
     autoMiss:function()
     {
     var FadeMessageIn = cc.FadeTo.create(0.1,255);
@@ -1113,169 +825,83 @@ var GameLayer = cc.Layer.extend({
         this.changeSpeed();
     //else
     }, //AUTOMISS
-                                
-    unTouchedLoss:function()
-    {
-    cc.log("Activating auto-miss");
-              
-                                
-    this.autoMiss();
-    this.autoLossSpeed(1.05,1.1);
-                                
-
+    
+    //lose when no touch       
+    unTouchedLoss:function(){    
+        this.autoMiss();
+        this.autoLossSpeed(1.05,1.1);
     },      
 
-    autoLossSpeed:function(innerFactor, combinedFactor)
-    {
-        if (UNTOUCHEDLOSS)
-        {  
-        cc.director.getScheduler().unscheduleCallbackForTarget(this,this.unTouchedLoss);
-        UNTOUCHEDLOSS = false ;
-        } 
+    //calculating the speed at which the loss check is
+    autoLossSpeed:function(innerFactor, combinedFactor){
+        if (UNTOUCHEDLOSS){  
+            cc.director.getScheduler().unscheduleCallbackForTarget(this,this.unTouchedLoss);
+            UNTOUCHEDLOSS = false ;
+        }//check whether the speeed 
         
 
-    if (levelOuter == 0)
-    {
+    if (levelOuter == 0){
         var missSpeed = speedInner*innerFactor;
     }
 
-    else
-    {
-    var innerOmega = 360/speedInner;
-    var outerOmega = 360/speedOuter;
+    else{//using some advanced mathmatics to calculate the time at which the auto miss checks
+        var innerOmega = 360/speedInner;
+        var outerOmega = 360/speedOuter;
 
-    var thetaInner = innerOmega*360/(outerOmega + innerOmega);
-    var missSpeed = thetaInner/innerOmega*combinedFactor;
-                                
-        
-
-                                
+        var thetaInner = innerOmega*360/(outerOmega + innerOmega);
+        var missSpeed = thetaInner/innerOmega*combinedFactor;
     }
 
-         cc.director.getScheduler().scheduleCallbackForTarget(this,this.unTouchedLoss,missSpeed);
-         UNTOUCHEDLOSS = true;
-    },                     
-
-
-
-                                
-    
-    
-                                
-    
-
-   
-
-
-
+    cc.director.getScheduler().scheduleCallbackForTarget(this,this.unTouchedLoss,missSpeed);
+    UNTOUCHEDLOSS = true;
+    },//end the thing that calculates the speed             
 });//GameLayer
 
-
-
-
-var testing = function(){
-    cc.log("continual test");
-};
-
-
-//pause
+//pause - launch pause scene
 var PauseGame = function(){
     cc.log("pausing the game");
     var scene = new PauseScene();
     cc.director.pushScene(scene);
 };//pause
 
-
 //key function -stops everything and resets all the variables and all the random stuff
 var GameOver = function(){
-
-
-    
-
-    
-    
-
-    //gamelayer.resetGame();
-    //var resetRotation = cc.RotateTo.create(3,1);
-
-    //gamelayer.rotationPointIn.runAction(resetRotation);
-    //gamelayer.rotationPointOut.runAction(resetRotation);
-
-
-    //set high score
-    //setHighScore(currentScore);
-    cc.log("CurrentScore = " + currentScore);
-    cc.log("HighScore = " + highScore);
-
-
-
-    cc.log("go to gameover menu and record score and stop moving");
-    //must reset everything. ie, move everything to starting point
-
-
+    //resetting all the parameters and variables for new game
     levelInner = 0;
     levelOuter = 0;
     speedInner = 9001;
     speedOuter = 9001;
-    //currentScore = 0;
-    NEWGAME = true;
-
-    ISITGAMEOVER = true;
+    
+    //allow the game scene to be reinitiated
     GAMEINITIALIZED = false;
 
+    //remove the trails
     innerTrail = false;
     outerTrail = false;
 
-
-    //var scene = new GameOverScene();
-    //use rotateto to rotate to 0
-    //cc.director.pushScene(scene);
-
-
-
-    ///////ADD REPLACE TO GAMEOVER
+    ///////launch the game over scene////////
     var scene = new GameOverScene();
     cc.director.runScene(new cc.TransitionFade(0.5,scene));
-    
-
-
-
 };//gameover
-
-
-
-
-
 
 //leveling up function
 var levelUp = function(amount,message){
-    //message sent in is either excellent or great
-    //change speed by amount
+    //speeding up
     levelInner = levelInner + amount;
     
-
+    //speed limit and control
     if (levelInner >10){//limiting speed
         levelInner = 10;
     }
     
+    //speeding up for outer and launching the outer
     if(levelInner>5){//after inner lv 5, start spinning out
         levelOuter ++;
     }
     
+    //speed limit for the outer
     if (levelOuter>5){//prevents outer from going past 5
         levelOuter = 5;
-    }
-    
-    //display message - just for testing
-    //image popping is within the main scene
-    if(message == "Perfect"){
-        //change to pop the image on the screen
-
-        cc.log("Perfect");
-    }
-    else if (message == "Great"){
-        //change to pop the image
-        cc.log("Great");
     }
 
     //Changing the score
@@ -1289,29 +915,17 @@ var levelUp = function(amount,message){
 
     //changing the speed accordingly
     speedInner = baseSpeed/levelInner;
-    speedOuter = baseSpeed/levelOuter;
-
-    
+    speedOuter = baseSpeed/levelOuter;    
 }//levelup
 
 
 //level down 
 var levelDown = function (message){
-
-    //speed control - so player never gets below lv 10. but must work up there
-    //if(levelInner<10){
-    
+    //slowing the speed
     levelInner--;
     levelOuter--;
-    
-    //}
-    cc.log("you leveled down");
 
-    //var myLayer = cc.director.getRunningScene();
-    //myLayer.resetGame();
-
-
-
+    //speed control
     if (levelOuter<0){
         cc.log("levelouter is now 0");
         levelOuter = 0;
@@ -1320,16 +934,11 @@ var levelDown = function (message){
         levelInner = 0;
     }
 
-    //just for testing
-    if(levelInner == 1){
-        cc.log("you're about to lose");
-    }
-
+    //slow loss
     if(levelInner == 0){
-
         SLOWLOSS = true;
         GameOver();
-    }
+    }//slow loss
 
     //setting speed of inner dot
     speedInner = baseSpeed/levelInner;
@@ -1343,47 +952,15 @@ var levelDown = function (message){
 
 };//leveldown
 
-
-
-
-//check and set highScore
-/*var setHighScore = function(currentScore){
-    if (currentScore > highScore){
-        highScore = currentScore;
-
-
-
-
-
-
-    }
-    //setting highscore to local storage
-    ls.setItem("highscore",highScore);
-}//check and set highscore*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ///////////////////////////////////////////
+////////////////////////////////////////////
+//////////////////////////////////////////
 var GameScene = cc.Scene.extend({
     //to try to access the scene/layer from global function
     AccessLayer:null,
 
     onEnter:function () {
         this._super();
-
-        cc.log("testing if gamescene actually starts")
-
 
         if (GAMEINITIALIZED == false){
             GAMEINITIALIZED = true;

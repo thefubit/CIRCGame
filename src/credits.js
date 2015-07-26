@@ -1,14 +1,9 @@
-//CIRC - Settings LAyer
-
 //to check whether the layer already exists - prevents duplicates
 var CREDITSINITIALIZED = false;
-
 
 //The main layer of this scene
 var CreditsLayer = cc.Layer.extend({
     backgroundPic:null,
-
-    
 
     ctor:function () {
         //////////////////////////////
@@ -16,45 +11,25 @@ var CreditsLayer = cc.Layer.extend({
         this._super();
 
         /////////////////////////////
-        // 2. add a menu item with "X" image, which is clicked to quit the program
-        //    you may modify it.
-        // ask the window size
+        //normalizing the size and setting the screen size
         var size = cc.winSize;
         var normalizescale = size.height/640;
         /////////////////////////////
-
-
-        //make a UI toggle for volume
-        //make a slider for volume - not necessary
-        //return to menu - pop this scene
-
-
-
-        // add "HelloWorld" splash screen"
+        //background picture
         this.backgroundPic = new cc.Sprite(res.Background_png);
         this.backgroundPic.attr({
             x: size.width / 2,
             y: size.height / 2,
-            
-            
         });
         this.backgroundPic.setScale(0.4*normalizescale);
         this.addChild(this.backgroundPic, 0);
 
-
-
-
-        //default code from setup - REPLACE it as needed
-        // add a "close" icon to exit the progress. it's an autorelease object
-        //image as a menu 
+        //////////////BUTTONS///////////////////////
         var MainMenuButton= new cc.MenuItemImage(
             res.HomeButton_png,
             res.HomeButtonPressed_png,
             function () {
-                cc.log("Menu is clicked!");
-                cc.log(testvar);
                 ReturnToMenuFromCredits();
-                cc.log("returning to menu")
             }, this);
         MainMenuButton.attr({
             x: size.width/2,
@@ -64,45 +39,14 @@ var CreditsLayer = cc.Layer.extend({
             scale : 0.4*normalizescale,
         });
 
-
-
-        /* POSTPONING THIS FUNCTIONALITY
-
-        var MailButton = new cc.MenuItemImage(
-            res.MailButton_png,
-            res.MailButtonPressed_png,
-            function(){
-                cc.log("mail button pressed");
-//<<<<<<< HEAD
-                //window.location.href = 'mailto:ymotqy@hotmail.com';
-//=======
-                window.location = 'mailto:this.that@here.com';
-                                              
-//>>>>>>> origin/master
-
-            },this);
-
-        MailButton.attr({
-            x:size.width/6*4,
-            y: size.height/4,
-            anchorX:0.5,
-            anchorY: 0.5,
-            scale: 0.4 * normalizescale,
-
-
-            });
-            */
-
         var menu = new cc.Menu(MainMenuButton);
         menu.x = 0;
         menu.y = 0;
         this.addChild(menu, 1);
-
+        //////////////BUTTONS////////////////////////
         /////////////////////////////
-        // 3. add your codes below...
-        // add a label shows "Hello World"
-        // create and initialize a label
-        //var helloLabel = new cc.LabelTTF("Settings", "Arial", 38);
+
+        //credits title label
         var CreditsLabel = new cc.LabelBMFont("CREDITS",res.Ethnocentric_BMFont);
         // position the label on the center of the screen
         CreditsLabel.x = size.width / 2;
@@ -112,15 +56,13 @@ var CreditsLayer = cc.Layer.extend({
         // add the label as a child to this layer
         this.addChild(CreditsLabel, 5);
 
+        //text stuff to say
         var EmailUs = new cc.LabelBMFont("Email Us At: ttrcgames@outlook.com",res.Junegull_BMFont);
         EmailUs.x = size.width/2;
         EmailUs.y = size.height/3*2;
         EmailUs.setScale(1.2*normalizescale);
         EmailUs.color = cc.color(100,150,150);
         this.addChild(EmailUs);
-
-
-
 
         //giving knowledge
         var GameMadeBy = new cc.LabelBMFont("Game made with Cocos2d",res.Junegull_BMFont);
@@ -144,65 +86,19 @@ var CreditsLayer = cc.Layer.extend({
         SFXMadeBy.color = cc.color(100,150,150);
         this.addChild(SFXMadeBy);        
 
-
-
-
-
-
-
-
-
-
-
-        
-        
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //enter code above
         return true;
     },//ctor function - main code
-
-
-
-
-
-
-
-
 });//GameLayer
 
-//insert public functions here
+//return to main menu
 var ReturnToMenuFromCredits = function(){
    CREDITSINITIALIZED = false;
     cc.director.popScene();
     
 };
 
-
+//////////////////////////////////////////////////
+/////////////////////////////////////////////////
 var CreditsScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
