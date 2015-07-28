@@ -378,7 +378,11 @@ var GameLayer = cc.Layer.extend({
         this.turboLabel.setOpacity(255);
         //////////////////////MUSIC////////////////////////
         cc.audioEngine.pauseMusic();
+
+        if(musicVolume > 0)
+        {
         this.turboMusic = cc.audioEngine.playEffect(res.TurboBackground_music,true);
+        }
         //////////////////////MUSIC/////////////////////////
                                 
         /////////////////////////// PARTICLES //////////////////////////////
