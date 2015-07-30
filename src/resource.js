@@ -11,10 +11,6 @@ testvar = "this is a global variable";
 
 /////////////////////LOCAL STORAGE/////////////////
 var ls = cc.sys.localStorage;
-//access by 
-    // var thing = ls.getItem("key");
-//set by
-    // ls.setItem("key",value);
 
 //setting what color to display for animated title
 var colorselect=0;

@@ -275,13 +275,11 @@ var GameLayer = cc.Layer.extend({
 
 
         //temp for testing - level 
-        /*
         var leveltext = "Speed: " + levelInner;
         this.levelLabel = new cc.LabelTTF(leveltext,"Verdana",35);
         this.levelLabel.x = size.width/10*9;
         this.levelLabel.y = size.height-120;
         this.addChild(this.levelLabel,0);
-        */
         //////////////SCORING/////////////////////
         //////////////////////////////////////////         
                                 
@@ -405,8 +403,8 @@ var GameLayer = cc.Layer.extend({
         this.particleUnturbo();
         BackgroundSpin.setTotalParticles(0);
         //get background back to normal                                
-        //var brighten = cc.FadeTo(0.5,225);
-        //this.backgroundPic.runAction(brighten);
+        var brighten = cc.FadeTo(0.5,225);
+        this.backgroundPic.runAction(brighten);
         //////////////////ENDING PARTICLES////////////////////
         },//function to end turbo
 
@@ -612,9 +610,6 @@ var GameLayer = cc.Layer.extend({
                 speedOuter = baseSpeed / levelOuter;
                 /////////////change speed back////////////// 
                 this.turboEnd();
-                var brighten = cc.FadeTo(0.5,225);
-                this.backgroundPic.runAction(brighten);
-
             }
         }//else of miss
 
@@ -856,30 +851,10 @@ var GameLayer = cc.Layer.extend({
         var thetaInner = innerOmega*360/(outerOmega + innerOmega);
         var missSpeed = thetaInner/innerOmega*combinedFactor;
     }
-<<<<<<< HEAD
 
     cc.director.getScheduler().scheduleCallbackForTarget(this,this.unTouchedLoss,missSpeed);
     UNTOUCHEDLOSS = true;
     },//end the thing that calculates the speed             
-=======
-        
-        cc.director.getScheduler().scheduleCallbackForTarget(this,this.unTouchedLoss,missSpeed);
-        UNTOUCHEDLOSS = true;
-    },                     
-
-
-
-                                
-    
-    
-                                
-    
-
-   
-
-
-
->>>>>>> origin/master
 });//GameLayer
 
 //pause - launch pause scene
@@ -891,35 +866,7 @@ var PauseGame = function(){
 
 //key function -stops everything and resets all the variables and all the random stuff
 var GameOver = function(){
-<<<<<<< HEAD
     //resetting all the parameters and variables for new game
-=======
-
-
-    
-
-    
-    
-
-    //gamelayer.resetGame();
-    //var resetRotation = cc.RotateTo.create(3,1);
-
-    //gamelayer.rotationPointIn.runAction(resetRotation);
-    //gamelayer.rotationPointOut.runAction(resetRotation);
-
-
-    //set high score
-    setHighScore(currentScore);
-    cc.log("CurrentScore = " + currentScore);
-    cc.log("HighScore = " + highScore);
-
-
-
-    cc.log("go to gameover menu and record score and stop moving");
-    //must reset everything. ie, move everything to starting point
-
-
->>>>>>> origin/master
     levelInner = 0;
     levelOuter = 0;
     speedInner = 9001;
@@ -1005,40 +952,6 @@ var levelDown = function (message){
 
 };//leveldown
 
-<<<<<<< HEAD
-=======
-
-
-
-//check and set highScore
-var setHighScore = function(currentScore){
-    if (currentScore > highScore){
-        highScore = currentScore;
-
-
-
-
-
-
-    }
-    //setting highscore to local storage
-    ls.setItem("highscore",highScore);
-}//check and set highscore
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> origin/master
 ///////////////////////////////////////////
 ////////////////////////////////////////////
 //////////////////////////////////////////

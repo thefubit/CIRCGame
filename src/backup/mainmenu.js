@@ -8,6 +8,7 @@ var testspeed = 10;
 var MenuLayer = cc.Layer.extend({
     backgroundPic:null,
     helloLabel:null,
+    tempscore:0,
     dot:null,
     rotationPoint:null,
     
@@ -25,21 +26,40 @@ var MenuLayer = cc.Layer.extend({
         this._super();
 
         /////////////////////////////
-        //normalizing and finding screen size
+        // 2. add a menu item with "X" image, which is clicked to quit the program
+        //    you may modify it.
+        // ask the window size
         var size = cc.winSize;
-        var normalizescale = size.height/640;
-
         /////////////////////////////
-        //background pictures
+
+        // add "HelloWorld" splash screen"
+        
         this.backgroundPic = new cc.Sprite(res.Background_png);
         this.backgroundPic.attr({
             x: size.width / 2,
             y: size.height / 2,
+            scaleX : size.width/this.backgroundPic.width,
+            scaleY : size.height/this.backgroundPic.height
         });
-        this.backgroundPic.setScale(0.4*normalizescale);
         this.addChild(this.backgroundPic, 0);
-        //////////////////////////////////////////////////////
-        ////////////////MAIN MENU ROTATOR/////////////////////
+        
+
+
+
+        //things to be done in main menu
+        //display animated title picture
+        //show a spinning game slowly/consistent - 
+        //show touch to play in middle - then on touch, initiate the game
+        //settings button - leading to settings page
+        //display background
+        //mail button
+
+
+
+
+
+        
+        
         //rotation point
         this.rotationPoint = new cc.Node();
         this.rotationPoint.attr({
@@ -58,10 +78,14 @@ var MenuLayer = cc.Layer.extend({
 
         //setting location of the moon
         this.dot.attr({
+
             x: 0,
             y: size.height/8*3,
-            scale:0.5*normalizescale,
+            scale:0.5
         });
+
+        cc.log(size.width/2);
+        cc.log(size.height/10);
 
         //adding rotationpoint to layer
         this.addChild(this.rotationPoint);
@@ -70,95 +94,187 @@ var MenuLayer = cc.Layer.extend({
         var rotatePoint = new cc.RotateBy(testspeed,360);
         var rotateForever = new cc.RepeatForever(rotatePoint);
         this.rotationPoint.runAction(rotateForever);
-        /////////////////////MAIN MENU ROTATOR//////////////////////
-        ///////////////////////////////////////////////////////////
-        //setting the buttons
-        //settings button
+        
+        //var repeataction = cc.Repeat.create(this.increasespeed,2);
+        //this.runAction(repeataction);
+
+
+
+        //this.scheduleOnce(this.increasespeed,3);
+        cc.log("speed"+ testspeed);
+        //this.scheduleOnce(this.increasespeed,6);
+    
+
+        //default code from setup - REPLACE it as needed
+        // add a "close" icon to exit the progress. it's an autorelease object
+        //image as a menu 
         var SettingsButton = new cc.MenuItemImage(
             res.SettingsButton_png,
             res.SettingsButtonPressed_png,
             function () {
+                cc.log("Menu is clicked!");
                 GoToSettings();
+                cc.log("go to settings");
             }, this);
         SettingsButton.attr({
             x: 100,
             y: size.height/4*3,
             anchorX: 0.5,
             anchorY: 0.5,
-            scale:0.4*normalizescale,
+            scale:0.4
         });
-        //credits button
-        var CreditsButton = new cc.MenuItemImage(
-            res.CreditsButton_png,
-            res.CreditsButtonPressed_png,
+
+        var MailButton = new cc.MenuItemImage(
+            res.MailButton_png,
+            res.MailButtonPressed_png,
             function(){
-                this.increasespeed();
-                GoToCredits();
+                cc.log("Go to mail");
+                StartGame();
             },this);
-        CreditsButton.attr({
+        MailButton.attr({
             x : size.width-100,
             y : size.height /4*3,
             anchorX : 0.5,
             anchorY : 0.5,
-            scale : 0.4*normalizescale,
+            scale : 0.4
         });
+        MailButton.setScale(0.4);
+        
 
-        var menu = new cc.Menu(SettingsButton,CreditsButton);
+
+
+        var menu = new cc.Menu(SettingsButton,MailButton);
         menu.x = 0;
         menu.y = 0;
         this.addChild(menu, 1);
-        /////////////BUTTONS///////////////////
 
-        /////////////////////START INSTRUCTIONS LABEL////////
-        this.helloLabel = new cc.LabelBMFont("TOUCH TO START",res.Junegull_BMFont);
+        /////////////////////////////
+        // 3. add your codes below...
+        // add a label shows "Hello World"
+        // create and initialize a label
+        
+        var scorelabel = "Touch To Start";
+        this.helloLabel = new cc.LabelTTF(scorelabel, "Verdana", 38);
+        // position the label on the center of the screen
         this.helloLabel.x = size.width / 2;
         this.helloLabel.y = size.height/2;
-        this.helloLabel.color = cc.color(100,150,150);
-        this.helloLabel.setScale(2*normalizescale);
+        // add the label as a child to this layer
         this.addChild(this.helloLabel, 5);
-        /////////////////////START INSTRUCTIONS LABEL/////////////
-
-        /////////////////////SHOW HIGHSCORE///////////////////////
-        highscore = ls.getItem("highscore");
-
-        var highScoreNum = new cc.LabelBMFont(highscore, res.Junegull_BMFont);
-        highScoreNum.x = size.width/18*10;
-        highScoreNum.y = size.height/10*3;
-        this.addChild(highScoreNum,5);
-
-        var highScoreSymbol = new cc.Sprite.create(res.HighScoreSymbol_png);
-        highScoreSymbol.x = size.width/18*8;
-        highScoreSymbol.y = size.height/10*3;
-        highScoreSymbol.setScale(0.2*normalizescale);
-        this.addChild(highScoreSymbol);
-
-        ////////////////////SHOW HIGHSCORE//////////////////////////
+        
+        //this.schedule(this.updatescore,0);
 
         //////////////////////////////////////
-        ////////////ANIMATED TITLE/////////////////////
-        cc.spriteFrameCache.addSpriteFrames(res.animatedTitle_plist);
+        ////////////TITLE/////////////////////
 
-        this.spriteSheet = new cc.SpriteBatchNode(res.animatedTitle_png);
+        /*
+        var TitleSprite = new cc.Sprite.create(res.GameTitle_png);
+        TitleSprite.setAnchorPoint(cc.p(0.5,0.5));
+        TitleSprite.setPosition(size.width/2,size.height/4*3);
+        TitleSprite.setScale(0.3);
+        this.addChild(TitleSprite);
+        */
+
+        /*
+        //load sprite sheet
+        cc.spriteFrameCache.addSpriteFrames(res.animCIRCGreen_plist);
+        //var circimage = cc.textureCache.addImage(res.animCIRCRed_png);
+        this.spriteSheet = new cc.SpriteBatchNode.create(res.animCIRCGreen_png);
         this.addChild(this.spriteSheet);
 
+        //create frame array
         var animFrames = [];
-        for (var i = 1; i < 16; i++){
-            var str = circcolor+i + ".png";
+
+        //select color
+        var titlewithcolor = "circgreen"
+
+        //add the frames
+        for(var i=1;i<16;i++){
+            var str = titlewithcolor + i + ".png";
             var frame = cc.spriteFrameCache.getSpriteFrame(str);
+
+            //var animFrame = new cc.AnimationFrame();
+            //animFrame.initWithSpriteFrame(frame,1,null);
             animFrames.push(frame);
         }
+        cc.log(titlewithcolor + "1");
 
+        //make the animation action
+        var animateTitle = new cc.Animation(animFrames,0.1);//spriteframes and period
+
+        //repeating and actually animating the animation
+        this.animatedAction = new cc.RepeatForever(new cc.Animate(animateTitle));
+        this.TitleSprite = new cc.Sprite("#circgreen1.png");
+
+        this.sprite.attr({x:400,y:300,scale:0.25});
+        //this.TitleSprite.setPosition(size.width/2,size.height/4*3);
+        //this.TitleSprite.setScale(0.3);
+
+        
+
+        this.TitleSprite.runAction(this.animatedAction);
+        this.spriteSheet.addChild(this.TitleSprite);
+
+        */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //load sprite sheet
+        cc.spriteFrameCache.addSpriteFrames(res.animCIRCGreen_plist);
+
+        this.spriteSheet = new cc.SpriteBatchNode(res.animCIRCGreen_png);
+        this.addChild(this.spriteSheet);
+        
+        //create sprite frame array
+        var animFrames = [];
+        for (var i = 1; i < 16; i++){
+            var str = "circgreen"+i + ".png";
+            var frame = cc.spriteFrameCache.getSpriteFrame(str);
+            animFrames.push(frame);
+        
+        }
+        
         var animation = new cc.Animation(animFrames,0.1);//spriteframe array and period time
-
+        
         //repeating forever
         this.runningAction = new cc.RepeatForever(new cc.Animate(animation));
-        var filename = "#" + circcolor + "1.png";
-        this.TitleSprite = new cc.Sprite(filename);
+        this.sprite = new cc.Sprite("#circgreen1.png");
 
-        this.TitleSprite.attr({x:size.width/2,y:size.height/4*3,scale:0.4*normalizescale});
-        this.TitleSprite.runAction(this.runningAction);
-        this.spriteSheet.addChild(this.TitleSprite);
-        ////////////ANIMATED TITLE/////////////////////
+        this.sprite.attr({x:400,y:300,scale:0.25});
+        this.sprite.runAction(this.runningAction);
+        this.spriteSheet.addChild(this.sprite);
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ////////////TITLE/////////////////////
         //////////////////////////////////////
 
         if (cc.sys.capabilities.hasOwnProperty('touches')){
@@ -166,24 +282,50 @@ var MenuLayer = cc.Layer.extend({
                 event: cc.EventListener.TOUCH_ONE_BY_ONE,
 
                 onTouchBegan:function(touch,event){
+                    cc.log("touch detected");
+                    //StartGame();
+                    //
+                    var UpLayer = event.getCurrentTarget();
+                    UpLayer.increasespeed();
+                    cc.log("increase speed");
 
-                    StartGame();
+
+
                     return true;
                 },
 
             },this);
         }//if touch
 
+
+
+
+
+
+
+
+        //enter code above
         return true;
     },//ctor function - main code
 
+    updatescore:function(){
+        this.tempscore++;
+        this.helloLabel.setString("Score:"+this.tempscore);
+    },
+
     increasespeed:function(){
+        cc.log("current speed" +testspeed);
+
         testspeed=testspeed-4;
         if (testspeed<1){testspeed=1;};
-            var rotatePoint = new cc.RotateBy(testspeed,360);
-            var rotateForever = new cc.RepeatForever(rotatePoint);
-            this.rotationPoint.runAction(rotateForever);
-    },//increase speed function
+        cc.log("new speed " + testspeed);
+        var rotatePoint = new cc.RotateBy(testspeed,360);
+        var rotateForever = new cc.RepeatForever(rotatePoint);
+        this.rotationPoint.runAction(rotateForever);
+    }
+    
+
+
 });//GameLayer
 
 //insert public functions here
@@ -195,14 +337,6 @@ var GoToSettings = function(){
 
 };
 
-//go to credits to page
-var GoToCredits = function(){
-    cc.log("Going to Credits now");
-    var scene = new CreditsScene();
-    cc.director.pushScene(scene);
-};
-
-//starting the game
 var StartGame = function(){
     cc.log("this removes the menu layer");
     MENUINITIALIZED = false;
@@ -210,20 +344,23 @@ var StartGame = function(){
     cc.director.runScene(new cc.TransitionFade(0.5,scene));
 };
 
-//just a little demo of increasing the speed
-//easter egg
+
+//insert go to mail function
+var SendMail = function(){
+    cc.log("launch go to mail function");
+
+
+
+};
+
+
 var increasespeed = function(){
     testspeed = testspeed-8;
 }
 
-
-/////////////////////////////////////////////////////
-/////////////////////////////////////////////////////
 var MenuScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
-
-        
 
         if (MENUINITIALIZED == false){
             MENUINITIALIZED = true;
