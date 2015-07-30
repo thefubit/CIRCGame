@@ -403,8 +403,8 @@ var GameLayer = cc.Layer.extend({
         this.particleUnturbo();
         BackgroundSpin.setTotalParticles(0);
         //get background back to normal                                
-        var brighten = cc.FadeTo(0.5,225);
-        this.backgroundPic.runAction(brighten);
+        //var brighten = cc.FadeTo(0.5,225);
+        //this.backgroundPic.runAction(brighten);
         //////////////////ENDING PARTICLES////////////////////
         },//function to end turbo
 
@@ -610,8 +610,12 @@ var GameLayer = cc.Layer.extend({
                 speedOuter = baseSpeed / levelOuter;
                 /////////////change speed back////////////// 
                 this.turboEnd();
+
+                //get background back to normal                                
+                var brighten = cc.FadeTo(0.5,225);
+                this.backgroundPic.runAction(brighten);
             }
-        }//else of miss
+        }//////////////////////else of miss
 
 
         ///////////////////FADING INSTRUCTIONS////////
@@ -660,16 +664,16 @@ var GameLayer = cc.Layer.extend({
 
     innerTrail = true;
     innerParticle = new cc.ParticleSystem.create(res.innertrailingParticle_plist);
-    cc.log("LIFE IS " + innerParticle.getLife());
+    //cc.log("LIFE IS " + innerParticle.getLife());
                         
     innerParticleTrailColor = Math.floor(Math.random()*4);
-    cc.log("INNER TRAIL COLOR IS " + innerParticleTrailColor);
+    //cc.log("INNER TRAIL COLOR IS " + innerParticleTrailColor);
                                 
     innerParticle.setTag(1);
                                 
     innerParticle.attr({
-     x: this.InnerSat.x-size/75,
-    y: this.InnerSat.y
+        x: this.InnerSat.x-size/75,
+        y: this.InnerSat.y
     });
                                 
     switch (innerParticleTrailColor){
@@ -714,15 +718,15 @@ var GameLayer = cc.Layer.extend({
     var outerParticleColor = Math.floor(Math.random()*4);
                                 
     if (outerParticleColor == innerParticleTrailColor){
-    outerParticleColor = 0;
+        outerParticleColor = 0;
     }
                                 
     outerParticle.setTag(2);
                                 
                                 
     outerParticle.attr({
-    x:this.OuterSat.x+size/75,
-    y: this.OuterSat.y
+        x:this.OuterSat.x+size/75,
+        y: this.OuterSat.y
     });
                                 
     switch (outerParticleColor){
@@ -820,6 +824,10 @@ var GameLayer = cc.Layer.extend({
             speedOuter = baseSpeed / levelOuter;
             /////////////change speed back////////////// 
             this.turboEnd();
+
+            //get background back to normal                                
+            var brighten = cc.FadeTo(0.5,225);
+            this.backgroundPic.runAction(brighten);
         }
 
         this.changeSpeed();
@@ -859,7 +867,7 @@ var GameLayer = cc.Layer.extend({
 
 //pause - launch pause scene
 var PauseGame = function(){
-    cc.log("pausing the game");
+    //cc.log("pausing the game");
     var scene = new PauseScene();
     cc.director.pushScene(scene);
 };//pause
@@ -878,6 +886,9 @@ var GameOver = function(){
     //remove the trails
     innerTrail = false;
     outerTrail = false;
+
+    //set high score
+    setHighScore(currentScore);
 
     ///////launch the game over scene////////
     var scene = new GameOverScene();
@@ -951,6 +962,14 @@ var levelDown = function (message){
     }
 
 };//leveldown
+
+var setHighScore = function(currentScore){
+    if (currentScore > highScore){
+        highScore = currentScore;
+    }
+    //setting highscore to local storage
+    ls.setItem("highscore",highScore);
+}//check and set highscore
 
 ///////////////////////////////////////////
 ////////////////////////////////////////////

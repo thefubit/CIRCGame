@@ -35,10 +35,7 @@ var SettingsLayer = cc.Layer.extend({
             res.HomeButton_png,
             res.HomeButtonPressed_png,
             function () {
-                cc.log("Menu is clicked!");
-                cc.log(testvar);
                 ReturnToMenu();
-                cc.log("returning to menu")
             }, this);
         MainMenuButton.attr({
             x: size.width/2,
@@ -91,6 +88,15 @@ var SettingsLayer = cc.Layer.extend({
         if (musicVolume > 0){
             MusicCheckBox.setSelected(true);
         }                 
+
+        //check for saved settings
+        if(ls.getItem("Music")== 1){
+            MusicCheckBox.setSelected(true);
+        }
+        else if (ls.getItem("Music")==0){
+            MusicCheckBox.setSelected(false);
+        }
+
         this.addChild(MusicCheckBox);
 
         //SFX checkbox
@@ -105,6 +111,14 @@ var SettingsLayer = cc.Layer.extend({
         if (sfxVolume > 0){
         SFXCheckBox.setSelected(true);
         }
+
+        //check for saved settings
+        if(ls.getItem("SFX")== 1){
+            SFXCheckBox.setSelected(true);
+        }
+        else if (ls.getItem("SFX")==0){
+            SFXCheckBox.setSelected(false);
+        }
                                     
         this.addChild(SFXCheckBox);
         return true;
@@ -117,10 +131,12 @@ var SettingsLayer = cc.Layer.extend({
             case ccui.CheckBox.EVENT_UNSELECTED:
                 musicVolume = 0;
                 cc.audioEngine.setMusicVolume(musicVolume);
+                ls.setItem("Music",0);
                 break;
             case ccui.CheckBox.EVENT_SELECTED:
                 musicVolume = 0.5;
                  cc.audioEngine.setMusicVolume(musicVolume);
+                 ls.setItem("Music",1);
                 break;
         }//switch
     },//function
@@ -129,14 +145,14 @@ var SettingsLayer = cc.Layer.extend({
     selectedEventSFX : function(sender,type){
         switch(type){
             case ccui.CheckBox.EVENT_UNSELECTED:
-                cc.log("sfx box unchecked");
                 sfxVolume = 0;
                 cc.audioEngine.setEffectsVolume(sfxVolume);
+                ls.setItem("SFX",0);
                 break;
             case ccui.CheckBox.EVENT_SELECTED:
-                cc.log("sfx box unchecked");
                 sfxVolume = 1;
                 cc.audioEngine.setEffectsVolume(sfxVolume);
+                ls.setItem("SFX",1);
                 break;
         }//switch
     },//function

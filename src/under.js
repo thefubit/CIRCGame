@@ -26,6 +26,15 @@ var UnderLayer = cc.Layer.extend({
         this.backgroundPic.setScale(0.4*normalizescale);
         this.addChild(this.backgroundPic, 0);
 
+        //check for saved settings
+        if (ls.getItem("Music")==0){
+            musicVolume = 0;
+        }
+
+        if (ls.getItem("SFX")==0){
+            sfxVolume = 0;
+        }
+
         //start playing music
         cc.audioEngine.playMusic(res.Background_music, true);
         this.schedule(cc.audioEngine.setMusicVolume(musicVolume),1);
@@ -36,6 +45,8 @@ var UnderLayer = cc.Layer.extend({
 
         //display logo
         this.scheduleOnce(GoStraightToMainMenu(),2);
+
+        
         
 
         return true;
