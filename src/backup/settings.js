@@ -7,33 +7,30 @@ var sfxVolume = 1;
 
 //The main layer of this scene
 var SettingsLayer = cc.Layer.extend({
-    sprite:null,
+    backgroundPic:null,
+
     ctor:function () {
         //////////////////////////////
         // 1. super init first
         this._super();
 
         /////////////////////////////
-        // 2. add a menu item with "X" image, which is clicked to quit the program
-        //    you may modify it.
-        // ask the window size
+        //normalizing sizes and setting the size
         var size = cc.winSize;
+        var normalizescale = size.height/640;
         /////////////////////////////
 
+        // background pictures
+        this.backgroundPic = new cc.Sprite(res.Background_png);
+        this.backgroundPic.attr({
+            x: size.width / 2,
+            y: size.height / 2,   
+        });
+        this.backgroundPic.setScale(0.4*normalizescale);
+        this.addChild(this.backgroundPic, 0);
 
-        //make a UI toggle for volume
-        //make a slider for volume - not necessary
-        //return to menu - pop this scene
-
-
-
-
-
-
-
-        //default code from setup - REPLACE it as needed
-        // add a "close" icon to exit the progress. it's an autorelease object
-        //image as a menu 
+        ////////////////////////////////////////////
+        /////////////////BUTTONS//////////////////////
         var MainMenuButton= new cc.MenuItemImage(
             res.HomeButton_png,
             res.HomeButtonPressed_png,
@@ -45,10 +42,10 @@ var SettingsLayer = cc.Layer.extend({
             }, this);
         MainMenuButton.attr({
             x: size.width/2,
-            y: size.height/4,
+            y: size.height/3,
             anchorX: 0.5,
             anchorY: 0.5,
-            scale : 0.4
+            scale : 0.4*normalizescale,
         });
 
         var menu = new cc.Menu(MainMenuButton);
@@ -56,129 +53,79 @@ var SettingsLayer = cc.Layer.extend({
         menu.y = 0;
         this.addChild(menu, 1);
 
-        /////////////////////////////
-        // 3. add your codes below...
-        // add a label shows "Hello World"
-        // create and initialize a label
-        var helloLabel = new cc.LabelTTF("Settings", "Arial", 38);
+        //////////////////BUTTONS////////////////////////////
+        ///////////////////////////////////////
+        
+        //settings title 
+        var settingsLabel = new cc.LabelBMFont("SETTINGS",res.Ethnocentric_BMFont);
         // position the label on the center of the screen
-        helloLabel.x = size.width / 2;
-        helloLabel.y = size.width/2;
+        settingsLabel.x = size.width / 2;
+        settingsLabel.y = size.height/6*5;
+        settingsLabel.setScale(2*normalizescale);
         // add the label as a child to this layer
-        this.addChild(helloLabel, 5);
+        this.addChild(settingsLabel, 5);
 
-
-
-
-        
-
-
-
-
-
-
-
-
-        // add "HelloWorld" splash screen"
-        this.sprite = new cc.Sprite(res.Background_png);
-        this.sprite.attr({
-            x: size.width / 2,
-            y: size.height / 2,
-            scaleX : size.width/this.sprite.width,
-            scaleY : size.height/this.sprite.height
-            
-        });
-        this.addChild(this.sprite, 0);
-
-        
         //music symbol
         var MusicSymbol = new cc.Sprite.create(res.MusicSymbol_png);
         MusicSymbol.setAnchorPoint(cc.p(0.5,0.5));
-        MusicSymbol.setPosition(cc.p(size.width/5*2,size.height/10*7));
-        MusicSymbol.setScale(0.25);
+        MusicSymbol.setPosition(cc.p(size.width/10*4,size.height/10*7));
+        MusicSymbol.setScale(0.25*normalizescale);
         this.addChild(MusicSymbol,0);
 
         //sfx symbol
         var SFXSymbol = new cc.Sprite.create(res.SoundSymbol_png);
         SFXSymbol.setAnchorPoint(cc.p(0.5,0.5));
-        SFXSymbol.setPosition(cc.p(size.width/5*2,size.height/10*5));
-        SFXSymbol.setScale(0.25);
+        SFXSymbol.setPosition(cc.p(size.width/10*4,size.height/10*5));
+        SFXSymbol.setScale(0.25*normalizescale);
         this.addChild(SFXSymbol,0);
-
-
 
         //music checkbox
         var MusicCheckBox = new ccui.CheckBox();
         MusicCheckBox.loadTextures(res.Unchecked_png, res.UncheckedSelected_png,res.Checked_png,res.CheckedSelected_png,res.CheckedDisabled_png);
-        MusicCheckBox.x = (size.width/5*3);
+        MusicCheckBox.x = (size.width/10*6);
         MusicCheckBox.y = (size.height/10*7);
-        MusicCheckBox.setScale(0.25);
+        MusicCheckBox.setScale(0.25*normalizescale);
         MusicCheckBox.addEventListener(this.selectedEventMusic,this);
         
         // Checks to see if the music is on, if it is, the checkbox is automatically selected.
-        if (musicVolume > 0)
-        {
-        console.log("Music is on");
-        MusicCheckBox.setSelected(true);
-        }
-                                    
+        if (musicVolume > 0){
+            MusicCheckBox.setSelected(true);
+        }                 
         this.addChild(MusicCheckBox);
-
 
         //SFX checkbox
         var SFXCheckBox = new ccui.CheckBox();
         SFXCheckBox.loadTextures(res.Unchecked_png,res.UncheckedSelected_png, res.Checked_png,res.CheckedSelected_png,res.CheckedDisabled_png);
-        SFXCheckBox.x = size.width/5*3;
+        SFXCheckBox.x = size.width/10*6;
         SFXCheckBox.y = size.height/10*5;
-        SFXCheckBox.setScale(0.25);
+        SFXCheckBox.setScale(0.25*normalizescale);
         SFXCheckBox.addEventListener(this.selectedEventSFX,this);
         
         // Checks to see if the sound effects are on, if they are, the checkbox is automatically selected.
-        if (sfxVolume > 0)
-        {
-        console.log("Sound effects are on");
+        if (sfxVolume > 0){
         SFXCheckBox.setSelected(true);
         }
                                     
         this.addChild(SFXCheckBox);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //enter code above
         return true;
     },//ctor function - main code
 
-
+    //function of the checkbox
     selectedEventMusic: function(sender,type){
     
         switch(type){
             case ccui.CheckBox.EVENT_UNSELECTED:
-                cc.log("music check box not selected");
                 musicVolume = 0;
                 cc.audioEngine.setMusicVolume(musicVolume);
                 break;
             case ccui.CheckBox.EVENT_SELECTED:
-                cc.log("music box checked");
                 musicVolume = 0.5;
                  cc.audioEngine.setMusicVolume(musicVolume);
                 break;
-
         }//switch
-
-
     },//function
 
+    //function of the checkbox for SFX
     selectedEventSFX : function(sender,type){
         switch(type){
             case ccui.CheckBox.EVENT_UNSELECTED:
@@ -191,30 +138,18 @@ var SettingsLayer = cc.Layer.extend({
                 sfxVolume = 1;
                 cc.audioEngine.setEffectsVolume(sfxVolume);
                 break;
-
         }//switch
-
-
-
-
-
     },//function
-
-
-
-
-
-
 });//GameLayer
 
-//insert public functions here
+//returning to menu
 var ReturnToMenu = function(){
-   SETTINGSINITIALIZED = false;
+    SETTINGSINITIALIZED = false;
     cc.director.popScene();
-    
 };
 
-
+///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
 var SettingsScene = cc.Scene.extend({
     onEnter:function () {
         this._super();

@@ -8,45 +8,32 @@ var SLOWLOSS = false;
 
 //The main layer of this scene
 var GameOverLayer = cc.Layer.extend({
-    sprite:null,
+    backgroundPic:null,
     ctor:function () {
         //////////////////////////////
         // 1. super init first
         this._super();
 
         /////////////////////////////
-        // 2. add a menu item with "X" image, which is clicked to quit the program
-        //    you may modify it.
-        // ask the window size
+        //screen size and normalizing
         var size = cc.winSize;
+        var normalizescale = size.height/640;
         /////////////////////////////
-        // add "HelloWorld" splash screen"
-        this.sprite = new cc.Sprite(res.Background_png);
-        this.sprite.attr({
+        //backgrounds
+        this.backgroundPic = new cc.Sprite(res.Background_png);
+        this.backgroundPic.attr({
             x: size.width / 2,
             y: size.height / 2,
-            scaleX : size.width/this.sprite.width,
-            scaleY : size.height/this.sprite.height
         });
-
-
-        this.addChild(this.sprite, 0);
-
-        //display gameover
-        //display highscore from local storage
-        //display your score
-        //set score to high score
-        //link to main menu
+        this.backgroundPic.setScale(0.4*normalizescale);
+        this.addChild(this.backgroundPic, 0);
 
         //play game over sound
         cc.audioEngine.pauseMusic();
         cc.audioEngine.playEffect(res.GameOverSound,false);
         cc.audioEngine.resumeMusic();
 
-
-        //default code from setup - REPLACE it as needed
-        // add a "close" icon to exit the progress. it's an autorelease object
-        //image as a menu 
+        //main menu button
         var MainMenuButton = new cc.MenuItemImage(
             res.HomeButton_png,
             res.HomeButtonPressed_png,
@@ -59,7 +46,7 @@ var GameOverLayer = cc.Layer.extend({
             y: size.height/6,
             anchorX: 0.5,
             anchorY: 0.5,
-            scale : 0.4
+            scale : 0.4*normalizescale,
         });
 
         var menu = new cc.Menu(MainMenuButton);
@@ -67,30 +54,29 @@ var GameOverLayer = cc.Layer.extend({
         menu.y = 0;
         this.addChild(menu, 1);
 
-        /////////////////////////////
-        // 3. add your codes below...
-        // add a label shows "Hello World"
-        // create and initialize a label
-        var gameoverLabel = new cc.LabelTTF("GameOver", "Arial", 38);
+        //////////////////LABELS////////////////////////////
+        var gameoverLabel = new cc.LabelBMFont("GAME OVER", res.Ethnocentric_BMFont);
         // position the label on the center of the screen
         gameoverLabel.x = size.width / 2;
         gameoverLabel.y = size.height/5*4;
+        gameoverLabel.setScale(2*normalizescale);
         // add the label as a child to this layer
         this.addChild(gameoverLabel, 5);
+        //////////////////////LABELS////////////////////
 
 
         //////////////////////////////////
-        //////////why you lost/////////////
+        //////////REASON/////////////
 
-        var reasonLabel = new cc.LabelTTF("reason", "Verdana", 30);
+        var reasonLabel = new cc.LabelBMFont("reason", res.Junegull_BMFont);
         reasonLabel.x = size.width/2;
-        reasonLabel.y = size.height/2;
+        reasonLabel.y = size.height/6*4;
 
         if(UNTOUCHEDLOSS  == true){
             reasonLabel.setString("Where did you go?");
         }
         else if (MISSLOSS == true){
-            reasonLabel.setString("You missed 3 in a row!")
+            reasonLabel.setString("You missed 2 in a row!")
         }
         else if (SLOWLOSS == true){
             reasonLabel.setString("You slowed down too much!");
@@ -99,37 +85,58 @@ var GameOverLayer = cc.Layer.extend({
         this.addChild(reasonLabel,5);
 
 
-
+        ///////////////REASON////////////////////
         ///////////////////////////////////
 
+        ///////////////SCORES///////////////
+        //score numbers
+        highscore = ls.getItem("highscore");
 
+        var highScoreNum = new cc.LabelBMFont(highscore, res.Junegull_BMFont);
+        highScoreNum.x = size.width/2;
+        highScoreNum.y = size.height/6*2;
+        this.addChild(highScoreNum,5);
 
+        var yourScoreNum = new cc.LabelBMFont(""+currentScore,res.Junegull_BMFont);
+        yourScoreNum.x = size.width/2;
+        yourScoreNum.y = size.height/6*3;
+        this.addChild(yourScoreNum,5);
 
+        //score symbols
+        var highScoreSymbol = new cc.Sprite.create(res.HighScoreSymbol_png);
+        highScoreSymbol.attr({
+            x: size.width/10*4,
+            y: size.height/6*2,
+            scale: 0.25*normalizescale,
+        });
+        this.addChild(highScoreSymbol);
 
-
-
-        
-
-        
-
-
-        //enter code above
+        var yourScoreSymbol = new cc.Sprite.create(res.YourScoreSymbol_png);
+        yourScoreSymbol.attr({
+            x: size.width/10*4,
+            y: size.height/6*3,
+            scale: 0.25*normalizescale,
+        });
+        this.addChild(yourScoreSymbol);
+        /////////////////SCORES////////////////////
+        //////////////////////////////////////////
         return true;
     }//ctor function - main code
 });//GameLayer
-
-//insert public functions here
 
 //Use go to main menu
 var RestartMainMenu = function(){
     GAMEOVERINITIALIZED = false;
     MISSLOSS = false;
     UNTOUCHEDLOSS = false;
+    currentScore = 0;
+    turboMode = false;
     scene = new MenuScene();
     cc.director.runScene(new cc.TransitionFade(0.5,scene));
 };
 
-
+///////////////////////////////////////////////////
+///////////////////////////////////////////////////
 var GameOverScene = cc.Scene.extend({
     onEnter:function () {
         this._super();

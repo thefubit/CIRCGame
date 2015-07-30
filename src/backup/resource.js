@@ -9,26 +9,110 @@ if (!cc.sys.isNative)//if not native, meaning it is on the computer/web. then us
 testvar = "this is a global variable";
 
 
+/////////////////////LOCAL STORAGE/////////////////
+var ls = cc.sys.localStorage;
+
+//setting what color to display for animated title
+var colorselect=0;
+while(colorselect == 0){
+colorselect = Math.floor(Math.random()*4);
+}
+
+if(colorselect == 1){
+    titlefolder = "animatedgreen/";
+    circcolor = "circgreen";
+}
+else if (colorselect == 2){
+    titlefolder = "animatedred/";
+    circcolor = "circred";
+}
+else if (colorselect == 3){
+    titlefolder = "animatedteal/";
+    circcolor = "circteal";
+}
+else if (colorselect == 4){
+    titlefolder = "animatedyellow/";
+    circcolor = "circyellow";
+}
+
+
+//Color of the turbo text
+var perfectselect = 0;
+var greatselect = 0;
+var missselect = 0;
+var perfectcolor = "green";
+var greatcolor = "yellow";
+var misscolor = "red";
+
+
+//////////////randomization//////////////////////
+perfectselect = Math.floor(Math.random()*4);
+greatselect = Math.floor(Math.random()*4);
+missselect = Math.floor(Math.random()*2);
+///////////////////randomization////////////////////
+
+//select perfect text
+if(perfectselect == 0 || perfectselect ==1){
+    perfectcolor = "green";
+}
+else if (perfectselect == 2){
+    perfectcolor = "teal";
+}
+else if (perfectselect == 3 ){
+    perfectcolor = "pink";
+}
+else if (perfectselect == 4 ){
+    perfectcolor = "yellow";
+}
+
+//select great text
+if (greatselect == 0 || greatselect == 1){
+    greatcolor = "blue";
+}
+else if (greatselect == 2){
+    greatcolor = "orange";
+}
+else if (greatselect == 3){
+    greatcolor = "pink";
+}
+else if (greatselect == 4){
+    greatcolor = "yellow";
+}
+
+    //select miss text
+if (missselect == 0 || missselect == 1){
+    misscolor = "red";
+}
+else if (missselect == 2){
+    misscolor = "purple";
+}
+//randomize text color
+
 //list out all the resources that the game needs
 //REMEMBER THE COMMAS!!!!!!!!!!!
 var res = {
 
 	//Background image
-    Background_png : "res/goodresbackground.png",
+    Background_png : "res/background/fitallbg.png",
 
-    //for temporary testing
-    //CloseNormal_png : "res/CloseNormal.png",
-    //CloseSelected_png : "res/CloseSelected.png",
+    //TTRCLogo_png : "res/background/TTRCLogo.png",
+    TTRCGamesLogo_png : "res/background/fitallttrcgames.png",
 
     //Music
     MusicSymbol_png : "res/symbols/musicsymbol.png",
-    Background_music : "res/sound/Prototyperaptor-timeless.mp3",
+    Background_music : "res/sound/normalbg.wav",
+    TurboBackground_music :"res/sound/turbobg.wav",
     //Sound
     SoundSymbol_png : "res/symbols/sfxsymbol.png",
-    PerfectSound : "res/sound/KH-select.mp3",//note sonic ring sound ideal, but needs to be cut shorter
-    GreatSound : "res/sound/Sonic-ring.mp3",
-    MissSound : "res/sound/Quack-sound.mp3",
-    GameOverSound : "res/sound/Megaman-death.mp3",
+    NormalPerfectSound : "res/sound/normalperfect.wav",//note sonic ring sound ideal, but needs to be cut shorter
+    NormalGreatSound : "res/sound/normalgreat.wav",
+    NormalMissSound : "res/sound/normalmiss.wav",
+    GameOverSound : "res/sound/gameover.wav",
+
+    TurboPerfectSound : "res/sound/turboperfect.wav",
+    TurboGreatSound : "res/sound/turbogreat.wav",
+    TurboMissSound : "res/sound/turbomiss.wav",
+
 
     //Button images -settings/mainmenu/mail/resume/ -for pressing
     HomeButton_png : "res/buttons/home.png",
@@ -45,6 +129,9 @@ var res = {
 
     PlayButton_png : "res/buttons/play.png",
     PlayButtonPressed_png : "res/buttons/playselected.png",
+
+    CreditsButton_png: "res/buttons/credits.png",
+    CreditsButtonPressed_png: "res/buttons/creditsselected.png",
 
     //symbols
     HighScoreSymbol_png : "res/symbols/highscore.png",
@@ -64,36 +151,41 @@ var res = {
 
     //Title
     GameTitle_png : "res/placeholdertitle.png",//non animated
-    //animated titles
-    animCIRCRed_png : "res/animated/circredsheet.png",
-    animCIRCRed_plist : "res/animated/circredsheet.plist",
-
-    animCIRCGreen_png : "res/animated/circgreensheet.png",
-    animCIRCGreen_plist : "res/animated/circgreensheet.plist",
     
-    animCIRCTeal_png : "res/animated/circtealsheet.png",
-    animCIRCTeal_plist : "res/animated/circtealsheet.plist",
+    //animated title
+    animatedTitle_plist: "res/animated/"+titlefolder+"sprites.plist",
+    animatedTitle_png : "res/animated/" + titlefolder+"sprites.png",
     
-    animCIRCYellow_png : "res/animated/circyellowsheet.png",
-    animCIRCYellow_plist : "res/animated/circyellowsheet.plist",
+    // Particles
+    innertrailingParticle_plist: "res/particles/innerTrail.plist",
+    outertrailingParticle_plist: "res/particles/outerTrail.plist",
+    explosionParticle_plist: "res/particles/explosion.plist",
+    Stars_plist:"res/particles/Stars.plist",
 
 
 
+    //Word labels
+    PerfectText : "res/words/perfect" + perfectcolor+".png",
+    GreatText : "res/words/great"+greatcolor + ".png",
+    MissText : "res/words/miss"+misscolor +".png",
+    
+    animatedTurboModeText_plist : "res/words/animatedTurboText/sprites.plist",
+    animatedTurboModeText_png : "res/words/animatedTurboText/sprites.png",
 
 
-
-
-
-
-    //effects?
-
-
-
-
+    //font files
+    Ethnocentric_BMFont : "res/bmfonts/EthnocentricBM.fnt",
+    Junegull_BMFont : "res/bmfonts/JunegullBM.fnt",
 
 };
 
+//adding the resources
 var g_resources = [];
 for (var i in res) {
     g_resources.push(res[i]);
-}
+};
+
+
+
+
+

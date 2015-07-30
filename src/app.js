@@ -275,11 +275,13 @@ var GameLayer = cc.Layer.extend({
 
 
         //temp for testing - level 
+        /*
         var leveltext = "Speed: " + levelInner;
         this.levelLabel = new cc.LabelTTF(leveltext,"Verdana",35);
         this.levelLabel.x = size.width/10*9;
         this.levelLabel.y = size.height-120;
         this.addChild(this.levelLabel,0);
+        */
         //////////////SCORING/////////////////////
         //////////////////////////////////////////         
                                 
@@ -403,8 +405,8 @@ var GameLayer = cc.Layer.extend({
         this.particleUnturbo();
         BackgroundSpin.setTotalParticles(0);
         //get background back to normal                                
-        var brighten = cc.FadeTo(0.5,225);
-        this.backgroundPic.runAction(brighten);
+        //var brighten = cc.FadeTo(0.5,225);
+        //this.backgroundPic.runAction(brighten);
         //////////////////ENDING PARTICLES////////////////////
         },//function to end turbo
 
@@ -610,6 +612,9 @@ var GameLayer = cc.Layer.extend({
                 speedOuter = baseSpeed / levelOuter;
                 /////////////change speed back////////////// 
                 this.turboEnd();
+                var brighten = cc.FadeTo(0.5,225);
+                this.backgroundPic.runAction(brighten);
+
             }
         }//else of miss
 
