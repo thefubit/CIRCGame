@@ -780,8 +780,8 @@ var GameLayer = cc.Layer.extend({
         break;
                                 
     default:
-    // don't change the particle color
-    break;
+        // don't change the particle color
+        break;
     }
                                 
     this.rotationPointOut.addChild(outerParticle);
@@ -805,16 +805,10 @@ var GameLayer = cc.Layer.extend({
                                 
         // remove the outer trail
                                 
-        if (levelOuter == 0 && outerTrail)
-        {
-        cc.log("Somehow this is being activated");
-        outerTrail = false;
-        this.rotationPointOut.removeChildByTag(2);
-        
+        if (levelOuter == 0 && outerTrail){
+            outerTrail = false;
+            this.rotationPointOut.removeChildByTag(2);
         }
-                                
-                                
-                                
                                 
         consecutiveMisses ++;
          
@@ -890,33 +884,9 @@ var GameLayer = cc.Layer.extend({
         var thetaInner = innerOmega*360/(outerOmega + innerOmega);
         var missSpeed = thetaInner/innerOmega*combinedFactor;
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
-
     cc.director.getScheduler().scheduleCallbackForTarget(this,this.unTouchedLoss,missSpeed);
     UNTOUCHEDLOSS = true;
     },//end the thing that calculates the speed             
-<<<<<<< HEAD
-=======
-
-    
-
-
-
-                                
-    
-    
-                                
-    
-
-   
-
-
-
-
->>>>>>> origin/master
 });//GameLayer
 
 //pause - launch pause scene
@@ -928,39 +898,7 @@ var PauseGame = function(){
 
 //key function -stops everything and resets all the variables and all the random stuff
 var GameOver = function(){
-<<<<<<< HEAD
     //resetting all the parameters and variables for new game
-=======
-
-    //resetting all the parameters and variables for new game
-
-
-
-    
-
-    
-    
-
-    //gamelayer.resetGame();
-    //var resetRotation = cc.RotateTo.create(3,1);
-
-    //gamelayer.rotationPointIn.runAction(resetRotation);
-    //gamelayer.rotationPointOut.runAction(resetRotation);
-
-
-    //set high score
-    setHighScore(currentScore);
-    cc.log("CurrentScore = " + currentScore);
-    cc.log("HighScore = " + highScore);
-
-
-
-    cc.log("go to gameover menu and record score and stop moving");
-    //must reset everything. ie, move everything to starting point
-
-
-
->>>>>>> origin/master
     levelInner = 0;
     levelOuter = 0;
     speedInner = 9001;
@@ -1049,14 +987,7 @@ var levelDown = function (message){
 
 };//leveldown
 
-<<<<<<< HEAD
-=======
-
-
-
-
-//check and set highScore
->>>>>>> origin/master
+//set and check high score
 var setHighScore = function(currentScore){
     if (currentScore > highScore){
         highScore = currentScore;
@@ -1064,24 +995,6 @@ var setHighScore = function(currentScore){
     //setting highscore to local storage
     ls.setItem("highscore",highScore);
 }//check and set highscore
-
-<<<<<<< HEAD
-=======
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> origin/master
 ///////////////////////////////////////////
 ////////////////////////////////////////////
 //////////////////////////////////////////
