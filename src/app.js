@@ -20,7 +20,7 @@ if ( ls.getItem("highscore") >0){
 }
 else{
 var  highScore = 0;//must grab from local storage
-}
+} 
 
 //checking for consecutive touches - initiating variable
 var consecutiveMisses = 0;
@@ -45,6 +45,7 @@ var GameLayer = cc.Layer.extend({
     
     
     UNTOUCHEDLOSS:false,//checking lose condition
+    SLOWUNTOUCHEDLOSS:false,
     normalizedWinDistance:null,//calculate certain distances from the screen resolution
     
     //label initiation
@@ -80,6 +81,7 @@ var GameLayer = cc.Layer.extend({
     particleLagDistance:null,
     starsParticleCount:null,
     BackgroundSpin:null,//background stars particle
+    
 
 
     ctor:function () {
@@ -321,14 +323,15 @@ var GameLayer = cc.Layer.extend({
                     //checking distance between the two using coordinates
                     myLayer.checkDistance (myLayer.normalizedWinDistance,InnerPos.x, InnerPos.y,OuterPos.x,OuterPos.y);
                      
-                    // If turbo mode is activated, show an explosion when a "great" or "perfect" is acheived.
+                                        
+                    //update the speed of spins
+                    myLayer.changeSpeed();
+
+                     // If turbo mode is activated, show an explosion when a "great" or "perfect" is acheived.
                     if (turboMode)
                     {
                     myLayer.particleExplosion();
                     }        
-                                        
-                    //update the speed of spins
-                    myLayer.changeSpeed();
 
                     return true;
                 }//onTouchBegan
@@ -375,7 +378,11 @@ var GameLayer = cc.Layer.extend({
         this.turboLabel.setOpacity(255);
         //////////////////////MUSIC////////////////////////
         cc.audioEngine.pauseMusic();
+
+        if(musicVolume > 0)
+        {
         this.turboMusic = cc.audioEngine.playEffect(res.TurboBackground_music,true);
+        }
         //////////////////////MUSIC/////////////////////////
                                 
         /////////////////////////// PARTICLES //////////////////////////////
@@ -463,7 +470,8 @@ var GameLayer = cc.Layer.extend({
             //leveling up and increasing speed, calling levelup function
             levelUp(2, "Perfect");
 
-            this.autoLossSpeed(1.05,1.15);
+            // activating autoloss functionality
+            this.autoLossSpeed(1.05,1.2);
 
             
             //playing a sound
@@ -525,7 +533,9 @@ var GameLayer = cc.Layer.extend({
             //speed up once
             levelUp(1, "Great");
             //missing
-            this.autoLossSpeed(1.05,1.15);
+
+            // activating autoloss functionality
+            this.autoLossSpeed(1.05,1.2);
 
 
             //playing a sound
@@ -565,12 +575,28 @@ var GameLayer = cc.Layer.extend({
             levelDown("Miss");
             }//speed control
                                     
-            //from an auto miss, if hit, won't be an untouched loss
-            if (UNTOUCHEDLOSS)
+            //activating a slower autoloss functionality for a miss hit. It's easier to put this segment of code in here instead of a method.
+           if (UNTOUCHEDLOSS)
             {  
             cc.director.getScheduler().unscheduleCallbackForTarget(this,this.unTouchedLoss);
             UNTOUCHEDLOSS = false 
             } 
+
+          if (levelOuter == 0){
+            var missSpeed = speedInner*2.5;
+            }
+
+            else{//using some advanced mathmatics to calculate the time at which the auto miss checks
+            var innerOmega = 360/speedInner;
+            var outerOmega = 360/speedOuter;
+
+            var thetaInner = innerOmega*360/(outerOmega + innerOmega);
+            var missSpeed = thetaInner/innerOmega*2.5;
+            }
+
+
+            cc.director.getScheduler().scheduleCallbackForTarget(this,this.unTouchedLoss,missSpeed);
+            UNTOUCHEDLOSS = true; // autoloss functionality
 
             // remove the outer trail        
             if (levelOuter == 0 && outerTrail)
@@ -581,6 +607,7 @@ var GameLayer = cc.Layer.extend({
                      
             //can't miss twice. so must add in the consecutiveness                         
             consecutiveMisses ++;
+            
 
             //playing a sound for miss
             if(turboMode == false){
@@ -790,7 +817,7 @@ var GameLayer = cc.Layer.extend({
                                 
                                 
         consecutiveMisses ++;
-
+         
         if(turboMode == false){
             cc.audioEngine.playEffect(res.NormalMissSound,false);
         }
@@ -837,14 +864,18 @@ var GameLayer = cc.Layer.extend({
     //lose when no touch       
     unTouchedLoss:function(){    
         this.autoMiss();
-        this.autoLossSpeed(1.05,1.1);
+        this.autoLossSpeed(1.05,1);
     },      
+
+    
+
 
     //calculating the speed at which the loss check is
     autoLossSpeed:function(innerFactor, combinedFactor){
         if (UNTOUCHEDLOSS){  
             cc.director.getScheduler().unscheduleCallbackForTarget(this,this.unTouchedLoss);
             UNTOUCHEDLOSS = false ;
+
         }//check whether the speeed 
         
 
@@ -859,10 +890,33 @@ var GameLayer = cc.Layer.extend({
         var thetaInner = innerOmega*360/(outerOmega + innerOmega);
         var missSpeed = thetaInner/innerOmega*combinedFactor;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 
     cc.director.getScheduler().scheduleCallbackForTarget(this,this.unTouchedLoss,missSpeed);
     UNTOUCHEDLOSS = true;
     },//end the thing that calculates the speed             
+<<<<<<< HEAD
+=======
+
+    
+
+
+
+                                
+    
+    
+                                
+    
+
+   
+
+
+
+
+>>>>>>> origin/master
 });//GameLayer
 
 //pause - launch pause scene
@@ -874,7 +928,39 @@ var PauseGame = function(){
 
 //key function -stops everything and resets all the variables and all the random stuff
 var GameOver = function(){
+<<<<<<< HEAD
     //resetting all the parameters and variables for new game
+=======
+
+    //resetting all the parameters and variables for new game
+
+
+
+    
+
+    
+    
+
+    //gamelayer.resetGame();
+    //var resetRotation = cc.RotateTo.create(3,1);
+
+    //gamelayer.rotationPointIn.runAction(resetRotation);
+    //gamelayer.rotationPointOut.runAction(resetRotation);
+
+
+    //set high score
+    setHighScore(currentScore);
+    cc.log("CurrentScore = " + currentScore);
+    cc.log("HighScore = " + highScore);
+
+
+
+    cc.log("go to gameover menu and record score and stop moving");
+    //must reset everything. ie, move everything to starting point
+
+
+
+>>>>>>> origin/master
     levelInner = 0;
     levelOuter = 0;
     speedInner = 9001;
@@ -963,6 +1049,14 @@ var levelDown = function (message){
 
 };//leveldown
 
+<<<<<<< HEAD
+=======
+
+
+
+
+//check and set highScore
+>>>>>>> origin/master
 var setHighScore = function(currentScore){
     if (currentScore > highScore){
         highScore = currentScore;
@@ -971,6 +1065,23 @@ var setHighScore = function(currentScore){
     ls.setItem("highscore",highScore);
 }//check and set highscore
 
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> origin/master
 ///////////////////////////////////////////
 ////////////////////////////////////////////
 //////////////////////////////////////////
