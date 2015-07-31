@@ -32,7 +32,8 @@ var UnderLayer = cc.Layer.extend({
         }
 
         if (ls.getItem("SFX")==0){
-            sfxVolume = 0;
+        sfxVolume = 0;
+        cc.audioEngine.setEffectsVolume(sfxVolume);
         }
 
         //start playing music
