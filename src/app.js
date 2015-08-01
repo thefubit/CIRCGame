@@ -389,7 +389,7 @@ var GameLayer = cc.Layer.extend({
         this.particleTurbo();//initiate the turbo particles
         BackgroundSpin.setTotalParticles(starsParticleCount);
         //darkening the background                        
-        var darken = cc.FadeTo(1,50);
+        var darken = cc.FadeTo(0.5,50);
         this.backgroundPic.runAction(darken);
         ////////////////////PARTICLES[[[[[[[[[[[[[[]]]]]]]]]]]]]]
                                 
@@ -632,16 +632,21 @@ var GameLayer = cc.Layer.extend({
 
             //ending turbo if miss
             if(turboMode==true){
+
                 //////////////change speed back/////////////
                 speedInner = baseSpeed/levelInner;
                 speedOuter = baseSpeed / levelOuter;
                 /////////////change speed back////////////// 
                 this.turboEnd();
 
-                //get background back to normal                                
-                var brighten = cc.FadeTo(0.5,225);
-                this.backgroundPic.runAction(brighten);
+                //get background back to normal  
+                
+        var brighten = cc.FadeTo(0.5,225);
+        this.backgroundPic.runAction(brighten);   
+                                 
+                
             }
+        
         }//////////////////////else of miss
 
 

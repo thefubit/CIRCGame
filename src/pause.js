@@ -112,9 +112,14 @@ var GoToMainMenu = function (){
     //removing the trails
     innerTrail = false;
     outerTrail = false;
-
+    
     //resetting music
     cc.audioEngine.stopAllEffects();
+    
+    if (!cc.audioEngine.isMusicPlaying())
+    {
+        cc.audioEngine.resumeMusic();
+    }
     
     //changing the scene to menu
     var scene = new MenuScene;
