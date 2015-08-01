@@ -13,15 +13,6 @@ var speedOuter = 0;//controlling speed of inner satellite
 //initializing the score
 var currentScore = 0;
 
-
-//retreving high score or setting it to zero if don't have a high score
-if ( ls.getItem("highscore") >0){
-    var highScore = ls.getItem("highscore");
-}
-else{
-var  highScore = 0;//must grab from local storage
-} 
-
 //checking for consecutive touches - initiating variable
 var consecutiveMisses = 0;
 
@@ -277,11 +268,13 @@ var GameLayer = cc.Layer.extend({
 
 
         //temp for testing - level 
+        /*
         var leveltext = "Speed: " + levelInner;
         this.levelLabel = new cc.LabelTTF(leveltext,"Verdana",35);
         this.levelLabel.x = size.width/10*9;
         this.levelLabel.y = size.height-120;
         this.addChild(this.levelLabel,0);
+        */
         //////////////SCORING/////////////////////
         //////////////////////////////////////////         
                                 
@@ -420,7 +413,7 @@ var GameLayer = cc.Layer.extend({
         this.scoreLabel.setString(""+currentScore);
 
         //temp labels
-        this.levelLabel.setString("Speed: " + levelInner);
+        //this.levelLabel.setString("Speed: " + levelInner);
 
 
     },//update score
