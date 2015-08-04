@@ -9,6 +9,8 @@ var levelInner = 0;//controlling level of inner satellite
 var speedInner = 0;//controlling the speed of inner satellite
 var levelOuter = 0;//controlling level of outer satellite
 var speedOuter = 0;//controlling speed of inner satellite
+var canLose = true;
+var unTouchedLossCounter = 0;
 
 //initializing the score
 var currentScore = 0;
@@ -357,7 +359,7 @@ var GameLayer = cc.Layer.extend({
                                 
     particleUnturbo:function()
     {
-    cc.log("ACTIVATED 2 ")
+
     innerParticle.setEmissionRate(innerParticleEmissionRate);
     innerParticle.setBlendAdditive(true);
                                 
@@ -462,6 +464,7 @@ var GameLayer = cc.Layer.extend({
             
             //leveling up and increasing speed, calling levelup function
             levelUp(2, "Perfect");
+            unTouchedLossCounter = 0;
 
             // activating autoloss functionality
             this.autoLossSpeed(1.05,1.2);
@@ -526,7 +529,7 @@ var GameLayer = cc.Layer.extend({
             //speed up once
             levelUp(1, "Great");
             //missing
-
+            unTouchedLossCounter = 0;
             // activating autoloss functionality
             this.autoLossSpeed(1.05,1.2);
 
@@ -564,7 +567,11 @@ var GameLayer = cc.Layer.extend({
         else{
 
             //speed control - player doesn't get less than 10 speed
-            if(levelInner<10){
+
+
+
+            if(levelInner<10 && canLose){
+               
             levelDown("Miss");
             }//speed control
                                     
@@ -598,7 +605,9 @@ var GameLayer = cc.Layer.extend({
             this.rotationPointOut.removeChildByTag(2);
             }//disabling outer trail
                      
-            //can't miss twice. so must add in the consecutiveness                         
+            //can't miss twice. so must add in the consecutiveness      
+            if (canLose)                   
+            {
             consecutiveMisses ++;
             
 
@@ -636,7 +645,7 @@ var GameLayer = cc.Layer.extend({
                 
         var brighten = cc.FadeTo(0.5,225);
         this.backgroundPic.runAction(brighten);   
-                                 
+        }
                 
             }
         
@@ -789,6 +798,11 @@ var GameLayer = cc.Layer.extend({
     //automiss function
     autoMiss:function()
     {
+
+        canLose = false;
+
+        cc.director.getScheduler().scheduleCallbackForTarget(this,this.userCanLose,0.25,0);
+
     var FadeMessageIn = cc.FadeTo.create(0.1,255);
     var FadeMessageOut = cc.FadeTo.create(0.4,0);
     var FlashMessage = cc.Sequence.create(FadeMessageIn,FadeMessageOut);
@@ -855,13 +869,20 @@ var GameLayer = cc.Layer.extend({
     
     //lose when no touch       
     unTouchedLoss:function(){    
-        this.autoMiss();
-        this.autoLossSpeed(1.05,1);
+                            
+    unTouchedLossCounter ++;
+   
+    this.autoMiss();
+    this.autoLossSpeed(1.05,1);
     },      
 
+
+    userCanLose:function ()
+    {
+        canLose = true;
+    },
+
     
-
-
     //calculating the speed at which the loss check is
     autoLossSpeed:function(innerFactor, combinedFactor){
         if (UNTOUCHEDLOSS){  

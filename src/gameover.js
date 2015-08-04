@@ -72,7 +72,7 @@ var GameOverLayer = cc.Layer.extend({
         reasonLabel.x = size.width/2;
         reasonLabel.y = size.height/6*4;
 
-        if(UNTOUCHEDLOSS  == true){
+        if(unTouchedLossCounter  == 2){
             reasonLabel.setString("Where did you go?");
         }
         else if (MISSLOSS == true){

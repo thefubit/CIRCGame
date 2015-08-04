@@ -112,6 +112,7 @@ var GoToMainMenu = function (){
     //removing the trails
     innerTrail = false;
     outerTrail = false;
+    canLose = true;
     
     //resetting music
     cc.audioEngine.stopAllEffects();
