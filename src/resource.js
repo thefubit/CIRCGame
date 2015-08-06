@@ -14,11 +14,9 @@ var ls = cc.sys.localStorage;
 //set by
     // ls.setItem("key",value);
 //retreving high score or setting it to zero if don't have a high score
-if ( ls.getItem("highscore") == null){
-    var highScore = 0;
-}
-else{
-    var highScore = ls.getItem("highscore");//must grab from local storage
+var highScore = 0;
+if ( ls.getItem("highscore") != null){
+    highScore = ls.getItem("highscore");//must grab from local storage
 } 
 
 //setting what color to display for animated title

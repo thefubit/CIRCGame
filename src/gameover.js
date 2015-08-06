@@ -95,11 +95,13 @@ var GameOverLayer = cc.Layer.extend({
         var highScoreNum = new cc.LabelBMFont(highscore, res.Junegull_BMFont);
         highScoreNum.x = size.width/2;
         highScoreNum.y = size.height/6*2;
+        highScoreNum.setScale(normalizescale);
         this.addChild(highScoreNum,5);
 
         var yourScoreNum = new cc.LabelBMFont(""+currentScore,res.Junegull_BMFont);
         yourScoreNum.x = size.width/2;
         yourScoreNum.y = size.height/6*3;
+        this.yourScoreNum.setScale(normalizescale);
         this.addChild(yourScoreNum,5);
 
         //score symbols
