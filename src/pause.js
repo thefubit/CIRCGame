@@ -97,8 +97,6 @@ var GoToMainMenu = function (){
     levelOuter = 0;//controlling level of outer satellite
     speedOuter = 0;//controlling speed of inner satellite
     currentScore = 0;
-    highScore = 0;//must grab from local storage
-    
     //checking for consecutive touches
     consecutiveTouches = 0;
     
