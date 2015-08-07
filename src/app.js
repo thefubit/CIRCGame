@@ -11,6 +11,7 @@ var levelOuter = 0;//controlling level of outer satellite
 var speedOuter = 0;//controlling speed of inner satellite
 var canLose = true;
 var unTouchedLossCounter = 0;
+var UNTOUCHEDLOSS = false;
 
 //initializing the score
 var currentScore = 0;
@@ -35,10 +36,7 @@ var outerTrail = false;
 var GameLayer = cc.Layer.extend({
                                 
     backgroundPic:null,//background sprite
-    
-    
-    UNTOUCHEDLOSS:false,//checking lose condition
-    SLOWUNTOUCHEDLOSS:false,
+
     normalizedWinDistance:null,//calculate certain distances from the screen resolution
     
     //label initiation
