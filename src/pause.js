@@ -69,7 +69,7 @@ var PauseLayer = cc.Layer.extend({
         // position the label on the center of the screen
         pauseLabel.x = size.width / 2;
         pauseLabel.y = size.height/4*3;
-        pauseLabel.color = cc.color(255,0,0);
+        pauseLabel.color = cc.color(150,150,150);
         pauseLabel.setScale(2*normalizescale);
         // add the label as a child to this layer
         this.addChild(pauseLabel, 5);
@@ -97,7 +97,6 @@ var GoToMainMenu = function (){
     levelOuter = 0;//controlling level of outer satellite
     speedOuter = 0;//controlling speed of inner satellite
     currentScore = 0;
-    highScore = 0;//must grab from local storage
     
     //checking for consecutive touches
     consecutiveTouches = 0;
