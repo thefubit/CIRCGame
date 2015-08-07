@@ -69,7 +69,7 @@ var PauseLayer = cc.Layer.extend({
         // position the label on the center of the screen
         pauseLabel.x = size.width / 2;
         pauseLabel.y = size.height/4*3;
-        pauseLabel.color = cc.color(255,0,0);
+        pauseLabel.color = cc.color(100,150,150);
         pauseLabel.setScale(2*normalizescale);
         // add the label as a child to this layer
         this.addChild(pauseLabel, 5);

@@ -123,7 +123,7 @@ var MenuLayer = cc.Layer.extend({
         var highScoreNum = new cc.LabelBMFont(highScore, res.Junegull_BMFont);
         highScoreNum.x = size.width/18*10;
         highScoreNum.y = size.height/10*3;
-        this.highScoreNum.setScale(normalizescale);
+        highScoreNum.setScale(normalizescale);
         this.addChild(highScoreNum,5);
 
         var highScoreSymbol = new cc.Sprite.create(res.HighScoreSymbol_png);
