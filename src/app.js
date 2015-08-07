@@ -1009,7 +1009,7 @@ var levelDown = function (message){
 //set and check high score
 var setHighScore = function(currentScore){
     if (currentScore > highScore){
-        highScore = currentScore;
+        highScore = ""+currentScore;
     }
     //setting highscore to local storage
     ls.setItem("highscore",highScore);

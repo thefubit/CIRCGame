@@ -120,7 +120,7 @@ var MenuLayer = cc.Layer.extend({
 
         /////////////////////SHOW HIGHSCORE///////////////////////
 
-        var highScoreNum = new cc.LabelBMFont(highScore, res.Junegull_BMFont);
+        var highScoreNum = new cc.LabelBMFont(""+highScore, res.Junegull_BMFont);
         highScoreNum.x = size.width/18*10;
         highScoreNum.y = size.height/10*3;
         highScoreNum.setScale(normalizescale);

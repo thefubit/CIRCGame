@@ -14,7 +14,7 @@ var ls = cc.sys.localStorage;
 //set by
     // ls.setItem("key",value);
 //retreving high score or setting it to zero if don't have a high score
-var highScore = 0;
+var highScore = ""+0;
 if(ls.getItem("highscore")!=null){
     highScore = ls.getItem("highscore");//must grab from local storage
 } 
