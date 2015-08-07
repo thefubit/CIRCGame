@@ -119,11 +119,11 @@ var MenuLayer = cc.Layer.extend({
         /////////////////////START INSTRUCTIONS LABEL/////////////
 
         /////////////////////SHOW HIGHSCORE///////////////////////
+        highscore = ls.getItem("highscore");
 
-        var highScoreNum = new cc.LabelBMFont(highScore, res.Junegull_BMFont);
+        var highScoreNum = new cc.LabelBMFont(highscore, res.Junegull_BMFont);
         highScoreNum.x = size.width/18*10;
         highScoreNum.y = size.height/10*3;
-        highScoreNum.setScale(normalizescale);
         this.addChild(highScoreNum,5);
 
         var highScoreSymbol = new cc.Sprite.create(res.HighScoreSymbol_png);

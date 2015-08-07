@@ -71,8 +71,17 @@ var GameOverLayer = cc.Layer.extend({
         var reasonLabel = new cc.LabelBMFont("reason", res.Junegull_BMFont);
         reasonLabel.x = size.width/2;
         reasonLabel.y = size.height/6*4;
-        reasonLabel.setString("You missed 2 in a row!")
-        reasonLabel.setScale(normalizescale);
+
+        if(unTouchedLossCounter  == 2){
+            reasonLabel.setString("Where did you go?");
+        }
+        else if (MISSLOSS == true){
+            reasonLabel.setString("You missed 2 in a row!")
+        }
+        else if (SLOWLOSS == true){
+            reasonLabel.setString("You slowed down too much!");
+        }
+        
         this.addChild(reasonLabel,5);
 
 
@@ -81,18 +90,16 @@ var GameOverLayer = cc.Layer.extend({
 
         ///////////////SCORES///////////////
         //score numbers
-        //highscore = ls.getItem("highscore");
+        highscore = ls.getItem("highscore");
 
-        var highScoreNum = new cc.LabelBMFont(highScore, res.Junegull_BMFont);
+        var highScoreNum = new cc.LabelBMFont(highscore, res.Junegull_BMFont);
         highScoreNum.x = size.width/2;
         highScoreNum.y = size.height/6*2;
-        highScoreNum.setScale(normalizescale);
         this.addChild(highScoreNum,5);
 
         var yourScoreNum = new cc.LabelBMFont(""+currentScore,res.Junegull_BMFont);
         yourScoreNum.x = size.width/2;
         yourScoreNum.y = size.height/6*3;
-        yourScoreNum.setScale(normalizescale);
         this.addChild(yourScoreNum,5);
 
         //score symbols
