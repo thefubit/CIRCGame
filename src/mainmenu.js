@@ -36,7 +36,7 @@ var MenuLayer = cc.Layer.extend({
             x: size.width / 2,
             y: size.height / 2,
         });
-        this.backgroundPic.setScale(0.4*normalizescale);
+        this.backgroundPic.setScale(0.8*normalizescale);
         this.addChild(this.backgroundPic, 0);
         //////////////////////////////////////////////////////
         ////////////////MAIN MENU ROTATOR/////////////////////
@@ -85,7 +85,7 @@ var MenuLayer = cc.Layer.extend({
             y: size.height/4*3,
             anchorX: 0.5,
             anchorY: 0.5,
-            scale:0.4*normalizescale,
+            scale:0.8*normalizescale,
         });
         //credits button
         var CreditsButton = new cc.MenuItemImage(
@@ -100,7 +100,7 @@ var MenuLayer = cc.Layer.extend({
             y : size.height /4*3,
             anchorX : 0.5,
             anchorY : 0.5,
-            scale : 0.4*normalizescale,
+            scale : 0.8*normalizescale,
         });
 
         var menu = new cc.Menu(SettingsButton,CreditsButton);
@@ -129,7 +129,7 @@ var MenuLayer = cc.Layer.extend({
         var highScoreSymbol = new cc.Sprite.create(res.HighScoreSymbol_png);
         highScoreSymbol.x = size.width/18*8;
         highScoreSymbol.y = size.height/10*3;
-        highScoreSymbol.setScale(0.2*normalizescale);
+        highScoreSymbol.setScale(0.5*normalizescale);
         this.addChild(highScoreSymbol);
 
         ////////////////////SHOW HIGHSCORE//////////////////////////

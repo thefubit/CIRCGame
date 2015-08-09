@@ -22,7 +22,7 @@ if(ls.getItem("highscore")!=null){
 //setting what color to display for animated title
 var colorselect=0;
 while(colorselect == 0){
-colorselect = Math.floor(Math.random()*4);
+colorselect = Math.floor((Math.random()*5)-0.01);
 }
 
 if(colorselect == 1){
@@ -100,10 +100,10 @@ else if (missselect == 2){
 var res = {
 
 	//Background image
-    Background_png : "res/background/fitallbg.png",
+    Background_png : "res/background/fitallbgreduced.png",
 
     //TTRCLogo_png : "res/background/TTRCLogo.png",
-    TTRCGamesLogo_png : "res/background/fitallttrcgames.png",
+    TTRCGamesLogo_png : "res/background/fitallttrcgamesreduced.png",
 
     //Music
     MusicSymbol_png : "res/symbols/musicsymbol.png",

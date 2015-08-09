@@ -21,7 +21,7 @@ var CreditsLayer = cc.Layer.extend({
             x: size.width / 2,
             y: size.height / 2,
         });
-        this.backgroundPic.setScale(0.4*normalizescale);
+        this.backgroundPic.setScale(0.8*normalizescale);
         this.addChild(this.backgroundPic, 0);
 
         //////////////BUTTONS///////////////////////
@@ -36,7 +36,7 @@ var CreditsLayer = cc.Layer.extend({
             y: size.height/3,
             anchorX: 0.5,
             anchorY: 0.5,
-            scale : 0.4*normalizescale,
+            scale : 0.8*normalizescale,
         });
 
         var menu = new cc.Menu(MainMenuButton);

@@ -22,7 +22,7 @@ var PauseLayer = cc.Layer.extend({
             x: size.width / 2,
             y: size.height / 2,
         });
-        this.backgroundPic.setScale(0.4*normalizescale);
+        this.backgroundPic.setScale(0.8*normalizescale);
         this.addChild(this.backgroundPic, 0);
 
         //////////////////////////////////////////
@@ -38,7 +38,7 @@ var PauseLayer = cc.Layer.extend({
             y: size.height/2,
             anchorX: 0.5,
             anchorY: 0.5,
-            scale:0.4*normalizescale,
+            scale:0.8*normalizescale,
         });
 
         var MainMenuButton = new cc.MenuItemImage(
@@ -52,7 +52,7 @@ var PauseLayer = cc.Layer.extend({
             y : size.height/2,
             anchorX : 0.5,
             anchorY : 0.5,
-            scale: 0.4*normalizescale,
+            scale: 0.8*normalizescale,
         });
 
 
@@ -69,7 +69,7 @@ var PauseLayer = cc.Layer.extend({
         // position the label on the center of the screen
         pauseLabel.x = size.width / 2;
         pauseLabel.y = size.height/4*3;
-        pauseLabel.color = cc.color(150,150,150);
+        pauseLabel.color = cc.color(100,150,150);
         pauseLabel.setScale(2*normalizescale);
         // add the label as a child to this layer
         this.addChild(pauseLabel, 5);

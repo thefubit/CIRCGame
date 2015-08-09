@@ -25,7 +25,7 @@ var GameOverLayer = cc.Layer.extend({
             x: size.width / 2,
             y: size.height / 2,
         });
-        this.backgroundPic.setScale(0.4*normalizescale);
+        this.backgroundPic.setScale(0.8*normalizescale);
         this.addChild(this.backgroundPic, 0);
 
         //play game over sound
@@ -46,7 +46,7 @@ var GameOverLayer = cc.Layer.extend({
             y: size.height/6,
             anchorX: 0.5,
             anchorY: 0.5,
-            scale : 0.4*normalizescale,
+            scale : 0.8*normalizescale,
         });
 
         var menu = new cc.Menu(MainMenuButton);
@@ -60,6 +60,7 @@ var GameOverLayer = cc.Layer.extend({
         gameoverLabel.x = size.width / 2;
         gameoverLabel.y = size.height/5*4;
         gameoverLabel.setScale(2*normalizescale);
+        gameoverLabel.color = cc.color(100,150,150);
         // add the label as a child to this layer
         this.addChild(gameoverLabel, 5);
         //////////////////////LABELS////////////////////
@@ -72,6 +73,7 @@ var GameOverLayer = cc.Layer.extend({
         reasonLabel.x = size.width/2;
         reasonLabel.y = size.height/6*4;
         reasonLabel.setScale(normalizescale);
+        reasonLabel.color=cc.color(100,150,150);
         this.addChild(reasonLabel,5);
 
 
@@ -97,7 +99,7 @@ var GameOverLayer = cc.Layer.extend({
         highScoreSymbol.attr({
             x: size.width/10*4,
             y: size.height/6*2,
-            scale: 0.25*normalizescale,
+            scale: 0.5*normalizescale,
         });
         this.addChild(highScoreSymbol);
 
@@ -105,7 +107,7 @@ var GameOverLayer = cc.Layer.extend({
         yourScoreSymbol.attr({
             x: size.width/10*4,
             y: size.height/6*3,
-            scale: 0.25*normalizescale,
+            scale: 0.5*normalizescale,
         });
         this.addChild(yourScoreSymbol);
         /////////////////SCORES////////////////////

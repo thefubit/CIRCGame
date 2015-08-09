@@ -99,7 +99,7 @@ var GameLayer = cc.Layer.extend({
             x: size.width / 2,
             y: size.height / 2,
         });
-        this.backgroundPic.setScale(0.4*normalizescale);
+        this.backgroundPic.setScale(0.8*normalizescale);
         this.addChild(this.backgroundPic, 0);
         //////////////BACKGROUND//////////////////
         
@@ -162,7 +162,7 @@ var GameLayer = cc.Layer.extend({
             y: size.height/10*9,
             anchorX : 0.5,
             anchorY : 0.5,
-            scale:0.2*normalizescale,
+            scale:0.5*normalizescale,
         });
         //initiate a menu
         var menu = new cc.Menu(PauseButton);
@@ -194,7 +194,7 @@ var GameLayer = cc.Layer.extend({
         this.perfectLabel.attr({
             x: size.width/2,
             y: size.height/2,
-            scale : 0.4*normalizescale,
+            scale : 0.8*normalizescale,
         });
         this.perfectLabel.setOpacity(0);
         this.addChild(this.perfectLabel);
@@ -203,7 +203,7 @@ var GameLayer = cc.Layer.extend({
         this.greatLabel.attr({
             x: size.width/2,
             y: size.height/2,
-            scale : 0.4*normalizescale,
+            scale : 0.8*normalizescale,
         });
         this.greatLabel.setOpacity(0);
         this.addChild(this.greatLabel);
@@ -212,7 +212,7 @@ var GameLayer = cc.Layer.extend({
         this.missLabel.attr ({
             x: size.width/2,
             y: size.height/2,
-            scale : 0.4*normalizescale,
+            scale : 0.8*normalizescale,
         });
         this.missLabel.setOpacity(0);
         this.addChild(this.missLabel);
@@ -243,7 +243,7 @@ var GameLayer = cc.Layer.extend({
         this.turboLabel.attr({
             x: size.width/2,
             y: size.height/3,
-            scale: 0.4*normalizescale,
+            scale: 0.8*normalizescale,
 
         });
         this.turboLabel.setOpacity(0);
