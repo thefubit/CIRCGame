@@ -2,6 +2,9 @@
 var UNDERINITIALIZED = false;
 var TurboMusic = null;
 
+var musicVolume = 0.5;
+var sfxVolume = 1;
+
 //The main layer of this scene
 var UnderLayer = cc.Layer.extend({
     backgroundPic:null,
@@ -27,15 +30,21 @@ var UnderLayer = cc.Layer.extend({
         this.addChild(this.backgroundPic, 0);
 
         //check for saved settings
-        if (ls.getItem("Music")==0){
+        musicVolume = 0.5;
+        sfxVolume = 1;
+        if (ls.getItem("Music")!=null){
+            if(ls.getItem("Music")==0){
             musicVolume = 0;
+            }
         }
 
-        if (ls.getItem("SFX")==0){
-            sfxVolume = 0;
-            cc.audioEngine.setEffectsVolume(sfxVolume);
+        if (ls.getItem("SFX")!=null){
+            if(ls.getItem("SFX")==0){
+                sfxVolume = 0;
+            }
+            
         }
-
+        cc.audioEngine.setEffectsVolume(sfxVolume);
         //start playing music
         cc.audioEngine.playMusic(res.Background_music, true);
         this.schedule(cc.audioEngine.setMusicVolume(musicVolume),1);

@@ -2,8 +2,7 @@
 
 //to check whether the layer already exists - prevents duplicates
 var SETTINGSINITIALIZED = false;
-var musicVolume = 0.5;
-var sfxVolume = 1;
+
 
 //The main layer of this scene
 var SettingsLayer = cc.Layer.extend({

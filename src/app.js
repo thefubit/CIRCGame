@@ -261,6 +261,7 @@ var GameLayer = cc.Layer.extend({
         this.scoreLabel = new cc.LabelBMFont(scoretext,res.Junegull_BMFont);
         this.scoreLabel.x = size.width/10*9;
         this.scoreLabel.y = size.height-80;
+        this.scoreLabel.setScale(normalizescale);
         this.addChild(this.scoreLabel,5);
 
         //update the score at every frame
