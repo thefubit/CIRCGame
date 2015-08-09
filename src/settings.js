@@ -90,10 +90,10 @@ var SettingsLayer = cc.Layer.extend({
         }                 
 
         //check for saved settings
-        if(ls.getItem("Music")== 1){
+        if(ls.getItem("Music")== '1'){
             MusicCheckBox.setSelected(true);
         }
-        else if (ls.getItem("Music")==0){
+        else if (ls.getItem("Music")=='0'){
             MusicCheckBox.setSelected(false);
         }
 
@@ -113,10 +113,10 @@ var SettingsLayer = cc.Layer.extend({
         }
 
         //check for saved settings
-        if(ls.getItem("SFX")== 1){
+        if(ls.getItem("SFX")== '1'){
             SFXCheckBox.setSelected(true);
         }
-        else if (ls.getItem("SFX")==0){
+        else if (ls.getItem("SFX")=='0'){
             SFXCheckBox.setSelected(false);
         }
                                     
@@ -131,12 +131,12 @@ var SettingsLayer = cc.Layer.extend({
             case ccui.CheckBox.EVENT_UNSELECTED:
                 musicVolume = 0;
                 cc.audioEngine.setMusicVolume(musicVolume);
-                ls.setItem("Music",0);
+                ls.setItem("Music",'0');
                 break;
             case ccui.CheckBox.EVENT_SELECTED:
                 musicVolume = 0.5;
                  cc.audioEngine.setMusicVolume(musicVolume);
-                 ls.setItem("Music",1);
+                 ls.setItem("Music",'1');
                 break;
         }//switch
     },//function
@@ -147,12 +147,12 @@ var SettingsLayer = cc.Layer.extend({
             case ccui.CheckBox.EVENT_UNSELECTED:
                 sfxVolume = 0;
                 cc.audioEngine.setEffectsVolume(sfxVolume);
-                ls.setItem("SFX",0);
+                ls.setItem("SFX",'0');
                 break;
             case ccui.CheckBox.EVENT_SELECTED:
                 sfxVolume = 1;
                 cc.audioEngine.setEffectsVolume(sfxVolume);
-                ls.setItem("SFX",1);
+                ls.setItem("SFX",'1');
                 break;
         }//switch
     },//function

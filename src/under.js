@@ -33,13 +33,13 @@ var UnderLayer = cc.Layer.extend({
         musicVolume = 0.5;
         sfxVolume = 1;
         if (ls.getItem("Music")!=null){
-            if(ls.getItem("Music")==0){
+            if(ls.getItem("Music")=='0'){
             musicVolume = 0;
             }
         }
 
         if (ls.getItem("SFX")!=null){
-            if(ls.getItem("SFX")==0){
+            if(ls.getItem("SFX")=='0'){
                 sfxVolume = 0;
             }
             
