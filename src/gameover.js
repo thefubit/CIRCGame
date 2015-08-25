@@ -14,7 +14,7 @@ var GameOverLayer = cc.Layer.extend({
         // 1. super init first
         this._super();
                                     
-        turbofactor = 1;
+        turbofactor = 0.95;
         regularfactor = 1;
 
         /////////////////////////////

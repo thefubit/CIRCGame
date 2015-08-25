@@ -12,7 +12,7 @@ var speedOuter = 0;//controlling speed of inner satellite
 var canLose = true;
 var unTouchedLossCounter = 0;
 var UNTOUCHEDLOSS = false;
-var turbofactor = 1;
+var turbofactor = 0.95;
 var regularfactor = 1;
 
 
@@ -639,9 +639,9 @@ var GameLayer = cc.Layer.extend({
             //ending turbo if miss
             if(turboMode==true){
 
-                turbofactor = 1 ;
+                turbofactor = 0.95 ;
 
-                var regularspeedset = Math.floor(Math.random()*3);
+                var regularspeedset = Math.floor(Math.random()*4);
 
 
                 console.log(regularspeedset);
@@ -896,7 +896,38 @@ var GameLayer = cc.Layer.extend({
         this.turboCountDown.setOpacity(0);
 
         if(turboMode==true){
-            turbofactor = 1;      
+            
+
+
+
+             turbofactor = 0.95 ;
+
+                var regularspeedset = Math.floor(Math.random()*4);
+
+
+                console.log(regularspeedset);
+
+                switch(regularspeedset)
+                {
+                    case 1:
+                    regularfactor = 1;
+                    break;
+
+                    case 2:
+                    regularfactor = 1.05;
+                    break;
+
+                    case 3:
+                    regularfactor = 0.95;
+                    break
+
+                    default:
+                    // leave the regularfactor as is
+                    break;
+
+                }
+
+                console.log("The regular speed adjustment factor is now " + regularfactor);
             //////////////change speed back/////////////
             speedInner = baseSpeed/levelInner*regularfactor;
             speedOuter = baseSpeed / levelOuter*regularfactor;
