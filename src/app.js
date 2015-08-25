@@ -12,6 +12,9 @@ var speedOuter = 0;//controlling speed of inner satellite
 var canLose = true;
 var unTouchedLossCounter = 0;
 var UNTOUCHEDLOSS = false;
+var factor = 1;
+var dummyfactor = factor;
+
 
 //initializing the score
 var currentScore = 0;
@@ -30,7 +33,6 @@ var turboMode = false;
 // trailingParticletracker initiation
 var innerTrail = false;
 var outerTrail = false;
-
 
 //The main layer of this scene
 var GameLayer = cc.Layer.extend({
@@ -72,6 +74,7 @@ var GameLayer = cc.Layer.extend({
     particleLagDistance:null,
     starsParticleCount:null,
     BackgroundSpin:null,//background stars particle
+    
     
 
 
@@ -633,7 +636,9 @@ var GameLayer = cc.Layer.extend({
 
             //ending turbo if miss
             if(turboMode==true){
+                factor = 1 ;
 
+                console.log("end turbo factor is " + factor);
                 //////////////change speed back/////////////
                 speedInner = baseSpeed/levelInner;
                 speedOuter = baseSpeed / levelOuter;
@@ -664,13 +669,18 @@ var GameLayer = cc.Layer.extend({
         /////////////////////TURBO SPEED OVERRIDE/////////////////////
         //new speed for turbo mode - overrides speed
        if(turboMode == true)
-        {
+        { 
+            factor = factor - 0.01;
+            console.log("start turbo factor is " + factor );
             //speed factor for turbo mode
             //smaller is faster. bigger is slower
-            var factor = 0.82;
+            //factor = factor - 0.01;
             //changing the speed based on the factor              
             speedInner = baseSpeed/levelInner*factor;
             speedOuter = baseSpeed/levelOuter*factor;
+
+
+            this.autoLossSpeed(1.05,1.2);
         }//changing speed for turbo mode - make faster as needed
         /////////////////////TURBO SPEED OVERRIDE/////////////////////
     },//checking distance
@@ -850,7 +860,7 @@ var GameLayer = cc.Layer.extend({
         this.turboCountDown.setOpacity(0);
 
         if(turboMode==true){
-                                 
+            factor = 1;      
             //////////////change speed back/////////////
             speedInner = baseSpeed/levelInner;
             speedOuter = baseSpeed / levelOuter;
