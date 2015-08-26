@@ -12,6 +12,10 @@ var speedOuter = 0;//controlling speed of inner satellite
 var canLose = true;
 var unTouchedLossCounter = 0;
 var UNTOUCHEDLOSS = false;
+var turbofactor = 0.95;
+var regularfactor = 1;
+
+
 
 //initializing the score
 var currentScore = 0;
@@ -30,7 +34,6 @@ var turboMode = false;
 // trailingParticletracker initiation
 var innerTrail = false;
 var outerTrail = false;
-
 
 //The main layer of this scene
 var GameLayer = cc.Layer.extend({
@@ -73,6 +76,7 @@ var GameLayer = cc.Layer.extend({
     starsParticleCount:null,
     BackgroundSpin:null,//background stars particle
     
+    
 
 
     ctor:function () {
@@ -85,6 +89,7 @@ var GameLayer = cc.Layer.extend({
         //find screen size and normalize the scale
         var size = cc.winSize;
         var normalizescale = size.height/640;
+        console.log("The regular speed speed adjustment factor is "+ regularfactor);
 
         //setting particle lag distance with regards to size
         particleLagDistance = size;
@@ -634,9 +639,39 @@ var GameLayer = cc.Layer.extend({
             //ending turbo if miss
             if(turboMode==true){
 
+                turbofactor = 0.95 ;
+
+                var regularspeedset = Math.floor(Math.random()*4);
+
+
+                console.log(regularspeedset);
+
+                switch(regularspeedset)
+                {
+                    case 1:
+                    regularfactor = 1;
+                    break;
+
+                    case 2:
+                    regularfactor = 1.05;
+                    break;
+
+                    case 3:
+                    regularfactor = 0.95;
+                    break
+
+                    default:
+                    // leave the regularfactor as is
+                    break;
+
+                }
+
+                console.log("The regular speed adjustment factor is now " + regularfactor);
+
+                //console.log("end turbo factor is " + turbofactor);
                 //////////////change speed back/////////////
-                speedInner = baseSpeed/levelInner;
-                speedOuter = baseSpeed / levelOuter;
+                speedInner = baseSpeed/levelInner*regularfactor;
+                speedOuter = baseSpeed / levelOuter*regularfactor;
                 /////////////change speed back////////////// 
                 this.turboEnd();
 
@@ -664,13 +699,24 @@ var GameLayer = cc.Layer.extend({
         /////////////////////TURBO SPEED OVERRIDE/////////////////////
         //new speed for turbo mode - overrides speed
        if(turboMode == true)
-        {
+        { 
+            turbofactor = turbofactor - 0.01;
+            
+
+            if (turbofactor < 0.70)
+            {
+                turbofactor = 0.70
+            }
+
             //speed factor for turbo mode
             //smaller is faster. bigger is slower
-            var factor = 0.82;
+            //factor = factor - 0.01;
             //changing the speed based on the factor              
-            speedInner = baseSpeed/levelInner*factor;
-            speedOuter = baseSpeed/levelOuter*factor;
+            speedInner = baseSpeed/levelInner*turbofactor;
+            speedOuter = baseSpeed/levelOuter*turbofactor;
+
+
+            this.autoLossSpeed(1.05,1.2);
         }//changing speed for turbo mode - make faster as needed
         /////////////////////TURBO SPEED OVERRIDE/////////////////////
     },//checking distance
@@ -850,10 +896,41 @@ var GameLayer = cc.Layer.extend({
         this.turboCountDown.setOpacity(0);
 
         if(turboMode==true){
-                                 
+            
+
+
+
+             turbofactor = 0.95 ;
+
+                var regularspeedset = Math.floor(Math.random()*4);
+
+
+                console.log(regularspeedset);
+
+                switch(regularspeedset)
+                {
+                    case 1:
+                    regularfactor = 1;
+                    break;
+
+                    case 2:
+                    regularfactor = 1.05;
+                    break;
+
+                    case 3:
+                    regularfactor = 0.95;
+                    break
+
+                    default:
+                    // leave the regularfactor as is
+                    break;
+
+                }
+
+                console.log("The regular speed adjustment factor is now " + regularfactor);
             //////////////change speed back/////////////
-            speedInner = baseSpeed/levelInner;
-            speedOuter = baseSpeed / levelOuter;
+            speedInner = baseSpeed/levelInner*regularfactor;
+            speedOuter = baseSpeed / levelOuter*regularfactor;
             /////////////change speed back////////////// 
             this.turboEnd();
 
@@ -967,8 +1044,8 @@ var levelUp = function(amount,message){
     //new scoring system
 
     //changing the speed accordingly
-    speedInner = baseSpeed/levelInner;
-    speedOuter = baseSpeed/levelOuter;    
+    speedInner = baseSpeed/levelInner*regularfactor;
+    speedOuter = baseSpeed/levelOuter*regularfactor;    
 }//levelup
 
 
