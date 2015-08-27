@@ -70,6 +70,9 @@
 		D454520C156E22BD00887EB5 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D454520B156E22BD00887EB5 /* libz.dylib */; };
 		D4545227156E28EF00887EB5 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4545215156E28EF00887EB5 /* AppDelegate.cpp */; };
 		D6B061241803AB9F0077942B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6B061231803AB9F0077942B /* CoreMotion.framework */; };
+		EEC5199F1B785AD7003692D9 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EEC5199E1B785AD7003692D9 /* Media.xcassets */; };
+		EEC519A11B78F96F003692D9 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = EEC519A01B78F96F003692D9 /* Icon.png */; };
+		EEC519A31B78F981003692D9 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EEC519A21B78F981003692D9 /* Icon@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -190,6 +193,9 @@
 		D4545215156E28EF00887EB5 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		D4545216156E28EF00887EB5 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D6B061231803AB9F0077942B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
+		EEC5199E1B785AD7003692D9 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
+		EEC519A01B78F96F003692D9 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = ios/Icon.png; sourceTree = "<group>"; };
+		EEC519A21B78F981003692D9 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "ios/Icon@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -294,6 +300,9 @@
 		A92275321517C094001B78AA = {
 			isa = PBXGroup;
 			children = (
+				EEC519A21B78F981003692D9 /* Icon@2x.png */,
+				EEC519A01B78F96F003692D9 /* Icon.png */,
+				EEC5199E1B785AD7003692D9 /* Media.xcassets */,
 				C037820118BF76AF00FE4F13 /* cocos2d_js_bindings.xcodeproj */,
 				1AC6FB34180E9ACB004C840B /* cocos2d_libs.xcodeproj */,
 				BAF426FA19484B3E002B22EF /* script */,
@@ -429,7 +438,7 @@
 				LastUpgradeCheck = 0500;
 				TargetAttributes = {
 					A922753C1517C094001B78AA = {
-						DevelopmentTeam = MDDB52YB8L;
+						DevelopmentTeam = GY6UXVVMKC;
 					};
 				};
 			};
@@ -510,6 +519,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EEC519A31B78F981003692D9 /* Icon@2x.png in Resources */,
+				EEC519A11B78F96F003692D9 /* Icon.png in Resources */,
 				BAF426FB19484B3E002B22EF /* script in Resources */,
 				1AE159EC18C9DF3600FCA372 /* project.json in Resources */,
 				1AD7E0A818C9DB93004817A6 /* main.js in Resources */,
@@ -526,6 +537,7 @@
 				509D4AC317EBB2AB00697056 /* Icon-114.png in Resources */,
 				509D4ABD17EBB2AB00697056 /* Default-568h@2x.png in Resources */,
 				509D4ABF17EBB2AB00697056 /* Default@2x.png in Resources */,
+				EEC5199F1B785AD7003692D9 /* Media.xcassets in Resources */,
 				509D4AC217EBB2AB00697056 /* Icon-76.png in Resources */,
 				5091731B17ECDF7A00D62437 /* Icon-40.png in Resources */,
 				5091731C17ECDF7A00D62437 /* Icon-50.png in Resources */,
@@ -652,6 +664,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../../js-bindings/cocos2d-x $(SRCROOT)/../../js-bindings/cocos2d-x/cocos $(SRCROOT)/../../js-bindings/cocos2d-x/cocos/base $(SRCROOT)/../../js-bindings/cocos2d-x/cocos/physics $(SRCROOT)/../../js-bindings/cocos2d-x/cocos/math/kazmath $(SRCROOT)/../../js-bindings/cocos2d-x/cocos/2d $(SRCROOT)/../../js-bindings/cocos2d-x/cocos/gui $(SRCROOT)/../../js-bindings/cocos2d-x/cocos/network $(SRCROOT)/../../js-bindings/cocos2d-x/cocos/audio/include $(SRCROOT)/../../js-bindings/cocos2d-x/cocos/editor-support $(SRCROOT)/../../js-bindings/cocos2d-x/extensions $(SRCROOT)/../../js-bindings/cocos2d-x/external $(SRCROOT)/../../js-bindings/cocos2d-x/external/chipmunk/include/chipmunk $(SRCROOT)/../../js-bindings/bindings/auto $(SRCROOT)/../../js-bindings/bindings/manual";
 			};
 			name = Debug;
@@ -674,6 +687,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../../js-bindings/cocos2d-x $(SRCROOT)/../../js-bindings/cocos2d-x/cocos $(SRCROOT)/../../js-bindings/cocos2d-x/cocos/base $(SRCROOT)/../../js-bindings/cocos2d-x/cocos/physics $(SRCROOT)/../../js-bindings/cocos2d-x/cocos/math/kazmath $(SRCROOT)/../../js-bindings/cocos2d-x/cocos/2d $(SRCROOT)/../../js-bindings/cocos2d-x/cocos/gui $(SRCROOT)/../../js-bindings/cocos2d-x/cocos/network $(SRCROOT)/../../js-bindings/cocos2d-x/cocos/audio/include $(SRCROOT)/../../js-bindings/cocos2d-x/cocos/editor-support $(SRCROOT)/../../js-bindings/cocos2d-x/extensions $(SRCROOT)/../../js-bindings/cocos2d-x/external $(SRCROOT)/../../js-bindings/cocos2d-x/external/chipmunk/include/chipmunk $(SRCROOT)/../../js-bindings/bindings/auto $(SRCROOT)/../../js-bindings/bindings/manual";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -683,7 +697,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Tomy Tang (QV7LA7W3VN)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -696,11 +713,13 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = ios/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SKIP_INSTALL = NO;
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/../../js-bindings/cocos2d-x/cocos/platform/ios $(SRCROOT)/../../js-bindings/external/spidermonkey/include/ios $(SRCROOT)/../../js-bindings/cocos2d-x/plugin/jsbindings/auto $(SRCROOT)/../../js-bindings/cocos2d-x/plugin/jsbindings/manual";
 				VALID_ARCHS = "arm64 armv7";
 			};
@@ -710,7 +729,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Tomy Tang (QV7LA7W3VN)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -722,11 +744,13 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = ios/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = "";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SKIP_INSTALL = NO;
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/../../js-bindings/cocos2d-x/cocos/platform/ios $(SRCROOT)/../../js-bindings/external/spidermonkey/include/ios $(SRCROOT)/../../js-bindings/cocos2d-x/plugin/jsbindings/auto $(SRCROOT)/../../js-bindings/cocos2d-x/plugin/jsbindings/manual";
 				VALID_ARCHS = "arm64 armv7";
 			};
